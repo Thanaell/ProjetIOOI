@@ -1,9 +1,10 @@
 #pragma once
 #include "stdafx.h"
 #include "Game.h"
+#include <Windows.h>
 
 Game::Game() :
-	window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Hello World"),
+	window(sf::VideoMode(W_WIDTH, W_HEIGHT), "Hello World"),
 	world(NULL),
 	gameState(LOADING)
 {
@@ -20,7 +21,9 @@ Game::Game() :
 //	Boucle de d'affichage de la fenetre
 	while (window.isOpen()) {
 		switch (gameState) {
-		case LOADING: break;
+		case LOADING: 
+			displayLoading();
+			break;
 		case MENU: break;
 		case PLAYING: break;
 		case QUITTING: break;
@@ -32,7 +35,12 @@ Game::Game() :
 
 void Game::displayLoading() {
 	//	Le mutex n'a pas encore été crée par le thread
-	if (loadMutex == NULL) return;
+	if (loadMutex == NULL) {
+#ifdef DEBUG_LOG
+		std::cout << "le mutex n'existe pas" << std::endl;
+#endif
+		return;
+	}
 	auto state = WaitForSingleObject(loadMutex, 10);
 	switch (state) {
 	case WAIT_ABANDONED: break;
@@ -42,6 +50,9 @@ void Game::displayLoading() {
 	case WAIT_OBJECT_0:
 		CloseHandle(loadThread);
 		CloseHandle(loadMutex);
+#ifdef DEBUG_LOG
+		std::cout << "Les données ont finies d'etre chargées et peuvent etre utilisée" << std::endl;
+#endif
 		gameState = MENU;
 		break;
 	case WAIT_FAILED: break;

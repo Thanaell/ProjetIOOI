@@ -1,8 +1,9 @@
 #pragma once
 #include "stdafx.h"
+#include <Windows.h>
 
-#define WINDOW_WIDTH (800)
-#define WINDOW_HEIGHT (600)
+#define W_WIDTH (1000.f)
+#define W_HEIGHT (1000.f)
 
 enum GAME_STATE {
 	LOADING,
