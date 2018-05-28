@@ -99,7 +99,7 @@ void Game::displayLoading() {
 void Game::displayMenu() {
 	// S'il le faut, on crée le menu
 	if (menuElements.size() == 0) {
-		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(window.getSize(), sf::Vector2f(.5, .2), sf::Vector2f(.4, .15), "Jouer !")));
+		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(window.getSize(), sf::Vector2f(.5f, .2f), sf::Vector2f(.4f, .15f), "Jouer !")));
 	}
 
 
@@ -118,9 +118,9 @@ void Game::displayMenu() {
 			}
 			break;
 		case sf::Event::Resized:
-			for (auto &button : menuElements) {
+			/*for (auto &button : menuElements) {
 				button.get()->resizeSprites(window.getSize());
-			}
+			}*/
 			break;
 		case sf::Event::Closed:
 			window.close();
