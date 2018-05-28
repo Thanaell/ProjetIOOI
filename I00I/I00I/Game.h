@@ -2,8 +2,8 @@
 #include "stdafx.h"
 #include <Windows.h>
 
-#define W_WIDTH (1000.f)
-#define W_HEIGHT (1000.f)
+#define W_WIDTH (1000)
+#define W_HEIGHT (1000)
 
 enum GAME_STATE {
 	LOADING,
@@ -24,6 +24,9 @@ class Game {
 
 	//	Référence sur le monde qui sera généré dans le jeu
 	b2World* world;
+
+	//	Pour le menu
+	std::vector<std::unique_ptr<sf::Shape>> menuElements;
 public :
 	Game();
 private:

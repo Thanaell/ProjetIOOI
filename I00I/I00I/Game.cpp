@@ -3,6 +3,8 @@
 #include "Game.h"
 #include <Windows.h>
 
+#define ISBETWEEN(x,a,b) ((x >= a) && (x <= b))
+
 Game::Game() :
 	window(sf::VideoMode(W_WIDTH, W_HEIGHT), "Hello World"),
 	world(NULL),
@@ -20,13 +22,20 @@ Game::Game() :
 
 //	Boucle de d'affichage de la fenetre
 	while (window.isOpen()) {
+		window.clear();
 		switch (gameState) {
 		case LOADING: 
 			displayLoading();
 			break;
-		case MENU: break;
-		case PLAYING: break;
-		case QUITTING: break;
+		case MENU: 
+			displayMenu();
+			break;
+		case PLAYING: 
+			displayPlaying();
+			break;
+		case QUITTING: 
+			displayPlaying();
+			break;
 		}
 		window.display();
 	}
@@ -49,7 +58,9 @@ void Game::displayLoading() {
 		// On relache le thread et le mutex, et l'état du programme passe en "MENU"
 	case WAIT_OBJECT_0:
 		CloseHandle(loadThread);
+		loadThread = NULL;
 		CloseHandle(loadMutex);
+		loadMutex = NULL;
 #ifdef DEBUG_LOG
 		std::cout << "Les données ont finies d'etre chargées et peuvent etre utilisée" << std::endl;
 #endif
@@ -57,6 +68,98 @@ void Game::displayLoading() {
 		break;
 	case WAIT_FAILED: break;
 	default: break;
+	}
+	
+	// Gestion des évènements durant le chargement
+	sf::Event event;
+	while (window.pollEvent(event)) {
+		switch (event.type)
+		{
+		case sf::Event::Closed:
+			//	Si l'utilisateur quitte l'application pendant le chargement
+			//	Il faut mettre fin au thread de chargement avant de quitter l'application
+			if (loadThread != NULL) {
+				DWORD dwExit;
+				GetExitCodeThread(loadThread, &dwExit);
+				TerminateThread(loadThread, dwExit);
+				CloseHandle(loadThread);
+				loadThread = NULL;
+				if (loadMutex != NULL) {
+					CloseHandle(loadMutex);
+					loadMutex = NULL;
+				}
+			}
+			window.close();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void Game::displayMenu() {
+	// S'il le faut, on crée le menu
+	if (menuElements.size() == 0) {
+		std::unique_ptr<sf::RectangleShape> bouton(new sf::RectangleShape(sf::Vector2f(200.f, 50.f)));
+		bouton->setPosition(sf::Vector2f(400.f, 200.f));
+		bouton->setFillColor(sf::Color::Red);
+		menuElements.push_back(std::move(bouton));
+	}
+
+	// Gestion des évènements sur le menu
+	sf::Event event;
+	while (window.pollEvent(event)) {
+		switch (event.type)
+		{
+		case sf::Event::MouseButtonPressed:
+			if (ISBETWEEN(event.mouseButton.x, 400, 600) && ISBETWEEN(event.mouseButton.y, 200, 250)) {
+				menuElements.clear();
+				gameState = PLAYING;
+#ifdef DEBUG_LOG
+				std::cout << "Passage en mode jeu" << std::endl;
+#endif
+			}
+			break;
+		case sf::Event::Closed:
+			window.close();
+			break;
+		default:
+			break;
+		}
+	}
+
+	// On dessine le menu sur la fenetre
+	for (auto &shape : menuElements)
+		window.draw(*shape);
+}
+
+void Game::displayPlaying() {
+	// Gestion des évènements durant le jeu
+	sf::Event event;
+	while (window.pollEvent(event)) {
+		switch (event.type)
+		{
+		case sf::Event::Closed:
+			window.close();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void Game::displayUnLoading() {
+	// Gestion des évènements durant le déchargement
+	sf::Event event;
+	while (window.pollEvent(event)) {
+		switch (event.type)
+		{
+		case sf::Event::Closed:
+			window.close();
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -71,6 +174,7 @@ DWORD Game::loading(LPVOID params) {
 #ifdef DEBUG_LOG
 		std::cout << "On est en train de charger des données avec la fonction loading..." << std::endl;
 #endif
+		Sleep(5000);
 		//	Relache du mutex
 		ReleaseMutex(that->loadMutex);
 	}
