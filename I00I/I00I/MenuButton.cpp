@@ -12,9 +12,9 @@ relativePosition(relativePosition), relativeSize(relativeSize), isSelected(false
 	std::unique_ptr<sf::RectangleShape> ButtonRectangle(new sf::RectangleShape);
 	ButtonRectangle->setFillColor(sf::Color::Red);
 	sprites.push_back(std::move(ButtonRectangle));
-	std::unique_ptr<sf::Text> TextLabel(new sf::Text(label, sf::Font()));
+	/*std::unique_ptr<sf::Text> TextLabel(new sf::Text(label, sf::Font()));
 	TextLabel->setFillColor(sf::Color::White);
-	sprites.push_back(std::move(TextLabel));
+	sprites.push_back(std::move(TextLabel));*/
 	resizeSprites(windowSize);
 }
 
@@ -36,4 +36,15 @@ bool MenuButton::isIn(sf::Vector2f position) {
 }
 
 void MenuButton::resizeSprites(sf::Vector2u windowSize) {
+	sf::Vector2f absoluteButtonSize(windowSize.x * relativeSize.x, windowSize.y * relativeSize.y);
+	sf::Vector2f absoluteButtonPosition(windowSize.x * relativePosition.x - absoluteButtonSize.x / 2,
+										windowSize.y * relativePosition.y - absoluteButtonSize.y / 2);
+	((sf::RectangleShape*)sprites[1].get())->setSize(absoluteButtonSize);
+	((sf::RectangleShape*)sprites[1].get())->setPosition(absoluteButtonPosition);
+
+	((sf::RectangleShape*)sprites[0].get())->setSize(sf::Vector2f(absoluteButtonSize.x * 1.05, absoluteButtonSize.y * 1.05));
+	((sf::RectangleShape*)sprites[0].get())->setPosition(sf::Vector2f(absoluteButtonPosition.x * .975, absoluteButtonPosition.y * .975));
+/*
+	((sf::Text*)sprites[2].get())->setCharacterSize((unsigned int)(absoluteButtonSize.y * .70));
+	((sf::Text*)sprites[2].get())->setPosition(sf::Vector2f(absoluteButtonPosition.x * 1.1, absoluteButtonPosition.y * 1.1));*/
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include <Windows.h>
+#include "MenuButton.h"
 
 #define W_WIDTH (1000)
 #define W_HEIGHT (1000)
@@ -26,7 +27,7 @@ class Game {
 	b2World* world;
 
 	//	Pour le menu
-	std::vector<std::unique_ptr<sf::Shape>> menuElements;
+	std::vector<std::unique_ptr<MenuButton>> menuElements;
 public :
 	Game();
 private:

@@ -99,10 +99,7 @@ void Game::displayLoading() {
 void Game::displayMenu() {
 	// S'il le faut, on crée le menu
 	if (menuElements.size() == 0) {
-		std::unique_ptr<sf::RectangleShape> bouton(new sf::RectangleShape(sf::Vector2f(200.f, 50.f)));
-		bouton->setPosition(sf::Vector2f(400.f, 200.f));
-		bouton->setFillColor(sf::Color::Red);
-		menuElements.push_back(std::move(bouton));
+		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(window.getSize(), sf::Vector2f(.5, .2), sf::Vector2f(.4, .15), "Jouer !")));
 	}
 
 
@@ -112,12 +109,17 @@ void Game::displayMenu() {
 		switch (event.type)
 		{
 		case sf::Event::MouseButtonPressed:
-			if (ISBETWEEN(event.mouseButton.x, 400, 600) && ISBETWEEN(event.mouseButton.y, 200, 250)) {
+			if (menuElements[0]->isIn(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))) {
 				menuElements.clear();
 				gameState = PLAYING;
 #ifdef DEBUG_LOG
 				std::cout << "Passage en mode jeu" << std::endl;
 #endif
+			}
+			break;
+		case sf::Event::Resized:
+			for (auto &button : menuElements) {
+				button.get()->resizeSprites(window.getSize());
 			}
 			break;
 		case sf::Event::Closed:
@@ -130,7 +132,7 @@ void Game::displayMenu() {
 
 	// On dessine le menu sur la fenetre
 	for (auto &shape : menuElements)
-		window.draw(*shape);
+		shape->draw(window);
 }
 
 void Game::displayPlaying() {
@@ -174,7 +176,7 @@ DWORD Game::loading(LPVOID params) {
 #ifdef DEBUG_LOG
 		std::cout << "On est en train de charger des données avec la fonction loading..." << std::endl;
 #endif
-		Sleep(5000);
+		//Sleep(5000);
 		//	Relache du mutex
 		ReleaseMutex(that->loadMutex);
 	}
