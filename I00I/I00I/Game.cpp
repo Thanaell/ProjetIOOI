@@ -3,7 +3,6 @@
 #include "Game.h"
 #include <Windows.h>
 
-#define ISBETWEEN(x,a,b) ((x >= a) && (x <= b))
 
 Game::Game() :
 	window(sf::VideoMode(W_WIDTH, W_HEIGHT), "Hello World"),
@@ -105,6 +104,7 @@ void Game::displayMenu() {
 		bouton->setFillColor(sf::Color::Red);
 		menuElements.push_back(std::move(bouton));
 	}
+
 
 	// Gestion des évènements sur le menu
 	sf::Event event;
