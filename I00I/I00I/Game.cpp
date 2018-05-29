@@ -5,7 +5,7 @@
 
 
 Game::Game() :
-	window(sf::VideoMode(W_WIDTH, W_HEIGHT), "Hello World"),
+	window(sf::VideoMode(W_WIDTH, W_HEIGHT), W_TITLE),
 	world(NULL),
 	gameState(LOADING)
 {
@@ -99,7 +99,7 @@ void Game::displayLoading() {
 void Game::displayMenu() {
 	// S'il le faut, on crée le menu
 	if (menuElements.size() == 0) {
-		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(window.getSize(), sf::Vector2f(.5f, .2f), sf::Vector2f(.4f, .15f), "Jouer !")));
+		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(sf::Vector2f(.5f, .2f), sf::Vector2f(.4f, .15f), "Jouer !")));
 	}
 
 
@@ -109,7 +109,7 @@ void Game::displayMenu() {
 		switch (event.type)
 		{
 		case sf::Event::MouseButtonPressed:
-			if (menuElements[0]->isIn(sf::Vector2f(event.mouseButton.x, event.mouseButton.y))) {
+			if (menuElements[0]->isIn(sf::Vector2f(event.mouseButton.x, event.mouseButton.y), window.getSize())) {
 				menuElements.clear();
 				gameState = PLAYING;
 #ifdef DEBUG_LOG
@@ -176,7 +176,7 @@ DWORD Game::loading(LPVOID params) {
 #ifdef DEBUG_LOG
 		std::cout << "On est en train de charger des données avec la fonction loading..." << std::endl;
 #endif
-		//Sleep(5000);
+		Sleep(5000);
 		//	Relache du mutex
 		ReleaseMutex(that->loadMutex);
 	}

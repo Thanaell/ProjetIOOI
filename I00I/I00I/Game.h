@@ -2,16 +2,9 @@
 #include "stdafx.h"
 #include <Windows.h>
 #include "MenuButton.h"
+#include "constantes.h"
 
-#define W_WIDTH (1000)
-#define W_HEIGHT (1000)
 
-enum GAME_STATE {
-	LOADING,
-	MENU,
-	PLAYING,
-	QUITTING
-};
 
 /*
  * Classe Game :
