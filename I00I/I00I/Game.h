@@ -14,12 +14,15 @@ class Game {
 	sf::RenderWindow window;
 	GAME_STATE gameState;
 	HANDLE loadMutex;
+	HANDLE loadMutexBackground;
 	HANDLE loadThread;
 
 	//	Référence sur le monde qui sera généré dans le jeu
-	b2World* world;
+	std::unique_ptr<b2World> world;
 
 	//	Pour le menu
+	sf::Texture backgroundTexture;
+	std::unique_ptr<sf::Sprite> background;
 	std::vector<std::unique_ptr<MenuButton>> menuElements;
 public :
 	Game();

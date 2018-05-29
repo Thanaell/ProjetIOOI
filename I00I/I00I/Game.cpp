@@ -6,7 +6,6 @@
 
 Game::Game() :
 	window(sf::VideoMode(W_WIDTH, W_HEIGHT), W_TITLE),
-	world(NULL),
 	gameState(LOADING)
 {
 //	Création des éléments de base du jeu
@@ -42,6 +41,31 @@ Game::Game() :
 }
 
 void Game::displayLoading() {
+	if (background.get() == NULL) {
+		if (loadMutexBackground != NULL) {
+			auto state = WaitForSingleObject(loadMutexBackground, 1);
+			switch (state) {
+			case WAIT_ABANDONED: break;
+			case WAIT_TIMEOUT: break;
+				//	une fois que le chargement des données est terminé
+				// On relache le thread et le mutex, et l'état du programme passe en "MENU"
+			case WAIT_OBJECT_0:
+				CloseHandle(loadMutexBackground);
+				loadMutexBackground = NULL;
+#ifdef DEBUG_LOG
+				std::cout << "Le background a fini d'etre chargé : " << clock() << std::endl;
+#endif
+				background.reset(new sf::Sprite(backgroundTexture));
+				window.draw(*background.get());
+				break;
+			case WAIT_FAILED: break;
+			}
+		}
+	}
+	else {
+		window.draw(*background.get());
+	}
+
 	//	Le mutex n'a pas encore été crée par le thread
 	if (loadMutex == NULL) {
 #ifdef DEBUG_LOG
@@ -49,7 +73,7 @@ void Game::displayLoading() {
 #endif
 		return;
 	}
-	auto state = WaitForSingleObject(loadMutex, 10);
+	auto state = WaitForSingleObject(loadMutex, 1);
 	switch (state) {
 	case WAIT_ABANDONED: break;
 	case WAIT_TIMEOUT: break;
@@ -61,7 +85,7 @@ void Game::displayLoading() {
 		CloseHandle(loadMutex);
 		loadMutex = NULL;
 #ifdef DEBUG_LOG
-		std::cout << "Les données ont finies d'etre chargées et peuvent etre utilisée" << std::endl;
+		std::cout << "Les données ont finies d'etre chargées et peuvent etre utilisée : " << clock() << std::endl;
 #endif
 		gameState = MENU;
 		break;
@@ -111,6 +135,9 @@ void Game::displayMenu() {
 		case sf::Event::MouseButtonPressed:
 			if (menuElements[0]->isIn(sf::Vector2f(event.mouseButton.x, event.mouseButton.y), window.getSize())) {
 				menuElements.clear();
+				//	Ici il faut constuire le monde avant de jouer
+				world.reset(new b2World(GRAVITY_WORLD));
+				//	On lance le jeu
 				gameState = PLAYING;
 #ifdef DEBUG_LOG
 				std::cout << "Passage en mode jeu" << std::endl;
@@ -131,6 +158,7 @@ void Game::displayMenu() {
 	}
 
 	// On dessine le menu sur la fenetre
+	if (background.get() != NULL) window.draw(*background.get());
 	for (auto &shape : menuElements)
 		shape->draw(window);
 }
@@ -171,11 +199,21 @@ DWORD Game::loading(LPVOID params) {
 	that->loadMutex = CreateMutexA(NULL, FALSE, NULL);
 	assert(that->loadMutex != NULL);
 	auto mutexValue = WaitForSingleObject(that->loadMutex, 1);
+
+	that->loadMutexBackground = CreateMutexA(NULL, FALSE, NULL);
+	assert(that->loadMutexBackground != NULL);
+	auto mutexValuebg = WaitForSingleObject(that->loadMutexBackground, 1);
+
 	if (mutexValue == WAIT_OBJECT_0) {
 		//	Chargement des données
 #ifdef DEBUG_LOG
-		std::cout << "On est en train de charger des données avec la fonction loading..." << std::endl;
+		std::cout << "On est en train de charger des données avec la fonction loading... : " << clock() << std::endl;
 #endif
+		if (mutexValuebg == WAIT_OBJECT_0) {
+			if (that->backgroundTexture.loadFromFile(PATH_BACKGROUND)) {
+				ReleaseMutex(that->loadMutexBackground);
+			}
+		}
 		Sleep(5000);
 		//	Relache du mutex
 		ReleaseMutex(that->loadMutex);
