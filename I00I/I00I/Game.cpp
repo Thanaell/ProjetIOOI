@@ -18,26 +18,29 @@ Game::Game() :
 	loadThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) loading, this, 0, &threadID);
 	assert(loadThread != NULL);
 
-//	Boucle de d'affichage de la fenetre
+	gameLoop();
+}
+
+void Game::gameLoop() {
+	//	Boucle de d'affichage de la fenetre
 	while (window.isOpen()) {
 		window.clear();
 		switch (gameState) {
-		case LOADING: 
+		case LOADING:
 			displayLoading();
 			break;
-		case MENU: 
+		case MENU:
 			displayMenu();
 			break;
-		case PLAYING: 
+		case PLAYING:
 			displayPlaying();
 			break;
-		case QUITTING: 
+		case QUITTING:
 			displayPlaying();
 			break;
 		}
 		window.display();
 	}
-
 }
 
 void Game::displayLoading() {
@@ -136,7 +139,7 @@ void Game::displayMenu() {
 			if (menuElements[0]->isIn(sf::Vector2f(event.mouseButton.x, event.mouseButton.y), window.getSize())) {
 				menuElements.clear();
 				//	Ici il faut constuire le monde avant de jouer
-				world.reset(new b2World(GRAVITY_WORLD));
+				createGame();
 				//	On lance le jeu
 				gameState = PLAYING;
 #ifdef DEBUG_LOG
@@ -191,6 +194,14 @@ void Game::displayUnLoading() {
 			break;
 		}
 	}
+}
+
+void Game::createGame() {
+	world.reset(new b2World(GRAVITY_WORLD));
+}
+
+void Game::gameOver() {
+	world.release();
 }
 
 DWORD Game::loading(LPVOID params) {

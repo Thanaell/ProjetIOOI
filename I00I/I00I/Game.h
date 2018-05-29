@@ -24,9 +24,11 @@ class Game {
 	sf::Texture backgroundTexture;
 	std::unique_ptr<sf::Sprite> background;
 	std::vector<std::unique_ptr<MenuButton>> menuElements;
-public :
+public:
 	Game();
 private:
+	void gameLoop();
+
 	//Méthodes de rafraichissement de l'affichage en fonction de l'état du programme
 	// Chaque méthode est amenée à etre appelée en boucle, a chaque rafraichissement de l'affichage
 	// Jusqu'à ce que la classe change d'état
@@ -42,6 +44,11 @@ private:
 
 	//	Fonction qui s'assure qu'on ne perd aucune données avant de quitter
 	void displayUnLoading();
+
+	//	Fonction qui instancie les données nécessaires pour la partie
+	void createGame();
+
+	void gameOver();
 
 	//	Fonction exécutée sur un autre thread et qui charge en mémoire les données du jeux, lache le sémaphore quand les données sont chargées
 	static DWORD WINAPI loading(LPVOID);
