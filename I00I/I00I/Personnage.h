@@ -1,7 +1,10 @@
 #pragma once
 #include "stdafx.h"
 #include "PlayingElement.h"
+#include "SpellType.h"
 
 class Personnage : public PlayingElement {
-	sf::String name;
+	std::string name;
+	int health;
+	std::vector<SpellType> spellbook;
 };
