@@ -18,3 +18,7 @@ void Personnage::receive(SpellType sort) {
 		break;
 	}
 }
+
+int Personnage::getHealth() {
+	return health;
+}

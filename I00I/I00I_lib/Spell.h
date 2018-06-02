@@ -1,8 +1,9 @@
 #pragma once
 #include "stdafx.h"
+#include "Personnage.h"
 #include "PlayingElement.h"
 #include "SpellType.h"
-#include "Personnage.h"
+
 
 // Représente un sortilège
 class Spell : public PlayingElement {
@@ -16,7 +17,7 @@ class Spell : public PlayingElement {
 	double speed;
 public:
 	// Constructeur du sort
-	Spell(SpellType type);
+	Spell(SpellType myType);
 	// Fonction appelé lors qu'un sort touche un personnage
-	void affect(Personnage& character);
+	void affect(Personnage &character);
 };

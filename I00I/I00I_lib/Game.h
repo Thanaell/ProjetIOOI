@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include "MenuButton.h"
 #include "constantes.h"
+#include "Personnage.h"
+#include "Spell.h"
 
 
 
