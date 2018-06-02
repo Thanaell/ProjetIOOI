@@ -11,22 +11,34 @@
  * Singleton et classe facade du jeux
  */
 class Game {
+	// Fenetre du programme
 	sf::RenderWindow window;
+
+	// Etat du programme (voir le diagramme de machine à état)
 	GAME_STATE gameState;
+
+	// Mutex qui couble l'ensemble de la fonction de chargement
 	HANDLE loadMutex;
+	// Mutex permettant à la gameloop de savoir quand afficher l'arrière plan
 	HANDLE loadMutexBackground;
+	// Thread de chargement des assets, permettant de ne pas perturber la gameloop
 	HANDLE loadThread;
 
-	//	Référence sur le monde qui sera généré dans le jeu
+	//	Pointeur sur le monde qui sera généré dans le jeu
 	std::unique_ptr<b2World> world;
 
-	//	Pour le menu
+	///	Pour le menu
+	// Texture de l'arrière plan
 	sf::Texture backgroundTexture;
+	// Arrière plan a proprement parler
 	std::unique_ptr<sf::Sprite> background;
+	// Liste des éléments (bouton) du menu
 	std::vector<std::unique_ptr<MenuButton>> menuElements;
 public:
+	// Constructeur et seul méthode publique
 	Game();
 private:
+	// Fonction de gameloop : boucle infinie qui appelle les méthodes de rafaichissement en fonction de l'état du jeu puis met a jour l'affichage
 	void gameLoop();
 
 	//Méthodes de rafraichissement de l'affichage en fonction de l'état du programme
