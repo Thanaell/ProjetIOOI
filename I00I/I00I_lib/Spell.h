@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "PlayingElement.h"
 #include "SpellType.h"
+#include "Personnage.h"
 
 // Représente un sortilège
 class Spell : public PlayingElement {
@@ -17,5 +18,5 @@ public:
 	// Constructeur du sort
 	Spell(SpellType type);
 	// Fonction appelé lors qu'un sort touche un personnage
-	void affect(Personnage const & character);
+	void affect(Personnage& character);
 };
