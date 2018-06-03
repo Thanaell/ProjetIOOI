@@ -1,9 +1,9 @@
 #pragma once
 #include "stdafx.h"
-#include "Personnage.h"
 #include "PlayingElement.h"
 #include "SpellType.h"
 
+typedef class Personnage;
 
 // Représente un sortilège
 class Spell : public PlayingElement {

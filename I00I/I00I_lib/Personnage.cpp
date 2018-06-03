@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Personnage.h"
+#include "Spell.h"
 
 //Constructeur selon un archétype (TODO: autres archétypes)
 Personnage::Personnage(CharacterType type) {

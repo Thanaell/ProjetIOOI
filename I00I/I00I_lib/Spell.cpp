@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Spell.h"
+#include "Personnage.h"
 
 // Constructeur du sort
 Spell::Spell(SpellType myType) {
