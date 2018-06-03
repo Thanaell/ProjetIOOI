@@ -14,11 +14,20 @@ class Personnage : public PlayingElement {
 	int health;
 	// Liste des sort que ce personnage peut lancer
 	std::vector<SpellType> spellbook;
+
+	// Récupère les évènements du joystick pour bouger le personnage
+	void mouve(sf::Event event);
+
+	// Récupère les évenements du joystick pour incanter (ou pas) un sort
+	Spell* invoque(sf::Event);
 public:
 	// Constructeur du personnage, appellé au lancement de la partie
 	Personnage(CharacterType type);
 	// Méthode appellé lorsqu'un sort touche un personnage et qui met a jour les points de vie (et potentiellement la position) du personnage
 	void receive(SpellType sort);
-	//getter de health
+	// Getter de health -- Utile ?
 	int getHealth();
+
+	// Action du personnage en fonction des input de la manette
+	Spell* Action(sf::Event event);
 };
