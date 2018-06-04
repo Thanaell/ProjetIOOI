@@ -206,6 +206,20 @@ void Game::displayUnLoading() {
 
 void Game::createGame() {
 	world.reset(new b2World(GRAVITY_WORLD));
+	//Quatre coins de la zone (valeurs à ajuster)
+	b2Vec2 v1(0.0f, 0.0f);
+	b2Vec2 v2(0.0f, 50.0f);
+	b2Vec2 v3(100.0f, 0.0f);
+	b2Vec2 v4(100.0f, 50.0f);
+	//création des 4 murs
+	b2EdgeShape murGauche;
+	murGauche.Set(v1, v2);
+	b2EdgeShape murDroite;
+	murDroite.Set(v3, v4);
+	b2EdgeShape plafond;
+	plafond.Set(v2, v3);
+	b2EdgeShape sol;
+	sol.Set(v1, v3);
 }
 
 void Game::gameOver() {
@@ -243,6 +257,6 @@ DWORD Game::loading(LPVOID params) {
 }
 
 b2World & Game::getWorld() {
-	return *_instance->world.get();
+	return *(_instance->world.get());
 }
 
