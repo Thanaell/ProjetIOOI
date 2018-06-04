@@ -3,6 +3,14 @@
 #include "Game.h"
 #include <Windows.h>
 
+Game* Game::_instance = NULL;
+
+void Game::CreateGame() {
+	if (_instance == NULL) {
+		_instance = new Game();
+	}
+	_instance->gameLoop();
+}
 
 Game::Game() :
 	window(sf::VideoMode(W_WIDTH, W_HEIGHT), W_TITLE),
@@ -17,8 +25,6 @@ Game::Game() :
 	DWORD threadID;
 	loadThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) loading, this, 0, &threadID);
 	assert(loadThread != NULL);
-
-	gameLoop();
 }
 
 void Game::gameLoop() {
@@ -47,6 +53,8 @@ void Game::displayLoading() {
 	if (background.get() == NULL) {
 		if (loadMutexBackground != NULL) {
 			auto state = WaitForSingleObject(loadMutexBackground, 1);
+			auto& sin = Loader::Instance();
+
 			switch (state) {
 			case WAIT_ABANDONED: break;
 			case WAIT_TIMEOUT: break;
@@ -58,7 +66,7 @@ void Game::displayLoading() {
 #ifdef DEBUG_LOG
 				std::cout << "Le background a fini d'etre chargé : " << clock() << std::endl;
 #endif
-				background.reset(new sf::Sprite(backgroundTexture));
+				background.reset(new sf::Sprite(*sin.getTexture("background")));
 				window.draw(*background.get());
 				break;
 			case WAIT_FAILED: break;
@@ -215,16 +223,18 @@ DWORD Game::loading(LPVOID params) {
 	assert(that->loadMutexBackground != NULL);
 	auto mutexValuebg = WaitForSingleObject(that->loadMutexBackground, 1);
 
+	auto& sin = Loader::Instance();
+
 	if (mutexValue == WAIT_OBJECT_0) {
 		//	Chargement des données
 #ifdef DEBUG_LOG
 		std::cout << "On est en train de charger des données avec la fonction loading... : " << clock() << std::endl;
 #endif
 		if (mutexValuebg == WAIT_OBJECT_0) {
-			if (that->backgroundTexture.loadFromFile(PATH_BACKGROUND)) {
-				ReleaseMutex(that->loadMutexBackground);
-			}
+			sin.loadFirst();
+			ReleaseMutex(that->loadMutexBackground);
 		}
+		sin.loadLast();
 		Sleep(5000);
 		//	Relache du mutex
 		ReleaseMutex(that->loadMutex);

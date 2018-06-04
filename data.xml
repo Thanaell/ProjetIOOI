@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <loadElements>
     <first>
-        <Element path="" />
-        <Element path="" />
+        <Element label="background" path="..\\..\\Assets\\menu_background.jpg"/>
     </first>
     <last>
-        <Element path="" />
-        <Element path="" />
     </last>
 </loadElements>

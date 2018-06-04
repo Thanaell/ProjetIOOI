@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "Loader.h"
 #include <Windows.h>
 #include "MenuButton.h"
 #include "constantes.h"
@@ -30,16 +31,18 @@ class Game {
 	std::unique_ptr<b2World> world;
 
 	///	Pour le menu
-	// Texture de l'arrière plan
-	sf::Texture backgroundTexture;
 	// Arrière plan a proprement parler
 	std::unique_ptr<sf::Sprite> background;
 	// Liste des éléments (bouton) du menu
 	std::vector<std::unique_ptr<MenuButton>> menuElements;
+
+
+	static Game* _instance;
 public:
 	// Constructeur et seul méthode publique
-	Game();
+	static void CreateGame();
 private:
+	Game();
 	// Fonction de gameloop : boucle infinie qui appelle les méthodes de rafaichissement en fonction de l'état du jeu puis met a jour l'affichage
 	void gameLoop();
 
