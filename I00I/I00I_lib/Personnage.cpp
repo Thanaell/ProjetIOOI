@@ -2,7 +2,7 @@
 #include "Personnage.h"
 #include "Spell.h"
 
-void Personnage::mouve(sf::Event event) {}
+void Personnage::move(sf::Event event) {}
 
 Spell * Personnage::invoque(sf::Event) {
 	return nullptr;
@@ -45,8 +45,9 @@ Spell * Personnage::Action(sf::Event event) {
 	return nullptr;
 }
 
-//pour le moement, renvoie toujours un spell de type 1
+//pour le moment, renvoie toujours un spell de type 1
 Spell * Personnage::invoque(sf::Event event) {
 	Spell * mySpell = new Spell(SORT1, body);
+	mySpell->body->SetUserData(mySpell);
 	return mySpell;
 }

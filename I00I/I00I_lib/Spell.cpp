@@ -10,8 +10,17 @@ Spell::Spell(SpellType myType, b2Body *passedBody) {
 	body = world.CreateBody(&bodyDef);
 
 	b2CircleShape circle;
-	circle.
+	circle.m_p.Set(2.0f, 3.0f);
+	circle.m_radius = 0.5f;
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &circle;
+	fixtureDef.density = 1.0f;
+	fixtureDef.friction = 0.3f;
+
+	body->CreateFixture(&fixtureDef);
 	type = myType;
+	body->SetUserData(this);
+	
 }
 // Fonction appelée lors qu'un sort touche un personnage
 void Spell::affect(Personnage &character) {
