@@ -16,7 +16,7 @@ class Personnage : public PlayingElement {
 	std::vector<SpellType> spellbook;
 
 	// Récupère les évènements du joystick pour bouger le personnage
-	void mouve(sf::Event event);
+	void move(sf::Event event);
 
 	// Récupère les évenements du joystick pour incanter (ou pas) un sort
 	Spell* invoque(sf::Event);

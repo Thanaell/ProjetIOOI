@@ -17,7 +17,7 @@ class Spell : public PlayingElement {
 	double speed;
 public:
 	// Constructeur du sort
-	Spell(SpellType myType);
+	Spell(SpellType myType, b2Body *body);
 	// Fonction appelé lors qu'un sort touche un personnage
 	void affect(Personnage &character);
 };

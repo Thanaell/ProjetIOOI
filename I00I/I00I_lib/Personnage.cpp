@@ -34,7 +34,7 @@ Spell * Personnage::Action(sf::Event event) {
 	switch (event.type)
 	{
 	case sf::Event::EventType::JoystickMoved:
-		mouve(event);
+		move(event);
 		break;
 	case sf::Event::EventType::KeyPressed:
 		return invoque(event);
@@ -43,4 +43,10 @@ Spell * Personnage::Action(sf::Event event) {
 		break;
 	}
 	return nullptr;
+}
+
+//pour le moement, renvoie toujours un spell de type 1
+Spell * Personnage::invoque(sf::Event event) {
+	Spell * mySpell = new Spell(SORT1, body);
+	return mySpell;
 }
