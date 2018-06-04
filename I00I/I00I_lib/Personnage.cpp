@@ -2,6 +2,12 @@
 #include "Personnage.h"
 #include "Spell.h"
 
+void Personnage::mouve(sf::Event event) {}
+
+Spell * Personnage::invoque(sf::Event) {
+	return nullptr;
+}
+
 //Constructeur selon un archétype (TODO: autres archétypes)
 Personnage::Personnage(CharacterType type) {
 	switch (type) {
@@ -24,7 +30,17 @@ int Personnage::getHealth() {
 	return health;
 }
 
-std::unique_ptr<Spell> Personnage::throwSpell(SpellType type) {
-	std::unique_ptr<Spell> mySpell(new Spell(type,body));
-	return mySpell;
+Spell * Personnage::Action(sf::Event event) {
+	switch (event.type)
+	{
+	case sf::Event::EventType::JoystickMoved:
+		mouve(event);
+		break;
+	case sf::Event::EventType::KeyPressed:
+		return invoque(event);
+		break;
+	default:
+		break;
+	}
+	return nullptr;
 }
