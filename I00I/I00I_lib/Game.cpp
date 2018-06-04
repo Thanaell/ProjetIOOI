@@ -243,7 +243,6 @@ DWORD Game::loading(LPVOID params) {
 }
 
 b2World & Game::getWorld() {
-	// TODO: insérer une instruction return ici
 	return *_instance->world.get();
 }
 

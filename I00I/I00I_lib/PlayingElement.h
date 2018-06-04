@@ -9,4 +9,8 @@ protected:
 	b2Body* body;
 	///	C'est un pointeur classique car b2World est propriétaire de ses élément et détruit lui meme l'instance des body
 	/// donc a la destruction de cette classe, il n'y a pas besoin de détuire l'élément pointé par ce pointeur
+public:
+	//getter du body (au moins pour les tests)
+	b2Body* getBody();
+	
 };

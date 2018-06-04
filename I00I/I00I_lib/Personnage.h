@@ -10,6 +10,8 @@ typedef class Spell;
 class Personnage : public PlayingElement {
 	// Nom du personnage
 	std::string name;
+	//Archétype
+	CharacterType type;
 	// Point de vie
 	int health;
 	// Liste des sort que ce personnage peut lancer
