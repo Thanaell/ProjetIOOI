@@ -2,9 +2,6 @@
 #include "../I00I_lib/Game.h"
 
 
-TEST(Jeu, getWorld) {
-	Game::getWorld();
-}
 TEST(Sort, Constructeur) {
 	Personnage perso = Personnage(TYPE1);
 	Spell sort = Spell(SORT1, perso.getBody());
@@ -15,4 +12,7 @@ TEST(Sort, Affect) {
 	Spell sort = Spell(SORT1,perso.getBody());
 	sort.affect(perso);
 	EXPECT_TRUE(perso.getHealth() == 90);
+}
+TEST(Jeu, getWorld) {
+	Game::getWorld();
 }
