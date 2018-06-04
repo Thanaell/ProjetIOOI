@@ -69,4 +69,7 @@ private:
 
 	//	Fonction exécutée sur un autre thread et qui charge en mémoire les données du jeux, lache le sémaphore quand les données sont chargées
 	static DWORD WINAPI loading(LPVOID);
+
+public:
+	static b2World& getWorld();
 };

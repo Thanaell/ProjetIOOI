@@ -4,9 +4,7 @@
 
 void Personnage::move(sf::Event event) {}
 
-Spell * Personnage::invoque(sf::Event) {
-	return nullptr;
-}
+
 
 //Constructeur selon un archétype (TODO: autres archétypes)
 Personnage::Personnage(CharacterType type) {
@@ -48,6 +46,6 @@ Spell * Personnage::Action(sf::Event event) {
 //pour le moment, renvoie toujours un spell de type 1
 Spell * Personnage::invoque(sf::Event event) {
 	Spell * mySpell = new Spell(SORT1, body);
-	mySpell->body->SetUserData(mySpell);
+	//mySpell->body->SetUserData(mySpell);
 	return mySpell;
 }
