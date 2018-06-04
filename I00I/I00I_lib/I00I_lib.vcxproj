@@ -164,6 +164,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="Personnage.cpp" />
+    <ClCompile Include="PlayingElement.cpp" />
     <ClCompile Include="Spell.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

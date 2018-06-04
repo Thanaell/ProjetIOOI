@@ -23,3 +23,8 @@ void Personnage::receive(SpellType sort) {
 int Personnage::getHealth() {
 	return health;
 }
+
+std::unique_ptr<Spell> Personnage::throwSpell(SpellType type) {
+	std::unique_ptr<Spell> mySpell(new Spell(type,body));
+	return mySpell;
+}
