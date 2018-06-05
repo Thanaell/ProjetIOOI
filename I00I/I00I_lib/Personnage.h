@@ -4,7 +4,7 @@
 #include "SpellType.h"
 #include "CharacterType.h"
 
-typedef class Spell;
+class Spell;
 
 // Représente un sorcier dans le jeu
 class Personnage : public PlayingElement {
