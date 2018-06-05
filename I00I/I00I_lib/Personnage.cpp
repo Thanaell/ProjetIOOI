@@ -3,7 +3,20 @@
 #include "Spell.h"
 #include "Game.h"
 
-void Personnage::move(sf::Event event) {}
+void Personnage::move(sf::Event event) {
+	b2Vec2 velocity;
+	//mouvement sur l'axe x (facteur à ajuster)
+	if (event.joystickMove.axis == 0) {
+		velocity.x = event.joystickMove.position;
+		velocity.y = body->GetLinearVelocity().y;
+	}
+	//mouvement sur l'axe y (facteur à ajuster)
+	if (event.joystickMove.axis == 1) {
+		velocity.x = body->GetLinearVelocity().x;
+		velocity.y = event.joystickMove.position;
+	}
+	body->SetLinearVelocity(velocity);
+}
 
 
 
