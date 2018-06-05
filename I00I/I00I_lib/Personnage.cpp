@@ -20,12 +20,19 @@ void Personnage::move(sf::Event event) {
 
 
 //Constructeur selon un archétype (TODO: autres archétypes)
-Personnage::Personnage(CharacterType myType) {
+Personnage::Personnage(CharacterType myType,int init) {
 	type = myType;
 	//initialisation du body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set(0, 0);//on démarre en (0,0), valeurs à ajuster
+	switch (init) {
+	case 0:
+		bodyDef.position.Set(0, 10);
+		break;
+	case 1:
+		bodyDef.position.Set(100, 10);
+		break;
+	}
 	body = Game::getWorld()->CreateBody(&bodyDef);
 	b2PolygonShape shape;
 	shape.SetAsBox(50.0f, 10.0f);

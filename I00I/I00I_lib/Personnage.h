@@ -23,8 +23,8 @@ class Personnage : public PlayingElement {
 	// Récupère les évenements du joystick pour incanter (ou pas) un sort
 	Spell* invoque(sf::Event);
 public:
-	// Constructeur du personnage, appellé au lancement de la partie
-	Personnage(CharacterType type);
+	// Constructeur du personnage, appellé au lancement de la partie (emplacement déterminé par init)
+	Personnage(CharacterType type,int init);
 	// Méthode appellé lorsqu'un sort touche un personnage et qui met a jour les points de vie (et potentiellement la position) du personnage
 	void receive(SpellType sort);
 	// Getter de health -- Utile ?

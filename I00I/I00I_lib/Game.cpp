@@ -177,6 +177,7 @@ void Game::displayMenu() {
 
 void Game::displayPlaying() {
 	// Gestion des évènements durant le jeu
+	//TODO: sur mouvement ou bouton du joystick, appeler la méthode du bon personnage
 	sf::Event event;
 	while (window.pollEvent(event)) {
 		switch (event.type)
@@ -252,7 +253,9 @@ void Game::createGame() {
 	fixtureDef4.shape = &leftwall;
 	gauche->CreateFixture(&fixtureDef4);
 	
-	
+	//Personnages
+	Personnage perso1{ TYPE1, 0 };
+	Personnage perso2{ TYPE1, 1 };
 }
 
 void Game::gameOver() {
