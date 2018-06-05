@@ -27,9 +27,10 @@ class Game {
 	// Thread de chargement des assets, permettant de ne pas perturber la gameloop
 	HANDLE loadThread;
 
+	
 	//	Pointeur sur le monde qui sera généré dans le jeu
-	std::unique_ptr<b2World> world;
-
+	// TODO: Réparer le hack pour remettre un unique_ptr
+	static b2World * world;
 	///	Pour le menu
 	// Arrière plan a proprement parler
 	std::unique_ptr<sf::Sprite> background;
@@ -71,5 +72,6 @@ private:
 	static DWORD WINAPI loading(LPVOID);
 
 public:
-	static b2World& getWorld();
+	static b2World* getWorld();
+	
 };

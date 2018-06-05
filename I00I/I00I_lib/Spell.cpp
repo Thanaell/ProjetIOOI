@@ -8,7 +8,7 @@ Spell::Spell(SpellType myType, b2Body *passedBody) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
 	bodyDef.position.Set(passedBody->GetPosition().x, passedBody->GetPosition().y);
-	body = Game::getWorld().CreateBody(&bodyDef);
+	body = Game::getWorld()->CreateBody(&bodyDef);
 
 	b2CircleShape circle;
 	circle.m_p.Set(2.0f, 3.0f);

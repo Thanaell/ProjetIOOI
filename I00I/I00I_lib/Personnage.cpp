@@ -14,7 +14,7 @@ Personnage::Personnage(CharacterType myType) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(0, 0);//on démarre en (0,0), valeurs à ajuster
-	body = Game::getWorld().CreateBody(&bodyDef);
+	body = Game::getWorld()->CreateBody(&bodyDef);
 	b2PolygonShape shape;
 	shape.SetAsBox(50.0f, 10.0f);
 	b2FixtureDef fixtureDef;

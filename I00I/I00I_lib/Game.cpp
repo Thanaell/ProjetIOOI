@@ -4,6 +4,7 @@
 #include <Windows.h>
 
 Game* Game::_instance = NULL;
+b2World* Game::world = new b2World(GRAVITY_WORLD);
 
 void Game::CreateGame() {
 	if (_instance == NULL) {
@@ -205,7 +206,6 @@ void Game::displayUnLoading() {
 }
 
 void Game::createGame() {
-	world.reset(new b2World(GRAVITY_WORLD));
 	//Quatre coins de la zone (valeurs à ajuster)
 	b2Vec2 v1(0.0f, 0.0f);
 	b2Vec2 v2(0.0f, 50.0f);
@@ -215,7 +215,7 @@ void Game::createGame() {
 	//sol
 	b2BodyDef bodyDef1;
 	bodyDef1.type = b2_staticBody;
-	b2Body* sol = world.get()->CreateBody(&bodyDef1);
+	b2Body* sol = world->CreateBody(&bodyDef1);
 	b2EdgeShape floor;
 	floor.Set(v1, v2);
 	b2FixtureDef fixtureDef1;
@@ -225,7 +225,7 @@ void Game::createGame() {
 	//plafond
 	b2BodyDef bodyDef2;
 	bodyDef2.type = b2_staticBody;
-	b2Body* plafond = world.get()->CreateBody(&bodyDef2);
+	b2Body* plafond = world->CreateBody(&bodyDef2);
 	b2EdgeShape ceiling;
 	ceiling.Set(v2, v4);
 	b2FixtureDef fixtureDef2;
@@ -235,7 +235,7 @@ void Game::createGame() {
 	//mur droite
 	b2BodyDef bodyDef3;
 	bodyDef3.type = b2_staticBody;
-	b2Body* droite = world.get()->CreateBody(&bodyDef3);
+	b2Body* droite = world->CreateBody(&bodyDef3);
 	b2EdgeShape rightwall;
 	ceiling.Set(v3, v4);
 	b2FixtureDef fixtureDef3;
@@ -245,7 +245,7 @@ void Game::createGame() {
 	//mur gauche
 	b2BodyDef bodyDef4;
 	bodyDef4.type = b2_staticBody;
-	b2Body* gauche = world.get()->CreateBody(&bodyDef4);
+	b2Body* gauche = world->CreateBody(&bodyDef4);
 	b2EdgeShape leftwall;
 	ceiling.Set(v1, v2);
 	b2FixtureDef fixtureDef4;
@@ -256,7 +256,6 @@ void Game::createGame() {
 }
 
 void Game::gameOver() {
-	world.release();
 }
 
 DWORD Game::loading(LPVOID params) {
@@ -288,8 +287,7 @@ DWORD Game::loading(LPVOID params) {
 	}
 	return 0;
 }
-
-b2World & Game::getWorld() {
-	return *(_instance->world.get());
+ b2World * Game::getWorld() {
+	return world;
 }
 
