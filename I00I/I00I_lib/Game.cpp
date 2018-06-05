@@ -30,7 +30,7 @@ Game::Game() :
 
 void Game::gameLoop() {
 	//	Date du dernier affichage
-	int last = clock();
+	int last = MS_SINCE_BEGIN;
 	//	Boucle de d'affichage de la fenetre
 	while (window.isOpen()) {
 		window.clear();
@@ -49,11 +49,11 @@ void Game::gameLoop() {
 			break;
 		}
 		window.display();
-		int now = clock();
+		int now = MS_SINCE_BEGIN;
 		//	on attend qu'il se soit bien passer le temps qu'il faut entre 2 frames
 		int timeToWait = FRAME_DURATION - (now - last) > 0 ? FRAME_DURATION - (now - last) : 0;
 		Sleep(timeToWait);
-		last = clock();
+		last = MS_SINCE_BEGIN;
 	}
 }
 
@@ -72,7 +72,7 @@ void Game::displayLoading() {
 				CloseHandle(loadMutexBackground);
 				loadMutexBackground = NULL;
 #ifdef DEBUG_LOG
-				std::cout << "Le background a fini d'etre chargé : " << clock() << std::endl;
+				std::cout << "Le background a fini d'etre chargé : " << MS_SINCE_BEGIN << "ms" << std::endl;
 #endif
 				background.reset(new sf::Sprite(*sin.getTexture("background")));
 				window.draw(*background.get());
@@ -104,7 +104,7 @@ void Game::displayLoading() {
 		CloseHandle(loadMutex);
 		loadMutex = NULL;
 #ifdef DEBUG_LOG
-		std::cout << "Les données ont finies d'etre chargées et peuvent etre utilisée : " << clock() << std::endl;
+		std::cout << "Les données ont finies d'etre chargées et peuvent etre utilisée : " << MS_SINCE_BEGIN << "ms" << std::endl;
 #endif
 		gameState = MENU;
 		break;
@@ -199,7 +199,7 @@ void Game::displayPlaying() {
 			Spell* newSpell = player->Action();
 			if (newSpell != nullptr) {
 #ifdef DEBUG_LOG
-				std::cout << "Ajout d'un sort dans le monde : " << clock() << std::endl;
+				std::cout << "Ajout d'un sort dans le monde : " << MS_SINCE_BEGIN << "ms" << std::endl;
 #endif
 				activeSpells.push_back(std::unique_ptr<Spell>(newSpell));
 			}
@@ -298,7 +298,7 @@ DWORD Game::loading(LPVOID params) {
 	if (mutexValue == WAIT_OBJECT_0) {
 		//	Chargement des données
 #ifdef DEBUG_LOG
-		std::cout << "On est en train de charger des données avec la fonction loading... : " << clock() << std::endl;
+		std::cout << "On est en train de charger des données avec la fonction loading... : " << MS_SINCE_BEGIN << "ms" << std::endl;
 #endif
 		if (mutexValuebg == WAIT_OBJECT_0) {
 			sin.loadFirst();
