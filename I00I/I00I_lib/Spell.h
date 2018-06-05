@@ -3,7 +3,7 @@
 #include "PlayingElement.h"
 #include "SpellType.h"
 
-typedef class Personnage;
+class Personnage;
 
 // Représente un sortilège
 class Spell : public PlayingElement {
