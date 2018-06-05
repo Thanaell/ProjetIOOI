@@ -3,12 +3,12 @@
 
 
 TEST(Sort, Constructeur) {
-	Personnage perso = Personnage(TYPE1);
+	Personnage perso = Personnage(TYPE1,0);
 	Spell sort = Spell(SORT1, perso.getBody());
 	EXPECT_TRUE(1);
 }
 TEST(Sort, Affect) {
-	Personnage perso = Personnage(TYPE1);
+	Personnage perso = Personnage(TYPE1,0);
 	Spell sort = Spell(SORT1,perso.getBody());
 	sort.affect(perso);
 	EXPECT_TRUE(perso.getHealth() == 90);
