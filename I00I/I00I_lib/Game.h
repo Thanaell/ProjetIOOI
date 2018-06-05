@@ -37,6 +37,8 @@ class Game {
 	// Liste des éléments (bouton) du menu
 	std::vector<std::unique_ptr<MenuButton>> menuElements;
 
+	std::vector<std::unique_ptr<Personnage>> players;
+	std::vector<std::unique_ptr<Spell>> activeSpells;
 
 	static Game* _instance;
 public:

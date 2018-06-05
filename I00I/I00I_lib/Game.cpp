@@ -182,27 +182,17 @@ void Game::displayPlaying() {
 	while (window.pollEvent(event)) {
 		switch (event.type)
 		{
-		//TODO: récupérer le bon objet at appeler move
-		case sf::Event::JoystickMoved:
-			if (event.joystickButton.joystickId == 0) {
-			//appeler perso1.move(event)
-			}
-			else if (event.joystickButton.joystickId == 1) {
-			//appeler perso2.move(event)
-			}
-		//TODO: récupérer le bon objet at appeler invoque
-		case sf::Event::JoystickButtonPressed:
-			if (event.joystickButton.joystickId == 0) {
-				//appeler perso1.invoque(event)
-			}
-			else if (event.joystickButton.joystickId == 1) {
-				//appeler perso2.invoque(event)
-			}
 		case sf::Event::Closed:
 			window.close();
 			break;
 		default:
 			break;
+		}
+		for (auto& player : players) {
+			Spell* newSpell = player->Action();
+			if (newSpell != nullptr) {
+				activeSpells.push_back(std::unique_ptr<Spell>(newSpell));
+			}
 		}
 	}
 }
