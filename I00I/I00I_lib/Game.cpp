@@ -211,15 +211,48 @@ void Game::createGame() {
 	b2Vec2 v2(0.0f, 50.0f);
 	b2Vec2 v3(100.0f, 0.0f);
 	b2Vec2 v4(100.0f, 50.0f);
-	//création des 4 murs
-	b2EdgeShape murGauche;
-	murGauche.Set(v1, v2);
-	b2EdgeShape murDroite;
-	murDroite.Set(v3, v4);
-	b2EdgeShape plafond;
-	plafond.Set(v2, v3);
-	b2EdgeShape sol;
-	sol.Set(v1, v3);
+	//création des 4 murs	
+	//sol
+	b2BodyDef bodyDef1;
+	bodyDef1.type = b2_staticBody;
+	b2Body* sol = world.get()->CreateBody(&bodyDef1);
+	b2EdgeShape floor;
+	floor.Set(v1, v2);
+	b2FixtureDef fixtureDef1;
+	fixtureDef1.shape = &floor;
+	sol->CreateFixture(&fixtureDef1);
+
+	//plafond
+	b2BodyDef bodyDef2;
+	bodyDef2.type = b2_staticBody;
+	b2Body* plafond = world.get()->CreateBody(&bodyDef2);
+	b2EdgeShape ceiling;
+	ceiling.Set(v2, v4);
+	b2FixtureDef fixtureDef2;
+	fixtureDef2.shape = &ceiling;
+	plafond->CreateFixture(&fixtureDef2);
+
+	//mur droite
+	b2BodyDef bodyDef3;
+	bodyDef3.type = b2_staticBody;
+	b2Body* droite = world.get()->CreateBody(&bodyDef3);
+	b2EdgeShape rightwall;
+	ceiling.Set(v3, v4);
+	b2FixtureDef fixtureDef3;
+	fixtureDef3.shape = &rightwall;
+	droite->CreateFixture(&fixtureDef3);
+
+	//mur gauche
+	b2BodyDef bodyDef4;
+	bodyDef4.type = b2_staticBody;
+	b2Body* gauche = world.get()->CreateBody(&bodyDef4);
+	b2EdgeShape leftwall;
+	ceiling.Set(v1, v2);
+	b2FixtureDef fixtureDef4;
+	fixtureDef4.shape = &leftwall;
+	gauche->CreateFixture(&fixtureDef4);
+	
+	
 }
 
 void Game::gameOver() {
