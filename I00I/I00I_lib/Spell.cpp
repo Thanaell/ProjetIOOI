@@ -11,16 +11,20 @@ Spell::Spell(SpellType myType, b2Body *passedBody) {
 	body = Game::getWorld()->CreateBody(&bodyDef);
 
 	b2CircleShape circle;
-	circle.m_p.Set(2.0f, 3.0f);
 	circle.m_radius = 0.5f;
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &circle;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
 
 	body->CreateFixture(&fixtureDef);
 	type = myType;
 	body->SetUserData(this);
+
+	//comportements variables selon le type (notamment la vitesse)
+	switch (myType) {
+	case(SORT1):
+		body->SetLinearVelocity(b2Vec2(0, 2));
+		break;
+	}
 	
 }
 // Fonction appelée lors qu'un sort touche un personnage

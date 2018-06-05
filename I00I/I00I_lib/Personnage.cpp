@@ -19,7 +19,6 @@ void Personnage::move(sf::Event event) {
 }
 
 
-
 //Constructeur selon un archétype (TODO: autres archétypes)
 Personnage::Personnage(CharacterType myType) {
 	type = myType;
@@ -63,7 +62,7 @@ Spell * Personnage::Action(sf::Event event) {
 	case sf::Event::EventType::JoystickMoved:
 		move(event);
 		break;
-	case sf::Event::EventType::KeyPressed:
+	case sf::Event::EventType::JoystickButtonPressed:
 		return invoque(event);
 		break;
 	default:
@@ -74,6 +73,13 @@ Spell * Personnage::Action(sf::Event event) {
 
 //pour le moment, renvoie toujours un spell de type 1
 Spell * Personnage::invoque(sf::Event event) {
-	Spell * mySpell = new Spell(SORT1, body);
+	Spell * mySpell;
+	switch (event.joystickButton.button) {
+	case(1):
+		mySpell = new Spell(SORT1, body);
+		break;
+	default:
+		mySpell = new Spell(SORT1, body);
+	}
 	return mySpell;
 }
