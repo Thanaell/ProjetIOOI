@@ -6,7 +6,7 @@
 // Constructeur du sort
 Spell::Spell(SpellType myType, b2Body *passedBody) {
 	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
+	bodyDef.type = b2_kinematicBody;
 	bodyDef.position.Set(passedBody->GetPosition().x, passedBody->GetPosition().y);
 	body = Game::getWorld().CreateBody(&bodyDef);
 

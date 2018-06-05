@@ -10,7 +10,7 @@ void Personnage::move(sf::Event event) {}
 //Constructeur selon un archétype (TODO: autres archétypes)
 Personnage::Personnage(CharacterType myType) {
 	type = myType;
-	//initialistaion du body
+	//initialisation du body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(0, 0);//on démarre en (0,0), valeurs à ajuster
