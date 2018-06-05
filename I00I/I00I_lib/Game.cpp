@@ -195,21 +195,21 @@ void Game::displayPlaying() {
 		default:
 			break;
 		}
-		for (auto& player : players) {
-			Spell* newSpell = player->Action();
-			if (newSpell != nullptr) {
-#ifdef DEBUG_LOG
-				std::cout << "Ajout d'un sort dans le monde : " << MS_SINCE_BEGIN << "ms" << std::endl;
-#endif
-				activeSpells.push_back(std::unique_ptr<Spell>(newSpell));
-			}
-		}
-		//	Calcul du monde
-
-		//	Gestion des collisions
-
-		//	Affichage
 	}
+	for (auto& player : players) {
+		Spell* newSpell = player->Action();
+		if (newSpell != nullptr) {
+#ifdef DEBUG_LOG
+			std::cout << "Ajout d'un sort dans le monde : " << MS_SINCE_BEGIN << "ms" << std::endl;
+#endif
+			activeSpells.push_back(std::unique_ptr<Spell>(newSpell));
+		}
+	}
+	//	Calcul du monde
+
+	//	Gestion des collisions
+
+	//	Affichage
 }
 
 void Game::displayUnLoading() {
