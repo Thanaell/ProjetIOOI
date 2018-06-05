@@ -29,6 +29,8 @@ Game::Game() :
 }
 
 void Game::gameLoop() {
+	//	Date du dernier affichage
+	int last = clock();
 	//	Boucle de d'affichage de la fenetre
 	while (window.isOpen()) {
 		window.clear();
@@ -47,6 +49,11 @@ void Game::gameLoop() {
 			break;
 		}
 		window.display();
+		int now = clock();
+		//	on attend qu'il se soit bien passer le temps qu'il faut entre 2 frames
+		int timeToWait = FRAME_DURATION - (now - last) > 0 ? FRAME_DURATION - (now - last) : 0;
+		Sleep(timeToWait);
+		last = clock();
 	}
 }
 
