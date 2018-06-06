@@ -9,6 +9,10 @@
 #define WORLD_WIDTH (160)
 #define WORLD_HEIGHT (90)
 
+#define SPRITE_SCALE (sf::Vector2f(.2f, .2f))
+
+
+
 //	Path pour trouver les assests (a terme il n'y aura que le path pour trouver le xml)
 #define PATH_XML "..\\..\\data.xml"
 

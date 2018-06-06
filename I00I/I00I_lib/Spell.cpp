@@ -5,7 +5,6 @@
 
 void Spell::loadSprites() {
 	auto& sin = Loader::Instance();
-	sf::Vector2f scale(.2f, .2f);
 	auto b2position = body->GetPosition();
 	sf::Vector2f position(b2position.x - 36, W_HEIGHT - b2position.y - 72);
 	switch (type)
@@ -23,7 +22,7 @@ void Spell::loadSprites() {
 		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("spell1"))));
 		break;
 	}
-	((sf::Sprite *)sprites[0].get())->setScale(scale);
+	((sf::Sprite *)sprites[0].get())->setScale(SPRITE_SCALE);
 	((sf::Sprite *)sprites[0].get())->setPosition(position);
 }
 
