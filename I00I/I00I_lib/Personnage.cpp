@@ -32,8 +32,14 @@ Personnage::Personnage(CharacterType myType, int init) :
 	case TYPE1:
 		health = 100;
 		spellbook.push_back(SORT1);
-		spellbook.push_back(SORT1);
-		spellbook.push_back(SORT1);
+		spellbook.push_back(SORT2);
+		spellbook.push_back(SORT3);
+		break;
+	case TYPE2:
+		health = 100;
+		spellbook.push_back(SORT4);
+		spellbook.push_back(SORT5);
+		spellbook.push_back(SORT6);
 		break;
 	}
 }
