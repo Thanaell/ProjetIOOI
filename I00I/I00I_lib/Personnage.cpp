@@ -71,7 +71,7 @@ Spell * Personnage::Action() {
 
 void Personnage::updateSprites() {
 	auto b2position = body->GetPosition();
-	sf::Vector2f position(b2position.x - 72, W_HEIGHT - b2position.y - 144);
+	sf::Vector2f position(b2position.x * 8 - 72, W_HEIGHT - b2position.y * 8 - 144);
 	((sf::Sprite *)sprites[0].get())->setPosition(position);
 #ifdef DEBUG_LOG
 	std::cout << "Position du joueur " << player << " (" << position.x << ", " << position.y << ")" << std::endl;
@@ -81,9 +81,8 @@ void Personnage::updateSprites() {
 
 void Personnage::loadSprites() {
 	auto& sin = Loader::Instance();
-	sf::Vector2f scale(.2f, .2f);
 	auto b2position = body->GetPosition();
-	sf::Vector2f position(b2position.x - 72, W_HEIGHT - b2position.y - 144);
+	sf::Vector2f position(b2position.x * 8 - 72, W_HEIGHT - b2position.y * 8 - 144);
 	switch (type)
 	{
 	case TYPE1:
@@ -93,7 +92,7 @@ void Personnage::loadSprites() {
 		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("wizard1"))));
 		break;
 	}
-	((sf::Sprite *)sprites[0].get())->setScale(scale);
+	((sf::Sprite *)sprites[0].get())->setScale(SPRITE_SCALE);
 	((sf::Sprite *)sprites[0].get())->setPosition(position);
 }
 
