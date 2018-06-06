@@ -18,6 +18,8 @@ class Personnage : public PlayingElement {
 	int health;
 	// Liste des sort que ce personnage peut lancer
 	std::vector<SpellType> spellbook;
+	//Booléen indiquant le sens du personnage
+	bool isFacingRight;
 
 	unsigned int lastInvocationDate;
 

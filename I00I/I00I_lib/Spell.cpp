@@ -27,10 +27,17 @@ void Spell::loadSprites() {
 }
 
 // Constructeur du sort
-Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double directionY) : speed(20), type(myType) {
+Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double directionY, bool isCharacterFacingRight) : speed(20), type(myType) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
-	bodyDef.position.Set(passedBody->GetPosition().x, passedBody->GetPosition().y);
+	//position du sort varie selon le sens du personnage
+	if (isCharacterFacingRight) {
+		bodyDef.position.Set(passedBody->GetPosition().x + 10, passedBody->GetPosition().y);
+	}
+	else {
+		bodyDef.position.Set(passedBody->GetPosition().x - 10, passedBody->GetPosition().y);
+	}
+
 	body = Game::getWorld()->CreateBody(&bodyDef);
 
 	b2CircleShape circle;

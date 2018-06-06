@@ -7,6 +7,14 @@
 // Constructeur selon un archétype (TODO: autres archétypes)
 Personnage::Personnage(CharacterType myType, int init) :
 	player(init), type(myType), lastInvocationDate(clock()) {
+	switch (init) {
+	case 0:
+		isFacingRight = true;
+		break;
+	case 1:
+		isFacingRight = false;
+		break;
+	}
 	//initialisation du body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
@@ -97,6 +105,12 @@ void Personnage::loadSprites() {
 }
 
 void Personnage::move(double x, double y) {
+	if (x >= 0) {
+		isFacingRight = true;
+	}
+	else {
+		isFacingRight = false;
+	}
 	body->SetLinearVelocity(b2Vec2(3*x, 3*y));
 }
 
@@ -105,9 +119,9 @@ Spell * Personnage::invoque(double x, double y, bool A, bool B) {
 
 	if (now - lastInvocationDate > INVOCATION_RECOVERYTIME) {
 		lastInvocationDate = clock();
-		if (A && !B) return new Spell(spellbook[0], body, x, y);
-		if (!A && B) return new Spell(spellbook[1], body, x, y);
-		if (A && B) return new Spell(spellbook[2], body, x, y);
+		if (A && !B) return new Spell(spellbook[0], body, x, y, isFacingRight);
+		if (!A && B) return new Spell(spellbook[1], body, x, y, isFacingRight);
+		if (A && B) return new Spell(spellbook[2], body, x, y, isFacingRight);
 	}
 	return nullptr;
 }

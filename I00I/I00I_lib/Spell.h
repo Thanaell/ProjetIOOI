@@ -20,7 +20,7 @@ class Spell : public PlayingElement {
 	void loadSprites();
 public:
 	// Constructeur du sort
-	Spell(SpellType myType, b2Body *body, double directionX, double directionY);
+	Spell(SpellType myType, b2Body *body, double directionX, double directionY, bool isCharacterFacingRight);
 	// Fonction appelé lors qu'un sort touche un personnage
 	void affect(Personnage &character);
 
