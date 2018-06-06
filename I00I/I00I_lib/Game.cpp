@@ -215,12 +215,15 @@ void Game::displayPlaying() {
 
 	//	Affichage
 	for (auto& p : players) {
-		p->updateSprites();
-		p->draw(window);
+		if (p->updateSprites())
+			p->draw(window);
 	}
 	for (auto& s : activeSpells) {
-		s->updateSprites();
-		s->draw(window);
+		if (s->updateSprites())
+			s->draw(window);
+		else {
+			// remove element from world and vector
+		}
 	}
 }
 

@@ -10,7 +10,8 @@
 #define WORLD_HEIGHT (90)
 
 #define SPRITE_SCALE (sf::Vector2f(.2f, .2f))
-
+#define STICK_SENSIBILITY (10.f)
+#define PLAYER_VELOCITY (2.5f)
 
 
 //	Path pour trouver les assests 

@@ -67,9 +67,9 @@ int Personnage::getHealth() {
 }
 
 Spell * Personnage::Action() {
-	double stickX = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::X)) > 5 ?
+	double stickX = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::X)) > STICK_SENSIBILITY ?
 		sf::Joystick::getAxisPosition(player, sf::Joystick::X) : 0;
-	double stickY = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::Y)) > 5 ?
+	double stickY = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::Y)) > STICK_SENSIBILITY ?
 		-sf::Joystick::getAxisPosition(player, sf::Joystick::Y) : 0;
 	bool buttonA = sf::Joystick::isButtonPressed(player, 0);
 	bool buttonB = sf::Joystick::isButtonPressed(player, 1);
@@ -77,31 +77,29 @@ Spell * Personnage::Action() {
 	return invoque(stickX, stickY, buttonA, buttonB);
 }
 
-void Personnage::updateSprites() {
-	auto b2position = body->GetPosition();
-	sf::Vector2f position(b2position.x * 8 - 40, W_HEIGHT - b2position.y * 8 - 40);
-	((sf::Sprite *)sprites[0].get())->setPosition(position);
-#ifdef DEBUG_LOG
-	std::cout << "Position du joueur " << player << " (" << position.x << ", " << position.y << ")" << std::endl;
-#endif
+bool Personnage::updateSprites() {
+	return updateMovingSprite();
 }
 
 
 void Personnage::loadSprites() {
 	auto& sin = Loader::Instance();
-	auto b2position = body->GetPosition();
-	sf::Vector2f position(b2position.x * 8 - 40, W_HEIGHT - b2position.y * 8 - 40);
+	sf::Sprite* movingSprite = nullptr;
 	switch (type)
 	{
 	case TYPE1:
-		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("wizard1"))));
+		movingSprite = new sf::Sprite(*sin.getTexture("wizard1"));
 		break;
 	default:
-		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("wizard1"))));
+		movingSprite = new sf::Sprite(*sin.getTexture("wizard1"));
 		break;
 	}
-	((sf::Sprite *)sprites[0].get())->setScale(SPRITE_SCALE);
-	((sf::Sprite *)sprites[0].get())->setPosition(position);
+
+	movingSprite->setOrigin(sf::Vector2f(200.f, 200.f));
+	movingSprite->setScale(SPRITE_SCALE);
+	if(!isFacingRight) movingSprite->scale(sf::Vector2f(-1.f, 1.f));
+
+	sprites.push_back(std::unique_ptr<sf::Sprite>(movingSprite));
 }
 
 void Personnage::move(double x, double y) {
@@ -111,7 +109,7 @@ void Personnage::move(double x, double y) {
 	else {
 		isFacingRight = false;
 	}
-	body->SetLinearVelocity(b2Vec2(3*x, 3*y));
+	body->SetLinearVelocity(b2Vec2(PLAYER_VELOCITY * x, PLAYER_VELOCITY * y));
 }
 
 Spell * Personnage::invoque(double x, double y, bool A, bool B) {

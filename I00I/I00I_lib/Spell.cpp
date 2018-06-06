@@ -5,25 +5,27 @@
 
 void Spell::loadSprites() {
 	auto& sin = Loader::Instance();
-	auto b2position = body->GetPosition();
-	sf::Vector2f position(b2position.x - 20, W_HEIGHT - b2position.y - 20);
+	sf::Sprite* movingSprite = nullptr;
 	switch (type)
 	{
 	case SORT1:
-		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("spell1"))));
+		movingSprite = new sf::Sprite(*sin.getTexture("spell1"));
 		break;
 	case SORT2:
-		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("spell2"))));
+		movingSprite = new sf::Sprite(*sin.getTexture("spell2"));
 		break;
 	case SORT3:
-		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("spell3"))));
+		movingSprite = new sf::Sprite(*sin.getTexture("spell3"));
 		break;
 	default:
-		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("spell1"))));
+		movingSprite = new sf::Sprite(*sin.getTexture("spell1"));
 		break;
 	}
-	((sf::Sprite *)sprites[0].get())->setScale(SPRITE_SCALE);
-	((sf::Sprite *)sprites[0].get())->setPosition(position);
+	movingSprite->setOrigin(sf::Vector2f(100.f, 100.f));
+	movingSprite->setScale(SPRITE_SCALE);
+
+
+	sprites.push_back(std::unique_ptr<sf::Sprite>(movingSprite));
 }
 
 // Constructeur du sort
@@ -71,8 +73,6 @@ void Spell::affect(Personnage &character) {
 	character.receive(type);
 }
 
-void Spell::updateSprites() {
-	auto b2position = body->GetPosition();
-	sf::Vector2f position(b2position.x * 8 - 20, W_HEIGHT - b2position.y * 8 - 20);
-	((sf::Sprite *)sprites[0].get())->setPosition(position);
+bool Spell::updateSprites() {
+	return updateMovingSprite();
 }

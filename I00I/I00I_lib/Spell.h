@@ -24,6 +24,6 @@ public:
 	// Fonction appelé lors qu'un sort touche un personnage
 	void affect(Personnage &character);
 
-
-	void updateSprites() override;
+	// retourne false si le sprite n'est plus dans la zone de jeu
+	bool updateSprites() override;
 };
