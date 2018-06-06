@@ -21,7 +21,7 @@
 
 // Constructeur selon un archétype (TODO: autres archétypes)
 Personnage::Personnage(CharacterType myType, int init) :
-	player(init), type(myType), lastInvocationDate(0) {
+	player(init), type(myType), lastInvocationDate(std::chrono::system_clock::now()) {
 	//initialisation du body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
@@ -107,11 +107,11 @@ void Personnage::move(double x, double y) {
 }
 
 Spell * Personnage::invoque(double x, double y, bool A, bool B) {
-#ifdef DEBUG_LOG
-	std::cout << "MS_SINCE_BEGIN - lastInvocationDate = " << MS_SINCE_BEGIN - lastInvocationDate << std::endl;
-#endif
-	if (MS_SINCE_BEGIN - lastInvocationDate > INVOCATION_RECOVERYTIME) {
-		lastInvocationDate = MS_SINCE_BEGIN;
+	auto now = std::chrono::system_clock::now();
+	int durationSinceInvoque = std::chrono::duration_cast<std::chrono::microseconds>(now - lastInvocationDate).count();
+
+	if (durationSinceInvoque > INVOCATION_RECOVERYTIME) {
+		lastInvocationDate = std::chrono::system_clock::now();
 		if (A && !B) return new Spell(SORT1, body);
 	}
 	return nullptr;

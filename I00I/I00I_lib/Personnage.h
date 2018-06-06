@@ -19,7 +19,7 @@ class Personnage : public PlayingElement {
 	// Liste des sort que ce personnage peut lancer
 	std::vector<SpellType> spellbook;
 
-	unsigned int lastInvocationDate;
+	std::chrono::time_point<std::chrono::system_clock> lastInvocationDate;
 
 	// Récupère les évènements du joystick pour bouger le personnage
 	//void move(sf::Event event);

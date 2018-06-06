@@ -23,5 +23,5 @@ enum GAME_STATE {
 
 #define INVOCATION_RECOVERYTIME (1000)
 
-#define MS_SINCE_BEGIN (std::chrono::system_clock::now().time_since_epoch() / std::chrono::milliseconds(1))
+#define MS_SINCE_BEGIN clock()
 
