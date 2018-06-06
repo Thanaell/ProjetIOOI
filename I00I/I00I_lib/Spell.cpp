@@ -34,7 +34,7 @@ Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double dir
 	body = Game::getWorld()->CreateBody(&bodyDef);
 
 	b2CircleShape circle;
-	circle.m_radius = 0.5f;
+	circle.m_radius = WORLD_HEIGHT/64;
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &circle;
 

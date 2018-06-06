@@ -251,7 +251,7 @@ void Game::createGame() {
 	bodyDef1.type = b2_staticBody;
 	b2Body* sol = world->CreateBody(&bodyDef1);
 	b2EdgeShape floor;
-	floor.Set(v1, v2);
+	floor.Set(v1, v3);
 	b2FixtureDef fixtureDef1;
 	fixtureDef1.shape = &floor;
 	sol->CreateFixture(&fixtureDef1);
