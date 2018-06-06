@@ -4,8 +4,9 @@
 #include "Game.h"
 
 // Constructeur du sort
-Spell::Spell(SpellType myType, b2Body *passedBody) {
+Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double directionY) {
 	b2BodyDef bodyDef;
+	int speedFactor;
 	bodyDef.type = b2_kinematicBody;
 	bodyDef.position.Set(passedBody->GetPosition().x, passedBody->GetPosition().y);
 	body = Game::getWorld()->CreateBody(&bodyDef);
@@ -22,9 +23,10 @@ Spell::Spell(SpellType myType, b2Body *passedBody) {
 	//comportements variables selon le type (notamment la vitesse)
 	switch (myType) {
 	case(SORT1):
-		body->SetLinearVelocity(b2Vec2(0, 2));
+		speedFactor = 1;
 		break;
 	}
+	body->SetLinearVelocity(b2Vec2(directionX*speedFactor, directionY*speedFactor));
 	
 }
 // Fonction appelée lors qu'un sort touche un personnage
