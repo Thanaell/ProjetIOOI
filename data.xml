@@ -4,7 +4,7 @@
         <Element label="background" path="..\\..\\Assets\\menu_background.jpg"/>
     </first>
     <last>
-      <Element label="wizard1" path="..\\..\\Assets\\wizard.png"/>
+      <Element label="wizard1" path="..\\..\\Assets\\wizard_1.png"/>
       <Element label="spell1" path="..\\..\\Assets\\sort_1.png"/>
       <Element label="spell2" path="..\\..\\Assets\\sort_2.png"/>
       <Element label="spell3" path="..\\..\\Assets\\sort_3.png"/>

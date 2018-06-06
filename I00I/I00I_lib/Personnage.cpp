@@ -75,11 +75,12 @@ void Personnage::loadSprites() {
 	switch (type)
 	{
 	case TYPE1:
-		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("wizard"))));
+		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("wizard1"))));
+		break;
 	default:
-		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("wizard"))));
+		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("wizard1"))));
+		break;
 	}
-	sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("background"))));
 }
 
 void Personnage::move(double x, double y) {

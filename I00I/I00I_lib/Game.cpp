@@ -214,6 +214,7 @@ void Game::displayPlaying() {
 	//	Gestion des collisions
 
 	//	Affichage
+	for (auto& p : players) p->draw(window);
 }
 
 void Game::displayUnLoading() {
