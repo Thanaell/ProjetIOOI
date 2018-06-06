@@ -66,13 +66,16 @@ void Personnage::move(double x, double y) {
 
 Spell * Personnage::invoque(double x, double y, bool A, bool B) {
 	auto now = std::chrono::system_clock::now();
-	int durationSinceInvoque = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastInvocationDate).count();
+	int durationSinceInvoque = std::chrono::duration_cast<std::chrono::seconds>(now - lastInvocationDate).count() * 1000 + std::chrono::duration_cast<std::chrono::milliseconds>(now - lastInvocationDate).count();
+
 #ifdef DEBUG_LOG
 	std::cout << "Duree d'attente : " << durationSinceInvoque << " ms." << std::endl;
+	std::cout << "Seconde : " << std::chrono::duration_cast<std::chrono::seconds>(now - lastInvocationDate).count();
+	std::cout << "Millisecondes : " << std::chrono::duration_cast<std::chrono::milliseconds>(now - lastInvocationDate).count() << std::endl << std::endl;
 #endif
 	if (durationSinceInvoque > INVOCATION_RECOVERYTIME) {
 		lastInvocationDate = std::chrono::system_clock::now();
-		if (A && !B) return new Spell(SORT1, body);
+		if (A && !B) return new Spell(SORT1, body, x, y);
 	}
 	return nullptr;
 }
