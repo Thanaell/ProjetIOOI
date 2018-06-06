@@ -245,6 +245,7 @@ void Game::createGame() {
 	b2Vec2 v2(0.0f, WORLD_HEIGHT);
 	b2Vec2 v3(WORLD_WIDTH, 0.0f);
 	b2Vec2 v4(WORLD_WIDTH, WORLD_HEIGHT);
+
 	//création des 4 murs	
 	//sol
 	b2BodyDef bodyDef1;
@@ -271,7 +272,7 @@ void Game::createGame() {
 	bodyDef3.type = b2_staticBody;
 	b2Body* droite = world->CreateBody(&bodyDef3);
 	b2EdgeShape rightwall;
-	ceiling.Set(v3, v4);
+	rightwall.Set(v3, v4);
 	b2FixtureDef fixtureDef3;
 	fixtureDef3.shape = &rightwall;
 	droite->CreateFixture(&fixtureDef3);
@@ -281,7 +282,7 @@ void Game::createGame() {
 	bodyDef4.type = b2_staticBody;
 	b2Body* gauche = world->CreateBody(&bodyDef4);
 	b2EdgeShape leftwall;
-	ceiling.Set(v1, v2);
+	leftwall.Set(v1, v2);
 	b2FixtureDef fixtureDef4;
 	fixtureDef4.shape = &leftwall;
 	gauche->CreateFixture(&fixtureDef4);
