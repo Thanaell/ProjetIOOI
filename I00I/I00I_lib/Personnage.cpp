@@ -12,10 +12,10 @@ Personnage::Personnage(CharacterType myType, int init) :
 	bodyDef.type = b2_dynamicBody;
 	switch (init) {
 	case 0:
-		bodyDef.position.Set(100, 10);
+		bodyDef.position.Set(WORLD_WIDTH,WORLD_HEIGHT/5);
 		break;
 	case 1:
-		bodyDef.position.Set(1180, 10);
+		bodyDef.position.Set(0,WORLD_HEIGHT/5);
 		break;
 	}
 	body = Game::getWorld()->CreateBody(&bodyDef);
