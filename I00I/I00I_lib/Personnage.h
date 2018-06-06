@@ -21,6 +21,8 @@ class Personnage : public PlayingElement {
 
 	unsigned int lastInvocationDate;
 
+	void loadSprites();
+
 	// Récupère les évènements du joystick pour bouger le personnage
 	void move(double x, double y);
 

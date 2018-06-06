@@ -42,6 +42,8 @@ Personnage::Personnage(CharacterType myType, int init) :
 		spellbook.push_back(SORT6);
 		break;
 	}
+
+	loadSprites();
 }
 
 void Personnage::receive(SpellType sort) {
@@ -67,6 +69,18 @@ Spell * Personnage::Action() {
 	return invoque(stickX, stickY, buttonA, buttonB);
 }
 
+
+void Personnage::loadSprites() {
+	auto& sin = Loader::Instance();
+	switch (type)
+	{
+	case TYPE1:
+		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("wizard"))));
+	default:
+		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("wizard"))));
+	}
+	sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("background"))));
+}
 
 void Personnage::move(double x, double y) {
 	body->SetLinearVelocity(b2Vec2(x, y));
