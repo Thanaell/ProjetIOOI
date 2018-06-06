@@ -25,6 +25,8 @@ Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double dir
 	case(SORT1):
 		speedFactor = 1;
 		break;
+	default:
+		speedFactor = 2;
 	}
 	body->SetLinearVelocity(b2Vec2(directionX*speedFactor, directionY*speedFactor));
 	
