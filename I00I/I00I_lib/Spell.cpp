@@ -50,10 +50,13 @@ Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double dir
 	}
 	//cas où le joystick n'est presque pas incliné
 	if (abs(directionX) < 5 && abs(directionY) < 5) {
-		body->SetLinearVelocity(b2Vec2(speed*50,0));
+		body->SetLinearVelocity(b2Vec2(speed*100,0));
 	}
 	else {
-		body->SetLinearVelocity(b2Vec2(directionX*speed, directionY*speed));
+		float racine = sqrt(directionX * directionX + directionY * directionY);
+		float xprime = 100 * directionX / racine;
+		float yprime = 100 * directionY / racine;
+		body->SetLinearVelocity(b2Vec2(xprime * speed, yprime * speed));
 	}
 	loadSprites();
 }

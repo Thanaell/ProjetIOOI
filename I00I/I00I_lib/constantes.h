@@ -17,7 +17,7 @@ enum GAME_STATE {
 };
 
 //	Constantes liées au jeu lui meme
-#define GRAVITY_WORLD (b2Vec2(0.f, 1.f))
+#define GRAVITY_WORLD (b2Vec2(0.f, 100.f))
 
 #define FRAME_DURATION (1000/60)
 
