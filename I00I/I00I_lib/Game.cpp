@@ -214,8 +214,14 @@ void Game::displayPlaying() {
 	//	Gestion des collisions
 
 	//	Affichage
-	for (auto& p : players) p->draw(window);
-	for (auto& s : activeSpells) s->draw(window);
+	for (auto& p : players) {
+		p->updateSprites();
+		p->draw(window);
+	}
+	for (auto& s : activeSpells) {
+		s->updateSprites();
+		s->draw(window);
+	}
 }
 
 void Game::displayUnLoading() {

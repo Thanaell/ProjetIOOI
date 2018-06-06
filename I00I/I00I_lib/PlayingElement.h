@@ -12,5 +12,7 @@ protected:
 public:
 	//getter du body (au moins pour les tests)
 	b2Body* getBody();
+
+	virtual void updateSprites() = 0;
 	
 };

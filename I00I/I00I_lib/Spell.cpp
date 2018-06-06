@@ -5,6 +5,9 @@
 
 void Spell::loadSprites() {
 	auto& sin = Loader::Instance();
+	sf::Vector2f scale(.2f, .2f);
+	auto b2position = body->GetPosition();
+	sf::Vector2f position(b2position.x - 36, W_HEIGHT - b2position.y - 72);
 	switch (type)
 	{
 	case SORT1:
@@ -20,6 +23,8 @@ void Spell::loadSprites() {
 		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("spell1"))));
 		break;
 	}
+	((sf::Sprite *)sprites[0].get())->setScale(scale);
+	((sf::Sprite *)sprites[0].get())->setPosition(position);
 }
 
 // Constructeur du sort
@@ -53,4 +58,10 @@ Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double dir
 // Fonction appelée lors qu'un sort touche un personnage
 void Spell::affect(Personnage &character) {
 	character.receive(type);
+}
+
+void Spell::updateSprites() {
+	auto b2position = body->GetPosition();
+	sf::Vector2f position(b2position.x - 36, W_HEIGHT - b2position.y - 36);
+	((sf::Sprite *)sprites[0].get())->setPosition(position);
 }
