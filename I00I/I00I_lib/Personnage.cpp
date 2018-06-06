@@ -32,6 +32,8 @@ Personnage::Personnage(CharacterType myType, int init) :
 	case TYPE1:
 		health = 100;
 		spellbook.push_back(SORT1);
+		spellbook.push_back(SORT1);
+		spellbook.push_back(SORT1);
 		break;
 	}
 }
@@ -69,7 +71,9 @@ Spell * Personnage::invoque(double x, double y, bool A, bool B) {
 
 	if (now - lastInvocationDate > INVOCATION_RECOVERYTIME) {
 		lastInvocationDate = clock();
-		if (A && !B) return new Spell(SORT1, body, x, y);
+		if (A && !B) return new Spell(spellbook[0], body, x, y);
+		if (!A && B) return new Spell(spellbook[1], body, x, y);
+		if (A && B) return new Spell(spellbook[2], body, x, y);
 	}
 	return nullptr;
 }
