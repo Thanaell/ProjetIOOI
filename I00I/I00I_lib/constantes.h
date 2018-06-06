@@ -13,7 +13,7 @@
 
 
 
-//	Path pour trouver les assests (a terme il n'y aura que le path pour trouver le xml)
+//	Path pour trouver les assests 
 #define PATH_XML "..\\..\\data.xml"
 
 //	Enumération des états du programme au cours de sa vie (voir le diagramme de machine a état)
