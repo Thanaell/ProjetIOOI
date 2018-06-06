@@ -3,21 +3,6 @@
 #include "Spell.h"
 #include "Game.h"
 
-//void Personnage::move(sf::Event event) {
-//	b2Vec2 velocity;
-//	//mouvement sur l'axe x (facteur à ajuster)
-//	if (event.joystickMove.axis == 0) {
-//		velocity.x = event.joystickMove.position;
-//		velocity.y = body->GetLinearVelocity().y;
-//	}
-//	//mouvement sur l'axe y (facteur à ajuster)
-//	if (event.joystickMove.axis == 1) {
-//		velocity.x = body->GetLinearVelocity().x;
-//		velocity.y = event.joystickMove.position;
-//	}
-//	body->SetLinearVelocity(velocity);
-//}
-
 
 // Constructeur selon un archétype (TODO: autres archétypes)
 Personnage::Personnage(CharacterType myType, int init) :
@@ -74,33 +59,6 @@ Spell * Personnage::Action() {
 	return invoque(stickX, stickY, buttonA, buttonB);
 }
 
-//Spell * Personnage::Action(sf::Event event) {
-//	switch (event.type)
-//	{
-//	case sf::Event::EventType::JoystickMoved:
-//		move(event);
-//		break;
-//	case sf::Event::EventType::JoystickButtonPressed:
-//		return invoque(event);
-//		break;
-//	default:
-//		break;
-//	}
-//	return nullptr;
-//}
-
-//pour le moment, renvoie toujours un spell de type 1
-//Spell * Personnage::invoque(sf::Event event) {
-//	Spell * mySpell;
-//	switch (event.joystickButton.button) {
-//	case(1):
-//		mySpell = new Spell(SORT1, body);
-//		break;
-//	default:
-//		mySpell = new Spell(SORT1, body);
-//	}
-//	return mySpell;
-//}
 
 void Personnage::move(double x, double y) {
 	body->SetLinearVelocity(b2Vec2(x, y));
@@ -108,8 +66,10 @@ void Personnage::move(double x, double y) {
 
 Spell * Personnage::invoque(double x, double y, bool A, bool B) {
 	auto now = std::chrono::system_clock::now();
-	int durationSinceInvoque = std::chrono::duration_cast<std::chrono::microseconds>(now - lastInvocationDate).count();
-
+	int durationSinceInvoque = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastInvocationDate).count();
+#ifdef DEBUG_LOG
+	std::cout << "Duree d'attente : " << durationSinceInvoque << " ms." << std::endl;
+#endif
 	if (durationSinceInvoque > INVOCATION_RECOVERYTIME) {
 		lastInvocationDate = std::chrono::system_clock::now();
 		if (A && !B) return new Spell(SORT1, body);

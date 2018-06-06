@@ -22,11 +22,9 @@ class Personnage : public PlayingElement {
 	std::chrono::time_point<std::chrono::system_clock> lastInvocationDate;
 
 	// Récupère les évènements du joystick pour bouger le personnage
-	//void move(sf::Event event);
 	void move(double x, double y);
 
 	// Récupère les évenements du joystick pour incanter (ou pas) un sort
-	//Spell* invoque(sf::Event);
 	Spell* invoque(double x, double y, bool A, bool B);
 public:
 	// Constructeur du personnage, appellé au lancement de la partie (emplacement déterminé par init)
@@ -39,6 +37,4 @@ public:
 	// Récupère les infos du Joystick et agit en fonction
 	Spell* Action();
 
-	// Action du personnage en fonction des input de la manette
-	//Spell* Action(sf::Event event);
 };

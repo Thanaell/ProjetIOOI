@@ -53,7 +53,7 @@ void Game::gameLoop() {
 		auto endFrame = std::chrono::system_clock::now();
 
 		//	on attend qu'il se soit bien passer le temps qu'il faut entre 2 frames
-		int durationFrame = std::chrono::duration_cast<std::chrono::microseconds>(endFrame - last).count();
+		int durationFrame = std::chrono::duration_cast<std::chrono::milliseconds>(endFrame - last).count();
 		int timeToWait = FRAME_DURATION - durationFrame > 0 ? FRAME_DURATION - durationFrame : 0;
 		Sleep(timeToWait);
 
