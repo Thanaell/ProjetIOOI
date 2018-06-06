@@ -1,8 +1,8 @@
 #pragma once
 
 //	Define portant sur la fenetre au lancement du jeu
-#define W_WIDTH (1000)
-#define W_HEIGHT (1000)
+#define W_WIDTH (1280)
+#define W_HEIGHT (720)
 #define W_TITLE "Hello World!"
 
 //	Path pour trouver les assests (a terme il n'y aura que le path pour trouver le xml)
