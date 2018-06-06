@@ -28,9 +28,8 @@ void Spell::loadSprites() {
 }
 
 // Constructeur du sort
-Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double directionY) {
+Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double directionY) : speed(20), type(myType) {
 	b2BodyDef bodyDef;
-	int speedFactor;
 	bodyDef.type = b2_kinematicBody;
 	bodyDef.position.Set(passedBody->GetPosition().x, passedBody->GetPosition().y);
 	body = Game::getWorld()->CreateBody(&bodyDef);
@@ -41,18 +40,21 @@ Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double dir
 	fixtureDef.shape = &circle;
 
 	body->CreateFixture(&fixtureDef);
-	type = myType;
 	body->SetUserData(this);
 
 	//comportements variables selon le type (notamment la vitesse)
-	switch (myType) {
+	switch (type) {
 	case(SORT1):
-		speedFactor = 1;
+		speed = 5;
 		break;
-	default:
-		speedFactor = 2;
 	}
-	body->SetLinearVelocity(b2Vec2(directionX*speedFactor, directionY*speedFactor));
+	//cas où le joystick n'est presque pas incliné
+	if (abs(directionX) < 5 && abs(directionY) < 5) {
+		body->SetLinearVelocity(b2Vec2(speed*50,0));
+	}
+	else {
+		body->SetLinearVelocity(b2Vec2(directionX*speed, directionY*speed));
+	}
 	loadSprites();
 }
 // Fonction appelée lors qu'un sort touche un personnage
