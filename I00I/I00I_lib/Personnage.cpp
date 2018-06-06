@@ -6,7 +6,7 @@
 
 // Constructeur selon un archétype (TODO: autres archétypes)
 Personnage::Personnage(CharacterType myType, int init) :
-	player(init), type(myType), lastInvocationDate(std::chrono::system_clock::now()) {
+	player(init), type(myType), lastInvocationDate(clock()) {
 	//initialisation du body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
@@ -55,7 +55,7 @@ Spell * Personnage::Action() {
 		sf::Joystick::getAxisPosition(player, sf::Joystick::Y) : 0;
 	bool buttonA = sf::Joystick::isButtonPressed(player, 0);
 	bool buttonB = sf::Joystick::isButtonPressed(player, 1);
-	if(!buttonA && !buttonB)
+	if (!buttonA && !buttonB) { move(stickX, stickY); return nullptr; }
 	return invoque(stickX, stickY, buttonA, buttonB);
 }
 
@@ -65,16 +65,10 @@ void Personnage::move(double x, double y) {
 }
 
 Spell * Personnage::invoque(double x, double y, bool A, bool B) {
-	auto now = std::chrono::system_clock::now();
-	int durationSinceInvoque = std::chrono::duration_cast<std::chrono::seconds>(now - lastInvocationDate).count() * 1000 + std::chrono::duration_cast<std::chrono::milliseconds>(now - lastInvocationDate).count();
+	unsigned int now = clock();
 
-#ifdef DEBUG_LOG
-	std::cout << "Duree d'attente : " << durationSinceInvoque << " ms." << std::endl;
-	std::cout << "Seconde : " << std::chrono::duration_cast<std::chrono::seconds>(now - lastInvocationDate).count();
-	std::cout << "Millisecondes : " << std::chrono::duration_cast<std::chrono::milliseconds>(now - lastInvocationDate).count() << std::endl << std::endl;
-#endif
-	if (durationSinceInvoque > INVOCATION_RECOVERYTIME) {
-		lastInvocationDate = std::chrono::system_clock::now();
+	if (now - lastInvocationDate > INVOCATION_RECOVERYTIME) {
+		lastInvocationDate = clock();
 		if (A && !B) return new Spell(SORT1, body, x, y);
 	}
 	return nullptr;
