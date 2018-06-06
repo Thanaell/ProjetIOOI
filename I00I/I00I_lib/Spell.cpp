@@ -3,6 +3,25 @@
 #include "Personnage.h"
 #include "Game.h"
 
+void Spell::loadSprites() {
+	auto& sin = Loader::Instance();
+	switch (type)
+	{
+	case SORT1:
+		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("spell1"))));
+		break;
+	case SORT2:
+		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("spell2"))));
+		break;
+	case SORT3:
+		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("spell3"))));
+		break;
+	default:
+		sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite(*sin.getTexture("spell1"))));
+		break;
+	}
+}
+
 // Constructeur du sort
 Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double directionY) {
 	b2BodyDef bodyDef;
@@ -29,7 +48,7 @@ Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double dir
 		speedFactor = 2;
 	}
 	body->SetLinearVelocity(b2Vec2(directionX*speedFactor, directionY*speedFactor));
-	
+	loadSprites();
 }
 // Fonction appelée lors qu'un sort touche un personnage
 void Spell::affect(Personnage &character) {

@@ -15,6 +15,9 @@ class Spell : public PlayingElement {
 	double range;
 	// Vitesse du sort
 	double speed;
+
+
+	void loadSprites();
 public:
 	// Constructeur du sort
 	Spell(SpellType myType, b2Body *body, double directionX, double directionY);

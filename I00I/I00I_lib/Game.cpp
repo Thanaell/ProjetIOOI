@@ -215,6 +215,7 @@ void Game::displayPlaying() {
 
 	//	Affichage
 	for (auto& p : players) p->draw(window);
+	for (auto& s : activeSpells) s->draw(window);
 }
 
 void Game::displayUnLoading() {
