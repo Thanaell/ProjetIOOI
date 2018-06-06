@@ -40,6 +40,11 @@ class Game {
 	std::vector<std::unique_ptr<Personnage>> players;
 	std::vector<std::unique_ptr<Spell>> activeSpells;
 
+	//valeurs pour le rafraichissement
+	float timeStep;
+	int velocityIterations;
+	int positionIterations;
+
 	static Game* _instance;
 public:
 	// Constructeur et seul méthode publique

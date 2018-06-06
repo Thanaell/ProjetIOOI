@@ -15,7 +15,7 @@ void Game::CreateGame() {
 
 Game::Game() :
 	window(sf::VideoMode(W_WIDTH, W_HEIGHT), W_TITLE),
-	gameState(LOADING)
+	gameState(LOADING), timeStep(1.0f / 60.0f), velocityIterations(6), positionIterations(2)
 {
 //	Création des éléments de base du jeu
 
@@ -188,7 +188,6 @@ void Game::displayMenu() {
 
 void Game::displayPlaying() {
 	// Gestion des évènements durant le jeu
-	//TODO: sur mouvement ou bouton du joystick, appeler la méthode du bon personnage
 	sf::Event event;
 	while (window.pollEvent(event)) {
 		switch (event.type)
@@ -210,6 +209,7 @@ void Game::displayPlaying() {
 		}
 	}
 	//	Calcul du monde
+    world->Step(timeStep, velocityIterations, positionIterations);
 
 	//	Gestion des collisions
 
