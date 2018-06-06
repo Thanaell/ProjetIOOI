@@ -6,7 +6,7 @@
 void Spell::loadSprites() {
 	auto& sin = Loader::Instance();
 	auto b2position = body->GetPosition();
-	sf::Vector2f position(b2position.x - 36, W_HEIGHT - b2position.y - 72);
+	sf::Vector2f position(b2position.x - 20, W_HEIGHT - b2position.y - 20);
 	switch (type)
 	{
 	case SORT1:
@@ -66,6 +66,6 @@ void Spell::affect(Personnage &character) {
 
 void Spell::updateSprites() {
 	auto b2position = body->GetPosition();
-	sf::Vector2f position(b2position.x * 8 - 36, W_HEIGHT - b2position.y * 8 - 36);
+	sf::Vector2f position(b2position.x * 8 - 20, W_HEIGHT - b2position.y * 8 - 20);
 	((sf::Sprite *)sprites[0].get())->setPosition(position);
 }
