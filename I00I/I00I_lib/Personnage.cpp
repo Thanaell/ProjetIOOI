@@ -20,7 +20,7 @@ Personnage::Personnage(CharacterType myType, int init) :
 	}
 	body = Game::getWorld()->CreateBody(&bodyDef);
 	b2PolygonShape shape;
-	shape.SetAsBox(WORLD_WIDTH/8,WORLD_HEIGHT/5);
+	shape.SetAsBox(WORLD_WIDTH/32,WORLD_HEIGHT/18);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &shape;
 	fixtureDef.density = 1.0f;
