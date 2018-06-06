@@ -5,6 +5,10 @@
 #define W_HEIGHT (720)
 #define W_TITLE "Hello World!"
 
+//Define portant sur la taille du monde box2D
+#define WORLD_WIDTH (160)
+#define WORLD_HEIGHT (90)
+
 //	Path pour trouver les assests (a terme il n'y aura que le path pour trouver le xml)
 #define PATH_XML "..\\..\\data.xml"
 

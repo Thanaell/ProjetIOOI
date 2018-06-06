@@ -241,10 +241,10 @@ void Game::displayUnLoading() {
 
 void Game::createGame() {
 	//Quatre coins de la zone (valeurs à ajuster)
-	b2Vec2 v1(0.0f, 0.0f);
-	b2Vec2 v2(0.0f, 720.0f);
-	b2Vec2 v3(1280.0f, 0.0f);
-	b2Vec2 v4(128.0f, 720.0f);
+	b2Vec2 v1(0.0f , 0.0f);
+	b2Vec2 v2(0.0f, WORLD_HEIGHT);
+	b2Vec2 v3(WORLD_WIDTH, 0.0f);
+	b2Vec2 v4(WORLD_WIDTH, WORLD_HEIGHT);
 	//création des 4 murs	
 	//sol
 	b2BodyDef bodyDef1;
