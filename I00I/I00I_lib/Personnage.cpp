@@ -73,6 +73,9 @@ void Personnage::updateSprites() {
 	auto b2position = body->GetPosition();
 	sf::Vector2f position(b2position.x - 72, W_HEIGHT - b2position.y - 144);
 	((sf::Sprite *)sprites[0].get())->setPosition(position);
+#ifdef DEBUG_LOG
+	std::cout << "Position du joueur " << player << " (" << position.x << ", " << position.y << ")" << std::endl;
+#endif
 }
 
 
