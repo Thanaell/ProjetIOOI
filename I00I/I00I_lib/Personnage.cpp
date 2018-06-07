@@ -103,10 +103,10 @@ void Personnage::loadSprites() {
 }
 
 void Personnage::move(double x, double y) {
-	if (x >= 0) {
+	if (x > 0) {
 		isFacingRight = true;
 	}
-	else {
+	else if (x <0){
 		isFacingRight = false;
 	}
 	body->SetLinearVelocity(b2Vec2(PLAYER_VELOCITY * x, PLAYER_VELOCITY * y));
