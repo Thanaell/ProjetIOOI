@@ -15,7 +15,7 @@ class Personnage : public PlayingElement {
 	// Numéro du joueur
 	int player;
 	// Point de vie
-	int health;
+	float health;
 	// Liste des sort que ce personnage peut lancer
 	std::vector<SpellType> spellbook;
 

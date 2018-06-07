@@ -61,6 +61,7 @@ void Personnage::receive(SpellType sort) {
 		health -= 10;
 		break;
 	}
+	((sf::RectangleShape*)sprites[2].get())->setScale(sf::Vector2f(health / 100.f > 0.f ? health / 100.f : 0, 1.f));
 	std::cout << "passage dans receive, health=" << health << std::endl;
 }
 
@@ -121,8 +122,16 @@ void Personnage::loadSprites() {
 	movingSprite->setOrigin(sf::Vector2f(200.f, 200.f));
 	movingSprite->setScale(SPRITE_SCALE);
 	if(!isFacingRight) movingSprite->scale(sf::Vector2f(-1.f, 1.f));
-
 	sprites.push_back(std::unique_ptr<sf::Sprite>(movingSprite));
+
+	//	Sprite marquant que le personnage est affecté par un sort
+	sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite()));
+
+	sf::RectangleShape* barreVie = new sf::RectangleShape(HELTH_SIZE);
+	barreVie->setOrigin(sf::Vector2f(player == 0 ? 0.f: HELTH_W_SIZE, 0.f));
+	barreVie->setPosition(sf::Vector2f(player == 0 ? 50.f : W_WIDTH - 50.f, 50.f));
+	barreVie->setFillColor(sf::Color::Red);
+	sprites.push_back(std::unique_ptr<sf::RectangleShape>(barreVie));
 }
 
 void Personnage::move(float x, float y) {

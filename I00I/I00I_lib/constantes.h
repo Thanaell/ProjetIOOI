@@ -13,6 +13,9 @@
 #define STICK_SENSIBILITY (20.f)
 #define PLAYER_VELOCITY (2.5f)
 
+#define HELTH_W_SIZE (300.f)
+#define HELTH_SIZE (sf::Vector2f(HELTH_W_SIZE, 40.f))
+
 
 //	Path pour trouver les assests 
 #define PATH_XML "..\\..\\data.xml"
