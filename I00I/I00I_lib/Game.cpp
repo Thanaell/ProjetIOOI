@@ -215,12 +215,13 @@ void Game::displayPlaying() {
     world->Step(timeStep, velocityIterations, positionIterations);
 
 	//	Gestion des collisions
-	//for (auto it = activeSpells.begin(); it != activeSpells.end();)
-	//{
-	//	if (it->get()->getIsContacting() == true) {
-	//		it = activeSpells.erase(it);
-	//	}
-	//}
+	for (auto it = activeSpells.begin(); it != activeSpells.end();)
+	{
+		if (it->get()->getIsContacting() == true) {
+			it = activeSpells.erase(it);
+		}
+		else ++it;
+	}
 	//	Affichage
 	for (auto& p : players) {
 		if (p->updateSprites())

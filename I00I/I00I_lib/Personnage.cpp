@@ -74,6 +74,17 @@ Spell * Personnage::Action() {
 		-sf::Joystick::getAxisPosition(player, sf::Joystick::Y) : 0;
 	bool buttonA = sf::Joystick::isButtonPressed(player, 0);
 	bool buttonB = sf::Joystick::isButtonPressed(player, 1);
+
+	//	S'il n'y a pas de manette connectée
+	if (!sf::Joystick::isConnected(0) && player == 0) {
+		stickX = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ? -50 :
+				 sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ? 50 : 0;
+		stickY = sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ? 50 :
+			     sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ? -50 : 0;
+		buttonA = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
+		buttonB = sf::Keyboard::isKeyPressed(sf::Keyboard::Z);
+	}
+
 	if (!buttonA && !buttonB) { move(stickX, stickY); return nullptr; }
 	return invoque(stickX, stickY, buttonA, buttonB);
 }
