@@ -25,10 +25,10 @@ class Personnage : public PlayingElement {
 	void loadSprites();
 
 	// Récupère les évènements du joystick pour bouger le personnage
-	void move(double x, double y);
+	void move(float x, float y);
 
 	// Récupère les évenements du joystick pour incanter (ou pas) un sort
-	Spell* invoque(double x, double y, bool A, bool B);
+	Spell* invoque(float x, float y, bool A, bool B);
 public:
 	// Constructeur du personnage, appellé au lancement de la partie (emplacement déterminé par init)
 	Personnage(CharacterType type, int init);

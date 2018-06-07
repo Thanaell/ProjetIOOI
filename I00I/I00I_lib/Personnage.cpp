@@ -56,6 +56,7 @@ Personnage::Personnage(CharacterType myType, int init) :
 
 void Personnage::receive(SpellType sort) {
 	switch (sort) {
+	case SORT1:
 	default:
 		health -= 10;
 		break;
@@ -68,19 +69,19 @@ int Personnage::getHealth() {
 }
 
 Spell * Personnage::Action() {
-	double stickX = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::X)) > STICK_SENSIBILITY ?
+	float stickX = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::X)) > STICK_SENSIBILITY ?
 		sf::Joystick::getAxisPosition(player, sf::Joystick::X) : 0;
-	double stickY = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::Y)) > STICK_SENSIBILITY ?
+	float stickY = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::Y)) > STICK_SENSIBILITY ?
 		-sf::Joystick::getAxisPosition(player, sf::Joystick::Y) : 0;
 	bool buttonA = sf::Joystick::isButtonPressed(player, 0);
 	bool buttonB = sf::Joystick::isButtonPressed(player, 1);
 
 	//	S'il n'y a pas de manette connectée
 	if (!sf::Joystick::isConnected(0) && player == 0) {
-		stickX = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ? -50 :
-				 sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ? 50 : 0;
-		stickY = sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ? 50 :
-			     sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ? -50 : 0;
+		stickX = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ? -50.f :
+				 sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ? 50.f : 0.f;
+		stickY = sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ? 50.f :
+			     sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ? -50.f : 0.f;
 		buttonA = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
 		buttonB = sf::Keyboard::isKeyPressed(sf::Keyboard::Z);
 	}
@@ -124,7 +125,7 @@ void Personnage::loadSprites() {
 	sprites.push_back(std::unique_ptr<sf::Sprite>(movingSprite));
 }
 
-void Personnage::move(double x, double y) {
+void Personnage::move(float x, float y) {
 	if (x > 0) {
 		isFacingRight = true;
 	}
@@ -134,7 +135,7 @@ void Personnage::move(double x, double y) {
 	body->SetLinearVelocity(b2Vec2(PLAYER_VELOCITY * x, PLAYER_VELOCITY * y));
 }
 
-Spell * Personnage::invoque(double x, double y, bool A, bool B) {
+Spell * Personnage::invoque(float x, float y, bool A, bool B) {
 	unsigned int now = clock();
 
 	if (now - lastInvocationDate > INVOCATION_RECOVERYTIME) {

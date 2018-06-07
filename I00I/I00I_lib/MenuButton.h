@@ -15,5 +15,5 @@ public:
 	MenuButton(sf::Vector2f relativePosition, sf::Vector2f relativeSize, sf::String label = "");
 	void select();
 	void unselect();
-	bool isIn(sf::Vector2f position, sf::Vector2u windowSize);
+	bool isIn(sf::Vector2u position, sf::Vector2u windowSize);
 };

@@ -16,15 +16,15 @@ class Spell : public PlayingElement {
 	// Type du sort
 	SpellType type;
 	// Portée du sort
-	double range;
+	float range;
 	// Vitesse du sort
-	double speed;
+	float speed;
 
 
 	void loadSprites();
 public:
 	// Constructeur du sort
-	Spell(SpellType myType, b2Body *body, double directionX, double directionY, bool isCharacterFacingRight, int caster);
+	Spell(SpellType myType, b2Body *body, float directionX, float directionY, bool isCharacterFacingRight, int caster);
 	// Fonction appelé lors qu'un sort touche un personnage
 	void affect(Personnage &character);
 

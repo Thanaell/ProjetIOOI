@@ -46,8 +46,8 @@ void Spell::loadSprites() {
 }
 
 // Constructeur du sort
-Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double directionY, bool isCharacterFacingRight, int caster) : speed(20),
-type(myType), isContacting(false),playerWhoCast(caster) {
+Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float directionY, bool isCharacterFacingRight, int caster) :
+	speed(20), type(myType), isContacting(false), playerWhoCast(caster) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
 	//position du sort varie selon le sens du personnage

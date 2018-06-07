@@ -53,8 +53,8 @@ void Game::gameLoop() {
 		auto endFrame = std::chrono::system_clock::now();
 
 		//	on attend qu'il se soit bien passer le temps qu'il faut entre 2 frames
-		int durationFrame = std::chrono::duration_cast<std::chrono::milliseconds>(endFrame - last).count();
-		int timeToWait = FRAME_DURATION - durationFrame > 0 ? FRAME_DURATION - durationFrame : 0;
+		_int64 durationFrame = std::chrono::duration_cast<std::chrono::milliseconds>(endFrame - last).count();
+		DWORD timeToWait = FRAME_DURATION - durationFrame > 0 ? FRAME_DURATION - durationFrame : 0;
 		Sleep(timeToWait);
 
 		last = std::chrono::system_clock::now();
@@ -156,7 +156,7 @@ void Game::displayMenu() {
 		switch (event.type)
 		{
 		case sf::Event::MouseButtonPressed:
-			if (menuElements[0]->isIn(sf::Vector2f(event.mouseButton.x, event.mouseButton.y), window.getSize())) {
+			if (menuElements[0]->isIn(sf::Vector2u(event.mouseButton.x, event.mouseButton.y), window.getSize())) {
 				menuElements.clear();
 				//	Ici il faut constuire le monde avant de jouer
 				createGame();

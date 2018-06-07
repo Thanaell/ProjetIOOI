@@ -41,7 +41,7 @@ void MenuButton::unselect() {
 	((sf::RectangleShape*)sprites[0].get())->setFillColor(sf::Color::Transparent);
 }
 
-bool MenuButton::isIn(sf::Vector2f position, sf::Vector2u windowSize) {
+bool MenuButton::isIn(sf::Vector2u position, sf::Vector2u windowSize) {
 	sf::Vector2f absoluteButtonSize(windowSize.x * relativeSize.x, windowSize.y * relativeSize.y);
 	sf::Vector2f absoluteButtonPosition(windowSize.x * relativePosition.x - absoluteButtonSize.x / 2.f,
 		windowSize.y * relativePosition.y - absoluteButtonSize.y / 2.f);
