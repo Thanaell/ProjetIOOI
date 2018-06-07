@@ -219,14 +219,14 @@ void Game::displayPlaying() {
 			p->draw(window);
 	}
 
-	for (std::vector<std::unique_ptr<Spell>>::iterator it = activeSpells.begin(); it != activeSpells.end();)
+	for (auto it = activeSpells.begin(); it != activeSpells.end();)
 	{
 		if (it->get()->updateSprites()) {
 			it->get()->draw(window);
 			++it;
 		}
 		else {
-			activeSpells.erase(it);
+			it = activeSpells.erase(it);
 		}
 	}
 }
