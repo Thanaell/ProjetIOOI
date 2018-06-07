@@ -14,7 +14,7 @@ protected:
 	//Booléen indiquant le sens du personnage
 	bool isFacingRight;
 
-	bool updateMovingSprite();
+	bool updateMovingSprite(sf::Sprite* sprite);
 
 public:
 	//getter du body (au moins pour les tests)

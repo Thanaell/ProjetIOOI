@@ -74,5 +74,5 @@ void Spell::affect(Personnage &character) {
 }
 
 bool Spell::updateSprites() {
-	return updateMovingSprite();
+	return updateMovingSprite((sf::Sprite*)sprites[0].get());
 }

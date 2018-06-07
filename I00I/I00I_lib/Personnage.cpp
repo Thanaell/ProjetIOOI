@@ -78,7 +78,7 @@ Spell * Personnage::Action() {
 }
 
 bool Personnage::updateSprites() {
-	return updateMovingSprite();
+	return updateMovingSprite((sf::Sprite*)sprites[0].get());
 }
 
 
