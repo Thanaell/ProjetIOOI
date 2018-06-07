@@ -46,17 +46,18 @@ void Spell::loadSprites() {
 }
 
 // Constructeur du sort
-Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double directionY, bool isCharacterFacingRight, int caster) : speed(20), type(myType), isContacting(false),playerWhoCast(caster) {
+Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double directionY, bool isCharacterFacingRight, int caster) : speed(20),
+type(myType), isContacting(false),playerWhoCast(caster) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
 	//position du sort varie selon le sens du personnage
 	//si on ne bouge pas le joystick
 	if (directionX == 0 && directionY == 0) {
 		if (isCharacterFacingRight) {
-			bodyDef.position.Set(passedBody->GetPosition().x + 50, passedBody->GetPosition().y);
+			bodyDef.position.Set(passedBody->GetPosition().x + 5, passedBody->GetPosition().y);
 		}
 		else {
-			bodyDef.position.Set(passedBody->GetPosition().x - 50, passedBody->GetPosition().y);
+			bodyDef.position.Set(passedBody->GetPosition().x - 5, passedBody->GetPosition().y);
 		}
 	}
 	//si on indique une direction
