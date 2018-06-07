@@ -2,10 +2,8 @@
 #include "stdafx.h"
 #include "Game.h"
 #include <Windows.h>
-#include "ContactListener.h"
+
 Game* Game::_instance = NULL;
-b2World* Game::world = new b2World(GRAVITY_WORLD);
-MyContactListener myContactListenerInstance;
 
 
 void Game::CreateGame() {
@@ -256,6 +254,8 @@ void Game::displayUnLoading() {
 }
 
 void Game::createGame() {
+	world.reset(new b2World(GRAVITY_WORLD));
+
 	//contact listener
 	world->SetContactListener(&myContactListenerInstance);
 	//Quatre coins de la zone (valeurs à ajuster)
@@ -313,8 +313,7 @@ void Game::createGame() {
 void Game::gameOver() {
 	players.clear();
 	activeSpells.clear();
-	delete world;
-	world = nullptr;
+	world.reset(nullptr);
 	gameState = MENU;
 }
 
@@ -348,6 +347,6 @@ DWORD Game::loading(LPVOID params) {
 	return 0;
 }
  b2World * Game::getWorld() {
-	return world;
+	return _instance->world.get();
 }
 

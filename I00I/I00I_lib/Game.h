@@ -6,8 +6,7 @@
 #include "constantes.h"
 #include "Personnage.h"
 #include "Spell.h"
-
-
+#include "ContactListener.h"
 
 
 /*
@@ -30,8 +29,10 @@ class Game {
 
 	
 	//	Pointeur sur le monde qui sera généré dans le jeu
-	// TODO: Réparer le hack pour remettre un unique_ptr
-	static b2World * world;
+	std::unique_ptr<b2World> world;
+
+	MyContactListener myContactListenerInstance;
+
 	///	Pour le menu
 	// Arrière plan a proprement parler
 	std::unique_ptr<sf::Sprite> background;
