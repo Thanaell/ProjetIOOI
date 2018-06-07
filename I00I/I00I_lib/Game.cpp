@@ -204,6 +204,7 @@ void Game::displayPlaying() {
 		if (newSpell != nullptr) {
 #ifdef DEBUG_LOG
 			std::cout << "Ajout d'un sort dans le monde : " << MS_SINCE_BEGIN << "ms" << std::endl;
+			std::cout << "Il y a au total " << activeSpells.size() << " sorts dans le monde" << std::endl;
 #endif
 			activeSpells.push_back(std::unique_ptr<Spell>(newSpell));
 		}

@@ -19,7 +19,6 @@ class Personnage : public PlayingElement {
 	// Liste des sort que ce personnage peut lancer
 	std::vector<SpellType> spellbook;
 
-	bool isFacingRight;
 
 	unsigned int lastInvocationDate;
 
