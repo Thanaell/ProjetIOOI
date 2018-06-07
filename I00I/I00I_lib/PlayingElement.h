@@ -2,6 +2,7 @@
 #include "Element.h"
 #include "stdafx.h"
 #include "constantes.h"
+#include <string>
 
 // Représente un élement du jeu en tant que tel (donc sorcier ou sortilège)
 class PlayingElement : public Element {
@@ -21,7 +22,7 @@ public:
 	~PlayingElement();
 	//getter du body (au moins pour les tests)
 	b2Body* getBody();
-
+	virtual std::string getType()=0;
 	virtual bool updateSprites() = 0;
 	
 };

@@ -56,10 +56,11 @@ Personnage::Personnage(CharacterType myType, int init) :
 
 void Personnage::receive(SpellType sort) {
 	switch (sort) {
-	case TYPE1:
+	default:
 		health -= 10;
 		break;
 	}
+	std::cout << "passage dans receive, health=" << health << std::endl;
 }
 
 int Personnage::getHealth() {
@@ -79,6 +80,16 @@ Spell * Personnage::Action() {
 
 bool Personnage::updateSprites() {
 	return updateMovingSprite((sf::Sprite*)sprites[0].get());
+}
+
+std::string Personnage::getType()
+{
+	return "personnage";
+}
+
+int Personnage::getNumber()
+{
+	return player;
 }
 
 
@@ -117,9 +128,9 @@ Spell * Personnage::invoque(double x, double y, bool A, bool B) {
 
 	if (now - lastInvocationDate > INVOCATION_RECOVERYTIME) {
 		lastInvocationDate = clock();
-		if (A && !B) return new Spell(spellbook[0], body, x, y, isFacingRight);
-		if (!A && B) return new Spell(spellbook[1], body, x, y, isFacingRight);
-		if (A && B) return new Spell(spellbook[2], body, x, y, isFacingRight);
+		if (A && !B) return new Spell(spellbook[0], body, x, y, isFacingRight,player);
+		if (!A && B) return new Spell(spellbook[1], body, x, y, isFacingRight,player);
+		if (A && B) return new Spell(spellbook[2], body, x, y, isFacingRight,player);
 	}
 	return nullptr;
 }

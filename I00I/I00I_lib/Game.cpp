@@ -2,9 +2,11 @@
 #include "stdafx.h"
 #include "Game.h"
 #include <Windows.h>
-
+#include "ContactListener.h"
 Game* Game::_instance = NULL;
 b2World* Game::world = new b2World(GRAVITY_WORLD);
+MyContactListener myContactListenerInstance;
+
 
 void Game::CreateGame() {
 	if (_instance == NULL) {
@@ -202,10 +204,10 @@ void Game::displayPlaying() {
 	for (auto& player : players) {
 		Spell* newSpell = player->Action();
 		if (newSpell != nullptr) {
-#ifdef DEBUG_LOG
-			std::cout << "Ajout d'un sort dans le monde : " << MS_SINCE_BEGIN << "ms" << std::endl;
-			std::cout << "Il y a au total " << activeSpells.size() << " sorts dans le monde" << std::endl;
-#endif
+//#ifdef DEBUG_LOG
+//			std::cout << "Ajout d'un sort dans le monde : " << MS_SINCE_BEGIN << "ms" << std::endl;
+//			std::cout << "Il y a au total " << activeSpells.size() << " sorts dans le monde" << std::endl;
+//#endif
 			activeSpells.push_back(std::unique_ptr<Spell>(newSpell));
 		}
 	}
@@ -213,7 +215,12 @@ void Game::displayPlaying() {
     world->Step(timeStep, velocityIterations, positionIterations);
 
 	//	Gestion des collisions
-
+	for (auto it = activeSpells.begin(); it != activeSpells.end();)
+	{
+		if (it->get()->getIsContacting() == true) {
+			it = activeSpells.erase(it);
+		}
+	}
 	//	Affichage
 	for (auto& p : players) {
 		if (p->updateSprites())
@@ -248,6 +255,8 @@ void Game::displayUnLoading() {
 }
 
 void Game::createGame() {
+	//contact listener
+	world->SetContactListener(&myContactListenerInstance);
 	//Quatre coins de la zone (valeurs à ajuster)
 	b2Vec2 v1(0.0f , 0.0f);
 	b2Vec2 v2(0.0f, WORLD_HEIGHT);

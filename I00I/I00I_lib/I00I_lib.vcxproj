@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="CharacterType.h" />
     <ClInclude Include="constantes.h" />
+    <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Element.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="MenuButton.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Element.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="MenuButton.cpp" />

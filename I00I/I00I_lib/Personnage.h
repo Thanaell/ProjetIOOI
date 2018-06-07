@@ -41,4 +41,8 @@ public:
 	Spell* Action();
 
 	bool updateSprites() override;
+
+	//retourne un type (pour les collisions)
+	std::string getType() override;
+	int getNumber();
 };
