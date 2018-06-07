@@ -130,7 +130,7 @@ void Personnage::loadSprites() {
 	sf::RectangleShape* barreVie = new sf::RectangleShape(HELTH_SIZE);
 	barreVie->setOrigin(sf::Vector2f(player == 0 ? 0.f: HELTH_W_SIZE, 0.f));
 	barreVie->setPosition(sf::Vector2f(player == 0 ? 50.f : W_WIDTH - 50.f, 50.f));
-	barreVie->setFillColor(sf::Color::Red);
+	barreVie->setFillColor(sf::Color::Color(0xe040109a));
 	sprites.push_back(std::unique_ptr<sf::RectangleShape>(barreVie));
 }
 
