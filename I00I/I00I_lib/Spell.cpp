@@ -33,11 +33,21 @@ Spell::Spell(SpellType myType, b2Body *passedBody, double directionX, double dir
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
 	//position du sort varie selon le sens du personnage
-	if (isCharacterFacingRight) {
-		bodyDef.position.Set(passedBody->GetPosition().x + 10, passedBody->GetPosition().y);
+	//si on ne bouge pas le joystick
+	if (directionX == 0 && directionY == 0) {
+		if (isCharacterFacingRight) {
+			bodyDef.position.Set(passedBody->GetPosition().x + 5, passedBody->GetPosition().y);
+		}
+		else {
+			bodyDef.position.Set(passedBody->GetPosition().x - 5, passedBody->GetPosition().y);
+		}
 	}
+	//si on indique une direction
 	else {
-		bodyDef.position.Set(passedBody->GetPosition().x - 10, passedBody->GetPosition().y);
+		float racine = sqrt(directionX * directionX + directionY * directionY);
+		float xprime = 100 * directionX / racine;
+		float yprime = 100 * directionY / racine;
+		bodyDef.position.Set(passedBody->GetPosition().x + xprime/20, passedBody->GetPosition().y + yprime/20);
 	}
 
 	body = Game::getWorld()->CreateBody(&bodyDef);
