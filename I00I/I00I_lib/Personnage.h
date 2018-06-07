@@ -41,6 +41,5 @@ public:
 	// Récupère les infos du Joystick et agit en fonction
 	Spell* Action();
 
-
 	bool updateSprites() override;
 };

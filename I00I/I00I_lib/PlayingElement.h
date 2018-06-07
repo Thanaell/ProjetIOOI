@@ -17,6 +17,8 @@ protected:
 	bool updateMovingSprite(sf::Sprite* sprite);
 
 public:
+
+	~PlayingElement();
 	//getter du body (au moins pour les tests)
 	b2Body* getBody();
 

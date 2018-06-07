@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "PlayingElement.h"
-
+#include "Game.h"
 
 bool PlayingElement::updateMovingSprite(sf::Sprite* sprite) {
 	auto b2position = body->GetPosition();
@@ -19,3 +19,8 @@ bool PlayingElement::updateMovingSprite(sf::Sprite* sprite) {
 b2Body* PlayingElement::getBody() {
 	return body;
 }
+
+PlayingElement::~PlayingElement() {
+	Game::getWorld()->DestroyBody(body);
+}
+

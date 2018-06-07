@@ -218,11 +218,15 @@ void Game::displayPlaying() {
 		if (p->updateSprites())
 			p->draw(window);
 	}
-	for (auto& s : activeSpells) {
-		if (s->updateSprites())
-			s->draw(window);
+
+	for (std::vector<std::unique_ptr<Spell>>::iterator it = activeSpells.begin(); it != activeSpells.end();)
+	{
+		if (it->get()->updateSprites()) {
+			it->get()->draw(window);
+			++it;
+		}
 		else {
-			// remove element from world and vector
+			activeSpells.erase(it);
 		}
 	}
 }
@@ -296,6 +300,11 @@ void Game::createGame() {
 }
 
 void Game::gameOver() {
+	players.clear();
+	activeSpells.clear();
+	delete world;
+	world = nullptr;
+	gameState = MENU;
 }
 
 DWORD Game::loading(LPVOID params) {
