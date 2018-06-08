@@ -10,10 +10,14 @@ class Spell;
 class Personnage : public PlayingElement {
 	// Nom du personnage
 	std::string name;
+	//Vitesse
+	float vitesse;
 	//Archétype
 	CharacterType type;
 	// Numéro du joueur
 	int player;
+	//Vie maximale
+	float maxHealth;
 	// Point de vie
 	float health;
 	// Liste des sort que ce personnage peut lancer
@@ -31,7 +35,7 @@ public:
 	Personnage(CharacterType type, int init);
 	// Méthode appellé lorsqu'un sort touche un personnage et qui met a jour les points de vie (et potentiellement la position) du personnage
 	void receive(SpellType sort);
-	// Getter de health -- Utile ?
+	// Getter de health 
 	int getHealth();
 	// Récupère les infos du Joystick et agit en fonction
 	Spell* Action();

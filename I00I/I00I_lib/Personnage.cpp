@@ -36,19 +36,21 @@ Personnage::Personnage(CharacterType myType, int init) :
 	//attributs variables selon le type passé en argument
 	switch (myType) {
 	case TYPE1:
-		health = 100;
+		vitesse = PLAYER_VELOCITY;
+		maxHealth = 100;
 		spellbook.push_back(SORT1);
 		spellbook.push_back(SORT2);
 		spellbook.push_back(SORT3);
 		break;
 	case TYPE2:
-		health = 100;
+		vitesse = 0.8*PLAYER_VELOCITY;
+		maxHealth = 130;
+		spellbook.push_back(SORT1);
 		spellbook.push_back(SORT4);
 		spellbook.push_back(SORT5);
-		spellbook.push_back(SORT6);
 		break;
 	}
-
+	health = maxHealth;
 	loadSprites();
 }
 
@@ -59,7 +61,7 @@ void Personnage::receive(SpellType sort) {
 		health -= 10;
 		break;
 	}
-	((sf::RectangleShape*)sprites[2].get())->setScale(sf::Vector2f(health / 100.f > 0.f ? health / 100.f : 0, 1.f));
+	((sf::RectangleShape*)sprites[2].get())->setScale(sf::Vector2f(health / maxHealth > 0.f ? health / maxHealth : 0, 1.f));
 }
 
 int Personnage::getHealth() {

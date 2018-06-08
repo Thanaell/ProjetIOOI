@@ -83,9 +83,15 @@ Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float direc
 
 	//comportements variables selon le type (notamment la vitesse)
 	switch (type) {
-	case(SORT1):
+	case SORT1:
 		speed = 5;
 		break;
+	case SORT2:
+	case SORT4:
+		speed = 10;
+		break;
+	default:
+		speed = 20;
 	}
 	//cas où le joystick n'est presque pas incliné
 	if (abs(directionX) < 5 && abs(directionY) < 5) {
