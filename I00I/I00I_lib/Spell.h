@@ -27,13 +27,14 @@ public:
 	Spell(SpellType myType, b2Body *body, float directionX, float directionY, bool isCharacterFacingRight, int caster);
 	// Fonction appelé lors qu'un sort touche un personnage
 	void affect(Personnage &character);
-
 	// retourne false si le sprite n'est plus dans la zone de jeu
 	bool updateSprites() override;
 	//retourne un type (pour les collisions)
 	std::string getType() override;
 	//gestion de la collision avec un personnage
 	void startContact(Personnage *persoToHit);
+	//getter de IsContacting (true si le sort a touché un personnage autre que son anceur)
 	bool getIsContacting();
+	//getter de playerWhoCast (entier du perso qui a lancé le sort)
 	int getCaster();
 };

@@ -4,17 +4,20 @@
 #include "Game.h"
 
 
+//méthode appelée en cas de contact avec un personnage
 void Spell::startContact(Personnage * persoToHit) {
 	std::cout << "appel de startContact" << std::endl;
 	affect(*persoToHit);
 	isContacting = true;
 }
 
+//getter de isContacting
 bool Spell::getIsContacting()
 {
 	return isContacting;
 }
 
+//getter de playerWhoCast
 int Spell::getCaster()
 {
 	return playerWhoCast;
@@ -99,7 +102,6 @@ Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float direc
 }
 // Fonction appelée lors qu'un sort touche un personnage
 void Spell::affect(Personnage &character) {
-	std::cout << "passage dans affect"<<std::endl;
 	character.receive(type);
 }
 
@@ -107,6 +109,7 @@ bool Spell::updateSprites() {
 	return updateMovingSprite((sf::Sprite*)sprites[0].get());
 }
 
+//indique qu'un spell est de type "spell" (pour la gestion des collisions)
 std::string Spell::getType()
 {
 	return "spell";

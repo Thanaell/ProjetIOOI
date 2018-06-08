@@ -18,15 +18,12 @@ class Personnage : public PlayingElement {
 	float health;
 	// Liste des sort que ce personnage peut lancer
 	std::vector<SpellType> spellbook;
-
-
+	//entier permettant de savoir le moment où a été lancé le dernier sort
 	unsigned int lastInvocationDate;
-
+	//chargement des sprites associées
 	void loadSprites();
-
 	// Récupère les évènements du joystick pour bouger le personnage
 	void move(float x, float y);
-
 	// Récupère les évenements du joystick pour incanter (ou pas) un sort
 	Spell* invoque(float x, float y, bool A, bool B);
 public:
@@ -36,13 +33,12 @@ public:
 	void receive(SpellType sort);
 	// Getter de health -- Utile ?
 	int getHealth();
-
 	// Récupère les infos du Joystick et agit en fonction
 	Spell* Action();
-
+	//mise à jour des sprites
 	bool updateSprites() override;
-
 	//retourne un type (pour les collisions)
 	std::string getType() override;
+	//getter de player (numéro du joueur)
 	int getNumber();
 };

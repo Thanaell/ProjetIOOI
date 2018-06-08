@@ -246,6 +246,8 @@ void Game::displayPlaying() {
 			it = activeSpells.erase(it);
 		}
 	}
+
+	
 }
 
 void Game::displayUnLoading() {

@@ -3,8 +3,6 @@
 #include "Spell.h"
 #include "Game.h"
 
-
-// Constructeur selon un archétype (TODO: autres archétypes)
 Personnage::Personnage(CharacterType myType, int init) :
 	player(init), type(myType), lastInvocationDate(clock()) {
 	switch (init) {
@@ -62,7 +60,6 @@ void Personnage::receive(SpellType sort) {
 		break;
 	}
 	((sf::RectangleShape*)sprites[2].get())->setScale(sf::Vector2f(health / 100.f > 0.f ? health / 100.f : 0, 1.f));
-	std::cout << "passage dans receive, health=" << health << std::endl;
 }
 
 int Personnage::getHealth() {

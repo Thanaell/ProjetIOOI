@@ -16,21 +16,16 @@
 class Game {
 	// Fenetre du programme
 	sf::RenderWindow window;
-
 	// Etat du programme (voir le diagramme de machine à état)
 	GAME_STATE gameState;
-
 	// Mutex qui couble l'ensemble de la fonction de chargement
 	HANDLE loadMutex;
 	// Mutex permettant à la gameloop de savoir quand afficher l'arrière plan
 	HANDLE loadMutexBackground;
 	// Thread de chargement des assets, permettant de ne pas perturber la gameloop
 	HANDLE loadThread;
-
-	
 	//	Pointeur sur le monde qui sera généré dans le jeu
 	std::unique_ptr<b2World> world;
-
 	MyContactListener myContactListenerInstance;
 
 	///	Pour le menu
