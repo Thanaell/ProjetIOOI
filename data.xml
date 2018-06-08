@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <loadElements>
     <first>
-        <Element label="background" path="..\\..\\Assets\\menu_background.jpg"/>
+        <Element label="logo" path="..\\..\\Assets\\logo.png"/>
     </first>
     <last>
       <Element label="wizard1" path="..\\..\\Assets\\wizard_1.png"/>
       <Element label="spell1" path="..\\..\\Assets\\sort_1.png"/>
       <Element label="spell2" path="..\\..\\Assets\\sort_2.png"/>
       <Element label="spell3" path="..\\..\\Assets\\sort_3.png"/>
+      <Element label="button_bg" path="..\\..\\Assets\\button_background.jpg"/>
     </last>
 </loadElements>
