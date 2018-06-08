@@ -192,11 +192,21 @@ void Game::displayPlaying() {
 	while (window.pollEvent(event)) {
 		switch (event.type)
 		{
-		case sf::Event::Closed:
-			window.close();
-			break;
-		default:
-			break;
+			case sf::Event::Closed:
+				window.close();
+				break;
+			case sf::Event::JoystickButtonPressed:
+				if (event.joystickButton.button == 6) {
+					gameOver();
+					return;
+				}
+			case sf::Event::KeyPressed:
+				if (event.key.code == sf::Keyboard::Escape) {
+					gameOver();
+					return;
+				}
+			default:
+				break;
 		}
 	}
 	for (auto& player : players) {
