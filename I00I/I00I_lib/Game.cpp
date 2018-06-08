@@ -246,7 +246,15 @@ void Game::displayPlaying() {
 			it = activeSpells.erase(it);
 		}
 	}
-
+	
+	//check for gameover
+	for (auto& p : players) {
+		if (p->getHealth() <= 0) {
+			std::cout << "le personnage "<< p->getNumber() <<" est mort" ;
+			gameOver();
+		}
+	}
+	
 	
 }
 
