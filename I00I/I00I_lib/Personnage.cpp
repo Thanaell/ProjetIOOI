@@ -77,7 +77,8 @@ Spell * Personnage::Action() {
 	bool buttonB = sf::Joystick::isButtonPressed(player, 1);
 
 	//	S'il n'y a pas de manette connectée
-	if (!sf::Joystick::isConnected(0) && player == 0) {
+	if ((player == 0 && !sf::Joystick::isConnected(0))
+	 || (player == 1 && !sf::Joystick::isConnected(1) && sf::Joystick::isConnected(0))) {
 		stickX = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ? -50.f :
 				 sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ? 50.f : 0.f;
 		stickY = sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ? 50.f :
