@@ -1,18 +1,22 @@
 #include "stdafx.h"
 #include "MenuButton.h"
 #include "constantes.h"
+#include "Loader.h"
 
 #define ISBETWEEN(x,a,b) ((x >= a) && (x <= b))
 
 MenuButton::MenuButton(sf::Vector2f relativePosition, sf::Vector2f relativeSize, sf::String label) :
 relativePosition(relativePosition), relativeSize(relativeSize), isSelected(false)
 {
-	std::unique_ptr<sf::RectangleShape> selectionRectangle(new sf::RectangleShape);
+	auto& sin = Loader::Instance();
+	sf::RectangleShape* selectionRectangle = new sf::RectangleShape;
 	selectionRectangle->setFillColor(sf::Color::Transparent);
-	sprites.push_back(std::move(selectionRectangle));
-	std::unique_ptr<sf::RectangleShape> ButtonRectangle(new sf::RectangleShape);
-	ButtonRectangle->setFillColor(sf::Color::Red);
-	sprites.push_back(std::move(ButtonRectangle));
+	sprites.push_back(std::unique_ptr<sf::RectangleShape>(selectionRectangle));
+
+	sf::Sprite* ButtonRectangle = new sf::Sprite(*sin.getTexture("button_background"));
+	ButtonRectangle->setOrigin(300.f, 100.f); // les boutons doivent d'avoir une taille de 600x200
+	sprites.push_back(std::unique_ptr<sf::Sprite>(ButtonRectangle));
+
 	/*std::unique_ptr<sf::Text> TextLabel(new sf::Text(label, sf::Font()));
 	TextLabel->setFillColor(sf::Color::White);
 	sprites.push_back(std::move(TextLabel));*/
@@ -21,14 +25,14 @@ relativePosition(relativePosition), relativeSize(relativeSize), isSelected(false
 	sf::Vector2f absoluteButtonSize(W_WIDTH * relativeSize.x, W_HEIGHT * relativeSize.y);
 	sf::Vector2f absoluteButtonPosition(W_WIDTH * relativePosition.x - absoluteButtonSize.x / 2.f,
 		W_HEIGHT * relativePosition.y - absoluteButtonSize.y / 2.f);
-	((sf::RectangleShape*)sprites[1].get())->setSize(absoluteButtonSize);
-	((sf::RectangleShape*)sprites[1].get())->setPosition(absoluteButtonPosition);
+
+	ButtonRectangle->setPosition(absoluteButtonPosition);
 #ifdef DEBUG_LOG
 	std::cout << "position button : " << absoluteButtonPosition.x << " ; " << absoluteButtonPosition.y;
 	std::cout << " size button : " << absoluteButtonSize.x << " ; " << absoluteButtonSize.y << std::endl;
 #endif
-	((sf::RectangleShape*)sprites[0].get())->setSize(sf::Vector2f(absoluteButtonSize.x * 1.05f, absoluteButtonSize.y * 1.05f));
-	((sf::RectangleShape*)sprites[0].get())->setPosition(sf::Vector2f(absoluteButtonPosition.x * .975f, absoluteButtonPosition.y * .975f));
+	selectionRectangle->setSize(sf::Vector2f(absoluteButtonSize.x * 1.05f, absoluteButtonSize.y * 1.05f));
+	selectionRectangle->setPosition(sf::Vector2f(absoluteButtonPosition.x * .975f, absoluteButtonPosition.y * .975f));
 }
 
 void MenuButton::select() {

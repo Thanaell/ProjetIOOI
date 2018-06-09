@@ -38,7 +38,7 @@ void Spell::loadSprites() {
 		movingSprite = new sf::Sprite(*sin.getTexture("spell3"));
 		break;
 	default:
-		movingSprite = new sf::Sprite(*sin.getTexture("spell1"));
+		movingSprite = new sf::Sprite(*sin.getTexture("spell2"));
 		break;
 	}
 	movingSprite->setOrigin(sf::Vector2f(100.f, 100.f));

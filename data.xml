@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <loadElements>
     <first>
-        <Element label="logo" path="..\\..\\Assets\\logo.png"/>
+      <Element label="logo" path="..\\..\\Assets\\logo.png"/>
+      <Element label="background" path="..\\..\\Assets\\menu_background.jpg"/>
     </first>
     <last>
       <Element label="wizard1" path="..\\..\\Assets\\wizard_1.png"/>

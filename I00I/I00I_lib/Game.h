@@ -31,6 +31,8 @@ class Game {
 	///	Pour le menu
 	// Arrière plan a proprement parler
 	std::unique_ptr<sf::Sprite> background;
+	sf::RectangleShape overBackground;
+	std::unique_ptr<sf::Sprite> logo;
 	// Liste des éléments (bouton) du menu
 	std::vector<std::unique_ptr<MenuButton>> menuElements;
 

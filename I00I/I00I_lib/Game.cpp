@@ -15,7 +15,8 @@ void Game::CreateGame() {
 
 Game::Game() :
 	window(sf::VideoMode(W_WIDTH, W_HEIGHT), W_TITLE),
-	gameState(LOADING), timeStep(1.0f / 60.0f), velocityIterations(6), positionIterations(2)
+	gameState(LOADING), timeStep(1.0f / 60.0f), velocityIterations(6), positionIterations(2),
+	overBackground(sf::RectangleShape(sf::Vector2f(W_WIDTH, W_HEIGHT)))
 {
 //	Création des éléments de base du jeu
 
@@ -79,14 +80,17 @@ void Game::displayLoading() {
 				std::cout << "Le background a fini d'etre chargé : " << MS_SINCE_BEGIN << "ms" << std::endl;
 #endif
 				background.reset(new sf::Sprite(*sin.getTexture("background")));
-				window.draw(*background.get());
+				overBackground.setFillColor(sf::Color(0x000000A9));
+				logo.reset(new sf::Sprite(*sin.getTexture("logo")));
+				logo->setOrigin(640.f, 360.f);
+				window.draw(*logo.get());
 				break;
 			case WAIT_FAILED: break;
 			}
 		}
 	}
 	else {
-		window.draw(*background.get());
+		window.draw(*logo.get());
 	}
 
 	//	Le mutex n'a pas encore été crée par le thread
@@ -110,6 +114,8 @@ void Game::displayLoading() {
 #ifdef DEBUG_LOG
 		std::cout << "Les données ont finies d'etre chargées et peuvent etre utilisée : " << MS_SINCE_BEGIN << "ms" << std::endl;
 #endif
+		logo->setScale(.4f, .4f);
+		logo->setPosition(680.f, 450.f);
 		gameState = MENU;
 		break;
 	case WAIT_FAILED: break;
@@ -182,6 +188,8 @@ void Game::displayMenu() {
 
 	// On dessine le menu sur la fenetre
 	if (background.get() != NULL) window.draw(*background.get());
+	window.draw(overBackground);
+	if (logo.get() != NULL) window.draw(*logo.get());
 	for (auto &shape : menuElements)
 		shape->draw(window);
 }
