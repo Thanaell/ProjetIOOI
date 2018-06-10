@@ -115,7 +115,7 @@ void Game::displayLoading() {
 		std::cout << "Les données ont finies d'etre chargées et peuvent etre utilisée : " << MS_SINCE_BEGIN << "ms" << std::endl;
 #endif
 		logo->setScale(.4f, .4f);
-		logo->setPosition(680.f, 450.f);
+		logo->setPosition(680.f, 580.f);
 		gameState = MENU;
 		break;
 	case WAIT_FAILED: break;
@@ -152,7 +152,8 @@ void Game::displayLoading() {
 void Game::displayMenu() {
 	// S'il le faut, on crée le menu
 	if (menuElements.size() == 0) {
-		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(sf::Vector2f(.5f, .2f), sf::Vector2f(.4f, .15f), "Jouer !")));
+		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(sf::Vector2f(.5f, .2f), "Play")));
+		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(sf::Vector2f(.5f, .4f), "Exit")));
 	}
 
 
@@ -171,6 +172,9 @@ void Game::displayMenu() {
 #ifdef DEBUG_LOG
 				std::cout << "Passage en mode jeu" << std::endl;
 #endif
+			}
+			else if (menuElements[1]->isIn(sf::Vector2u(event.mouseButton.x, event.mouseButton.y), window.getSize())) {
+				window.close();
 			}
 			break;
 		case sf::Event::Resized:
@@ -220,10 +224,6 @@ void Game::displayPlaying() {
 	for (auto& player : players) {
 		Spell* newSpell = player->Action();
 		if (newSpell != nullptr) {
-//#ifdef DEBUG_LOG
-//			std::cout << "Ajout d'un sort dans le monde : " << MS_SINCE_BEGIN << "ms" << std::endl;
-//			std::cout << "Il y a au total " << activeSpells.size() << " sorts dans le monde" << std::endl;
-//#endif
 			activeSpells.push_back(std::unique_ptr<Spell>(newSpell));
 		}
 	}

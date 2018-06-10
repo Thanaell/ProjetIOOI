@@ -9,6 +9,7 @@
       <Element label="spell1" path="..\\..\\Assets\\sort_1.png"/>
       <Element label="spell2" path="..\\..\\Assets\\sort_2.png"/>
       <Element label="spell3" path="..\\..\\Assets\\sort_3.png"/>
-      <Element label="button_bg" path="..\\..\\Assets\\button_background.jpg"/>
+      <Element label="Exit" path="..\\..\\Assets\\button_exit.jpg"/>
+      <Element label="Play" path="..\\..\\Assets\\button_play.jpg"/>
     </last>
 </loadElements>
