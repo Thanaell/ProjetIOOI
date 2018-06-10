@@ -153,6 +153,8 @@
     <ClInclude Include="Element.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="MenuButton.h" />
+    <ClInclude Include="Perso1.h" />
+    <ClInclude Include="Perso2.h" />
     <ClInclude Include="Personnage.h" />
     <ClInclude Include="PlayingElement.h" />
     <ClInclude Include="Loader.h" />
@@ -166,6 +168,8 @@
     <ClCompile Include="Element.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="MenuButton.cpp" />
+    <ClCompile Include="Perso1.cpp" />
+    <ClCompile Include="Perso2.cpp" />
     <ClCompile Include="Personnage.cpp" />
     <ClCompile Include="loader.cpp" />
     <ClCompile Include="PlayingElement.cpp" />

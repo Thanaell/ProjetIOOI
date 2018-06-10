@@ -334,8 +334,8 @@ void Game::createGame() {
 	gauche->CreateFixture(&fixtureDef4);
 	
 	//Personnages
-	players.push_back(std::unique_ptr<Personnage>(new Personnage(TYPE2, 0)));
-	players.push_back(std::unique_ptr<Personnage>(new Personnage(TYPE1, 1)));
+	players.push_back(std::unique_ptr<Personnage>(Personnage::createPersonnage(TYPE2, 0)));
+	players.push_back(std::unique_ptr<Personnage>(Personnage::createPersonnage(TYPE1, 1)));
 }
 
 void Game::gameOver() {

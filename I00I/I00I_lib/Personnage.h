@@ -8,6 +8,10 @@ class Spell;
 
 // Représente un sorcier dans le jeu
 class Personnage : public PlayingElement {
+public:
+	static Personnage* createPersonnage(CharacterType myType, int init);
+
+protected:
 	// Nom du personnage
 	std::string name;
 	//Vitesse
@@ -30,9 +34,14 @@ class Personnage : public PlayingElement {
 	void move(float x, float y);
 	// Récupère les évenements du joystick pour incanter (ou pas) un sort
 	Spell* invoque(float x, float y, bool A, bool B);
-public:
+
+	std::string spriteName;
+
+
 	// Constructeur du personnage, appellé au lancement de la partie (emplacement déterminé par init)
-	Personnage(CharacterType type, int init);
+	Personnage(CharacterType type, int init, std::string spriteName);
+
+public:
 	// Méthode appellé lorsqu'un sort touche un personnage et qui met a jour les points de vie (et potentiellement la position) du personnage
 	void receive(SpellType sort);
 	// Getter de health 

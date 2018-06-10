@@ -2,9 +2,11 @@
 #include "Personnage.h"
 #include "Spell.h"
 #include "Game.h"
+#include "Perso1.h"
+#include "Perso2.h"
 
-Personnage::Personnage(CharacterType myType, int init) :
-	player(init), type(myType), lastInvocationDate(clock()) {
+Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
+	player(init), type(myType), lastInvocationDate(clock()), spriteName(spriteName) {
 	switch (init) {
 	case 0:
 		isFacingRight = true;
@@ -33,24 +35,7 @@ Personnage::Personnage(CharacterType myType, int init) :
 	fixtureDef.friction = 0.3f;
 	body->CreateFixture(&fixtureDef);
 	body->SetUserData(this);
-	//attributs variables selon le type passé en argument
-	switch (myType) {
-	case TYPE1:
-		vitesse = PLAYER_VELOCITY;
-		maxHealth = 100;
-		spellbook.push_back(SORT1);
-		spellbook.push_back(SORT2);
-		spellbook.push_back(SORT3);
-		break;
-	case TYPE2:
-		vitesse = 0.8*PLAYER_VELOCITY;
-		maxHealth = 130;
-		spellbook.push_back(SORT1);
-		spellbook.push_back(SORT4);
-		spellbook.push_back(SORT5);
-		break;
-	}
-	health = maxHealth;
+
 	loadSprites();
 }
 
@@ -106,18 +91,23 @@ int Personnage::getNumber()
 }
 
 
+Personnage* Personnage::createPersonnage(CharacterType myType, int init) {
+	Personnage* retour = nullptr;
+	switch (myType)
+	{
+	case TYPE1: retour = new Perso1(init); break;
+	case TYPE2:
+		retour = new Perso2(init);
+		break;
+	default: retour = new Perso1(init); break;
+	}
+	return retour;
+}
+
 void Personnage::loadSprites() {
 	auto& sin = Loader::Instance();
 	sf::Sprite* movingSprite = nullptr;
-	switch (type)
-	{
-	case TYPE1:
-		movingSprite = new sf::Sprite(*sin.getTexture("wizard1"));
-		break;
-	default:
-		movingSprite = new sf::Sprite(*sin.getTexture("wizard1"));
-		break;
-	}
+	movingSprite = new sf::Sprite(*sin.getTexture(spriteName));
 
 	movingSprite->setOrigin(sf::Vector2f(200.f, 200.f));
 	movingSprite->setScale(SPRITE_SCALE);
