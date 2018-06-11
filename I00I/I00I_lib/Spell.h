@@ -7,6 +7,8 @@ class Personnage;
 
 // Représente un sortilège
 class Spell : public PlayingElement {
+
+protected:
 	//entier indiquant qui a lancé le sort
 	int playerWhoCast;
 	//Booléen indiquant si le sort a touché un personnage
@@ -23,6 +25,7 @@ class Spell : public PlayingElement {
 
 	void loadSprites();
 public:
+	static Spell* createSpell(SpellType myType, b2Body *body, float directionX, float directionY, bool isCharacterFacingRight, int caster);
 	// Constructeur du sort
 	Spell(SpellType myType, b2Body *body, float directionX, float directionY, bool isCharacterFacingRight, int caster);
 	// Fonction appelé lors qu'un sort touche un personnage

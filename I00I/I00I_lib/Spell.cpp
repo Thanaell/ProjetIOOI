@@ -2,6 +2,10 @@
 #include "Spell.h"
 #include "Personnage.h"
 #include "Game.h"
+#include "Spell1.h"
+#include "Spell2.h"
+#include "Spell3.h"
+
 
 
 //méthode appelée en cas de contact avec un personnage
@@ -48,6 +52,27 @@ void Spell::loadSprites() {
 	sprites.push_back(std::unique_ptr<sf::Sprite>(movingSprite));
 }
 
+Spell * Spell::createSpell(SpellType myType, b2Body * body, float directionX, float directionY, bool isCharacterFacingRight, int caster)
+{
+	Spell* retour = nullptr;
+	switch (myType)
+	{
+	case SORT1: 
+		retour = new Spell1(body, directionX, directionY, isCharacterFacingRight, caster);
+		break;
+	case SORT2:
+		retour = new Spell2(body, directionX, directionY, isCharacterFacingRight, caster);
+		break;
+	case SORT3:
+		retour = new Spell3(body, directionX, directionY, isCharacterFacingRight, caster);
+		break;
+	default: retour = new Spell(SORT1,body,directionX,directionY,isCharacterFacingRight,caster);
+		break;
+	}
+	return retour;
+}
+
+
 // Constructeur du sort
 Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float directionY, bool isCharacterFacingRight, int caster) :
 	speed(20), type(myType), isContacting(false), playerWhoCast(caster) {
@@ -81,18 +106,7 @@ Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float direc
 	body->CreateFixture(&fixtureDef);
 	body->SetUserData(this);
 
-	//comportements variables selon le type (notamment la vitesse)
-	switch (type) {
-	case SORT1:
-		speed = 5;
-		break;
-	case SORT2:
-	case SORT4:
-		speed = 10;
-		break;
-	default:
-		speed = 20;
-	}
+	
 	//cas où le joystick n'est presque pas incliné
 	if (abs(directionX) < 5 && abs(directionY) < 5) {
 		if (isCharacterFacingRight) body->SetLinearVelocity(b2Vec2(speed*100,0));
