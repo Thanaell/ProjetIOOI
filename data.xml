@@ -12,5 +12,6 @@
       <Element label="spell3" path="..\\..\\Assets\\sort_3.png"/>
       <Element label="Exit" path="..\\..\\Assets\\button_exit.jpg"/>
       <Element label="Play" path="..\\..\\Assets\\button_play.jpg"/>
+      <Element label="playing_background" path="..\\..\\Assets\\playing_background.jpg"/>
     </last>
 </loadElements>

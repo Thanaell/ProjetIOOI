@@ -63,10 +63,10 @@ void Game::gameLoop() {
 }
 
 void Game::displayLoading() {
+	auto& sin = Loader::Instance();
 	if (background.get() == NULL) {
 		if (loadMutexBackground != NULL) {
 			auto state = WaitForSingleObject(loadMutexBackground, 1);
-			auto& sin = Loader::Instance();
 
 			switch (state) {
 			case WAIT_ABANDONED: break;
@@ -82,7 +82,6 @@ void Game::displayLoading() {
 				background.reset(new sf::Sprite(*sin.getTexture("background")));
 				overBackground.setFillColor(sf::Color(0x000000A9));
 				logo.reset(new sf::Sprite(*sin.getTexture("logo")));
-				logo->setOrigin(640.f, 360.f);
 				window.draw(*logo.get());
 				break;
 			case WAIT_FAILED: break;
@@ -114,8 +113,10 @@ void Game::displayLoading() {
 #ifdef DEBUG_LOG
 		std::cout << "Les données ont finies d'etre chargées et peuvent etre utilisée : " << MS_SINCE_BEGIN << "ms" << std::endl;
 #endif
+		logo->setOrigin(640.f, 360.f);
 		logo->setScale(.4f, .4f);
 		logo->setPosition(680.f, 580.f);
+		playingBackground.reset(new sf::Sprite(*sin.getTexture("playing_background")));
 		gameState = MENU;
 		break;
 	case WAIT_FAILED: break;
@@ -238,7 +239,10 @@ void Game::displayPlaying() {
 		}
 		else ++it;
 	}
+
 	//	Affichage
+	window.draw(*playingBackground.get());
+
 	for (auto& p : players) {
 		if (p->updateSprites())
 			p->draw(window);
