@@ -139,9 +139,9 @@ Spell * Personnage::invoque(float x, float y, bool A, bool B) {
 
 	if (now - lastInvocationDate > INVOCATION_RECOVERYTIME) {
 		lastInvocationDate = clock();
-		if (A && !B) return new Spell(spellbook[0], body, x, y, isFacingRight,player);
-		if (!A && B) return new Spell(spellbook[1], body, x, y, isFacingRight,player);
-		if (A && B) return new Spell(spellbook[2], body, x, y, isFacingRight,player);
+		if (A && !B) return Spell::createSpell(spellbook[0], body, x, y, isFacingRight, player);
+		if (!A && B) return Spell::createSpell(spellbook[1], body, x, y, isFacingRight, player);
+		if (A && B) return Spell::createSpell(spellbook[2], body, x, y, isFacingRight, player);
 	}
 	return nullptr;
 }

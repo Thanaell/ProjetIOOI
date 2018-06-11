@@ -290,7 +290,7 @@ void Game::createGame() {
 
 	//contact listener
 	world->SetContactListener(&myContactListenerInstance);
-	//Quatre coins de la zone (valeurs à ajuster)
+	//Quatre coins de la zone 
 	b2Vec2 v1(0.0f , 0.0f);
 	b2Vec2 v2(0.0f, WORLD_HEIGHT);
 	b2Vec2 v3(WORLD_WIDTH, 0.0f);
