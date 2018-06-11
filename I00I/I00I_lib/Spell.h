@@ -27,7 +27,7 @@ protected:
 public:
 	static Spell* createSpell(SpellType myType, b2Body *body, float directionX, float directionY, bool isCharacterFacingRight, int caster);
 	// Constructeur du sort
-	Spell(SpellType myType, b2Body *body, float directionX, float directionY, bool isCharacterFacingRight, int caster);
+	Spell(SpellType myType, b2Body *body, float directionX, float directionY, bool isCharacterFacingRight, int caster, float vitesse);
 	// Fonction appelé lors qu'un sort touche un personnage
 	void affect(Personnage &character);
 	// retourne false si le sprite n'est plus dans la zone de jeu

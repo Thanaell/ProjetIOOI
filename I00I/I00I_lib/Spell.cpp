@@ -66,7 +66,7 @@ Spell * Spell::createSpell(SpellType myType, b2Body * body, float directionX, fl
 	case SORT3:
 		retour = new Spell3(body, directionX, directionY, isCharacterFacingRight, caster);
 		break;
-	default: retour = new Spell(SORT1,body,directionX,directionY,isCharacterFacingRight,caster);
+	default: retour = new Spell1(body,directionX,directionY,isCharacterFacingRight,caster);
 		break;
 	}
 	return retour;
@@ -74,8 +74,8 @@ Spell * Spell::createSpell(SpellType myType, b2Body * body, float directionX, fl
 
 
 // Constructeur du sort
-Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float directionY, bool isCharacterFacingRight, int caster) :
-	speed(20), type(myType), isContacting(false), playerWhoCast(caster) {
+Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float directionY, bool isCharacterFacingRight, int caster, float vitesse) :
+	type(myType), isContacting(false), playerWhoCast(caster), speed(vitesse) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
 	//position du sort varie selon le sens du personnage
@@ -106,18 +106,19 @@ Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float direc
 	body->CreateFixture(&fixtureDef);
 	body->SetUserData(this);
 
-	
+
 	//cas où le joystick n'est presque pas incliné
 	if (abs(directionX) < 5 && abs(directionY) < 5) {
-		if (isCharacterFacingRight) body->SetLinearVelocity(b2Vec2(speed*100,0));
-		else body->SetLinearVelocity(b2Vec2(-speed * 100, 0));
+		if (isCharacterFacingRight) body->SetLinearVelocity(b2Vec2(speed * COEF_SPELL_SPEED, 0));
+		else body->SetLinearVelocity(b2Vec2(-speed * COEF_SPELL_SPEED, 0));
 	}
 	else {
 		float racine = sqrt(directionX * directionX + directionY * directionY);
-		float xprime = 100 * directionX / racine;
-		float yprime = 100 * directionY / racine;
+		float xprime = COEF_SPELL_SPEED * directionX / racine;
+		float yprime = COEF_SPELL_SPEED * directionY / racine;
 		body->SetLinearVelocity(b2Vec2(xprime * speed, yprime * speed));
 	}
+	
 	loadSprites();
 }
 // Fonction appelée lors qu'un sort touche un personnage

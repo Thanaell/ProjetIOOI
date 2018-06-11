@@ -37,3 +37,5 @@ enum GAME_STATE {
 
 #define MS_SINCE_BEGIN clock()
 
+
+#define COEF_SPELL_SPEED (19.f)
