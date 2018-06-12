@@ -45,7 +45,7 @@ public:
 	// Méthode appellé lorsqu'un sort touche un personnage et qui met a jour les points de vie (et potentiellement la position) du personnage
 	void receive(SpellType sort);
 	// Getter de health 
-	int getHealth();
+	float getHealth();
 	// Récupère les infos du Joystick et agit en fonction
 	Spell* Action();
 	//mise à jour des sprites

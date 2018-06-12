@@ -49,7 +49,7 @@ void Personnage::receive(SpellType sort) {
 	((sf::RectangleShape*)sprites[2].get())->setScale(sf::Vector2f(health / maxHealth > 0.f ? health / maxHealth : 0, 1.f));
 }
 
-int Personnage::getHealth() {
+float Personnage::getHealth() {
 	return health;
 }
 

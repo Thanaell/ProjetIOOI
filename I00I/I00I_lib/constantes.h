@@ -5,20 +5,32 @@
 #define W_HEIGHT (720)
 #define W_TITLE "Hello World!"
 
-//Define portant sur la taille du monde box2D
+// Define portant sur la taille du monde box2D
 #define WORLD_WIDTH (160)
 #define WORLD_HEIGHT (90)
 
+
 #define SPRITE_SCALE (sf::Vector2f(.2f, .2f))
+
+// Définition de la taille des assets dessinés
+#define HELTH_W_SIZE (W_WIDTH / 4.f)
+#define HELTH_SIZE (sf::Vector2f(HELTH_W_SIZE, W_HEIGHT / 18.f))
+
+// Constantes liées au jeu en lui meme
 #define STICK_SENSIBILITY (20.f)
 #define PLAYER_VELOCITY (2.5f)
 
-#define HELTH_W_SIZE (300.f)
-#define HELTH_SIZE (sf::Vector2f(HELTH_W_SIZE, 40.f))
-
-
-//	Path pour trouver les assests 
+// Path pour trouver les assests 
 #define PATH_XML "..\\..\\data.xml"
+
+// Constantes caractéristiques des différents personnages
+#define HEALTH_PERSO_1 (100)
+#define HEALTH_PERSO_2 (130)
+
+// Constantes caractéristiques des différents sorts
+#define SPEED_SORT_1 (20.f)
+#define SPEED_SORT_2 (5.f)
+#define SPEED_SORT_3 (1.f)
 
 //	Enumération des états du programme au cours de sa vie (voir le diagramme de machine a état)
 enum GAME_STATE {
