@@ -1,13 +1,18 @@
 #pragma once
+#define W_HEIGHT (720)
+
+// Ratios utiles
+#define RATIO_WINDOWS_B2D (8.f)
+#define RATIO_SCREEN (16.f/9.f)
 
 //	Define portant sur la fenetre au lancement du jeu
-#define W_WIDTH (1280)
-#define W_HEIGHT (720)
+#define W_WIDTH (W_HEIGHT * RATIO_SCREEN)
 #define W_TITLE "Hello World!"
 
 // Define portant sur la taille du monde box2D
-#define WORLD_WIDTH (160)
-#define WORLD_HEIGHT (90)
+#define WORLD_WIDTH (W_WIDTH / RATIO_WINDOWS_B2D)
+#define WORLD_HEIGHT (W_HEIGHT / RATIO_WINDOWS_B2D)
+
 
 // Constantes liées à SFML
 #define SPRITE_SCALE (sf::Vector2f(.2f, .2f))
@@ -31,6 +36,8 @@
 #define PLAYER_POSITION_Y (WORLD_HEIGHT / 5)
 #define PLAYER_DENSITY (1.f)
 #define PLAYER_FRICTION (.3f)
+#define PLAYER_SIZE_B2D_X (WORLD_WIDTH / 32)
+#define PLAYER_SIZE_B2D_Y (WORLD_WIDTH / 18)
 #define SPELL_SIZE_B2D (WORLD_HEIGHT / 64)
 
 // Path pour trouver les assests 

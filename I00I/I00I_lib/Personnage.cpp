@@ -16,7 +16,7 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	bodyDef.position.Set(PLAYER_POSITION_X(init), PLAYER_POSITION_Y);
 	body = Game::getWorld()->CreateBody(&bodyDef);
 	b2PolygonShape shape;
-	shape.SetAsBox(WORLD_WIDTH/32,WORLD_HEIGHT/18);
+	shape.SetAsBox(PLAYER_SIZE_B2D_X, PLAYER_SIZE_B2D_Y);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &shape;
 	fixtureDef.density = PLAYER_DENSITY;
