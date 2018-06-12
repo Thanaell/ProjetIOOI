@@ -20,6 +20,13 @@
 #define SPRITE_SCALE (sf::Vector2f(.2f, .2f))
 #define SPELL_SPRITE_ORIGINE (sf::Vector2f(100.f, 100.f))
 #define PLAYER_SPRITE_ORIGINE (sf::Vector2f(200.f, 200.f))
+#define BUTTON_SIZE_X (320.f)
+#define BUTTON_SIZE_Y (108.f)
+#define BUTTON_ORIGINE (sf::Vector2f(BUTTON_SIZE_X / 2, BUTTON_SIZE_Y / 2))
+#define BUTTON_POSITION(p) (sf::Vector2f(p.x * W_WIDTH, p.y * W_HEIGHT))
+#define SELECT_BUTTON_SIZE (sf::Vector2f(BUTTON_SIZE_X + 10.f, BUTTON_SIZE_Y + 6.f))
+#define SELECT_BUTTON_ORIGINE (sf::Vector2f((BUTTON_SIZE_X + 10.f) / 2, (BUTTON_SIZE_Y + 6.f) / 2))
+#define SELECT_BUTTON_COLOR (sf::Color::Color(0x9a9a10FF))
 
 // Définition de la taille des assets dessinés
 #define HELTH_W_SIZE (W_WIDTH / 4.f)

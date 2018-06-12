@@ -5,30 +5,37 @@
 
 #define ISBETWEEN(x,a,b) ((x >= a) && (x <= b))
 
-MenuButton::MenuButton(sf::Vector2f relativePosition, sf::String label) :
-relativePosition(relativePosition), isSelected(false)
+MenuButton::MenuButton(sf::Vector2f relativePosition, sf::String label, bool isSelected) :
+relativePosition(relativePosition), isSelected(isSelected)
 {
 	auto& sin = Loader::Instance();
 	sf::RectangleShape* selectionRectangle = new sf::RectangleShape;
-	selectionRectangle->setFillColor(sf::Color::Transparent);
-	sprites.push_back(std::unique_ptr<sf::RectangleShape>(selectionRectangle));
+	selectionRectangle->setFillColor(isSelected ? SELECT_BUTTON_COLOR : sf::Color::Transparent);
 
 	sf::Sprite* ButtonRectangle = new sf::Sprite(*sin.getTexture(label));
 
-	ButtonRectangle->setOrigin(sf::Vector2f(160.f, 54.f));
-	ButtonRectangle->setPosition(sf::Vector2f(relativePosition.x * W_WIDTH, relativePosition.y * W_HEIGHT));
+	ButtonRectangle->setOrigin(BUTTON_ORIGINE);
+	ButtonRectangle->setPosition(BUTTON_POSITION(relativePosition));
 
-	selectionRectangle->setSize(sf::Vector2f(330.f, 114.f));
-	selectionRectangle->setOrigin(sf::Vector2f(165.f, 57.f));
-	selectionRectangle->setPosition(sf::Vector2f(relativePosition.x * W_WIDTH, relativePosition.y * W_HEIGHT));
+	selectionRectangle->setSize(SELECT_BUTTON_SIZE);
+	selectionRectangle->setOrigin(SELECT_BUTTON_ORIGINE);
+	selectionRectangle->setPosition(BUTTON_POSITION(relativePosition));
 
-
+	sprites.push_back(std::unique_ptr<sf::RectangleShape>(selectionRectangle));
 	sprites.push_back(std::unique_ptr<sf::Sprite>(ButtonRectangle));
+}
+
+void MenuButton::changeSelection() {
+	if (isSelected) unselect(); else select();
+}
+
+bool MenuButton::getState() {
+	return isSelected;
 }
 
 void MenuButton::select() {
 	isSelected = true;
-	((sf::RectangleShape*)sprites[0].get())->setFillColor(sf::Color::Yellow);
+	((sf::RectangleShape*)sprites[0].get())->setFillColor(SELECT_BUTTON_COLOR);
 }
 
 void MenuButton::unselect() {

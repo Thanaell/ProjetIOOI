@@ -45,6 +45,8 @@ class Game {
 	int velocityIterations;
 	int positionIterations;
 
+	int countFrame;
+
 	static Game* _instance;
 public:
 	// Constructeur et seul méthode publique

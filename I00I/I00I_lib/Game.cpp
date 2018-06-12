@@ -14,6 +14,7 @@ void Game::CreateGame() {
 }
 
 Game::Game() :
+	countFrame(0),
 	window(sf::VideoMode(W_WIDTH, W_HEIGHT), W_TITLE),
 	gameState(LOADING), timeStep(1.0f / 60.0f), velocityIterations(6), positionIterations(2),
 	overBackground(sf::RectangleShape(sf::Vector2f(W_WIDTH, W_HEIGHT)))
@@ -52,6 +53,8 @@ void Game::gameLoop() {
 		}
 		window.display();
 		auto endFrame = std::chrono::system_clock::now();
+
+		countFrame = (countFrame + 1) % 60;
 
 		//	on attend qu'il se soit bien passer le temps qu'il faut entre 2 frames
 		_int64 durationFrame = std::chrono::duration_cast<std::chrono::milliseconds>(endFrame - last).count();
@@ -153,7 +156,7 @@ void Game::displayLoading() {
 void Game::displayMenu() {
 	// S'il le faut, on crée le menu
 	if (menuElements.size() == 0) {
-		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(sf::Vector2f(.5f, .2f), "Play")));
+		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(sf::Vector2f(.5f, .2f), "Play", true)));
 		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(sf::Vector2f(.5f, .4f), "Exit")));
 	}
 
@@ -178,10 +181,24 @@ void Game::displayMenu() {
 				window.close();
 			}
 			break;
-		case sf::Event::Resized:
-			/*for (auto &button : menuElements) {
-				button.get()->resizeSprites(window.getSize());
-			}*/
+		case sf::Event::JoystickButtonPressed:
+			if (event.joystickMove.joystickId == 0) {
+				if (event.joystickButton.button == 0) {
+					if (menuElements[0]->getState()) {
+						menuElements.clear();
+						//	Ici il faut constuire le monde avant de jouer
+						createGame();
+						//	On lance le jeu
+						gameState = PLAYING;
+#ifdef DEBUG_LOG
+						std::cout << "Passage en mode jeu" << std::endl;
+#endif
+					}
+					else if (menuElements[1]->getState()) {
+						window.close();
+					}
+				}
+			}
 			break;
 		case sf::Event::Closed:
 			window.close();
@@ -189,6 +206,9 @@ void Game::displayMenu() {
 		default:
 			break;
 		}
+	}
+	if (countFrame % 12 == 0 && abs(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y)) > 80) {
+		for (auto & b : menuElements) b->changeSelection();
 	}
 
 	// On dessine le menu sur la fenetre
@@ -378,7 +398,8 @@ DWORD Game::loading(LPVOID params) {
 	}
 	return 0;
 }
- b2World * Game::getWorld() {
+
+b2World * Game::getWorld() {
 	return _instance->world.get();
 }
 

@@ -8,10 +8,12 @@ class MenuButton : public Element {
 	sf::Vector2f relativePosition;
 	// Permet de s'avoir si le bouton est sélectionné (pratique quand on joue a la manette)
 	bool isSelected;
-
-public:
-	MenuButton(sf::Vector2f relativePosition, sf::String label = "");
 	void select();
 	void unselect();
+
+public:
+	MenuButton(sf::Vector2f relativePosition, sf::String label = "", bool isSelected = false);
+	void changeSelection();
+	bool getState();
 	bool isIn(sf::Vector2u position, sf::Vector2u windowSize);
 };
