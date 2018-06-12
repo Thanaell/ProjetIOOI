@@ -17,6 +17,9 @@
 // Définition de la taille des assets dessinés
 #define HELTH_W_SIZE (W_WIDTH / 4.f)
 #define HELTH_SIZE (sf::Vector2f(HELTH_W_SIZE, W_HEIGHT / 18.f))
+#define HEALTH_ORIGINE(x) (sf::Vector2f(x == 0 ? 0.f: HELTH_W_SIZE, 0.f))
+#define HEALTH_POSITION(x) (sf::Vector2f(x == 0 ? 50.f : W_WIDTH - 50.f, 50.f))
+#define HEALTH_COLOR (sf::Color::Color(0xe040109a))
 
 // Constantes et macro liées au jeu en lui meme
 #define STICK_SENSIBILITY (20.f)
