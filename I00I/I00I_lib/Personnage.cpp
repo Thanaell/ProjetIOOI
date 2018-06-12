@@ -7,32 +7,20 @@
 
 Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	player(init), type(myType), lastInvocationDate(clock()), spriteName(spriteName) {
-	switch (init) {
-	case 0:
-		isFacingRight = true;
-		break;
-	case 1:
-		isFacingRight = false;
-		break;
-	}
+	isFacingRight = init == 0;
+
 	//initialisation du body
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	switch (init) {
-	case 0:
-		bodyDef.position.Set(WORLD_WIDTH/8,WORLD_HEIGHT/5);
-		break;
-	case 1:
-		bodyDef.position.Set(7*WORLD_WIDTH/8,WORLD_HEIGHT/5);
-		break;
-	}
+
+	bodyDef.position.Set(PLAYER_POSITION_X(init), PLAYER_POSITION_Y);
 	body = Game::getWorld()->CreateBody(&bodyDef);
 	b2PolygonShape shape;
 	shape.SetAsBox(WORLD_WIDTH/32,WORLD_HEIGHT/18);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &shape;
-	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.3f;
+	fixtureDef.density = PLAYER_DENSITY;
+	fixtureDef.friction = PLAYER_FRICTION;
 	body->CreateFixture(&fixtureDef);
 	body->SetUserData(this);
 
@@ -64,10 +52,10 @@ Spell * Personnage::Action() {
 	//	S'il n'y a pas de manette connectée
 	if ((player == 0 && !sf::Joystick::isConnected(0))
 	 || (player == 1 && !sf::Joystick::isConnected(1) && sf::Joystick::isConnected(0))) {
-		stickX = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ? -50.f :
-				 sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ? 50.f : 0.f;
-		stickY = sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ? 50.f :
-			     sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ? -50.f : 0.f;
+		stickX = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ? -KEYBOARD_ACTION :
+				 sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ? KEYBOARD_ACTION : 0.f;
+		stickY = sf::Keyboard::isKeyPressed(sf::Keyboard::Up) ? KEYBOARD_ACTION :
+			     sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ? -KEYBOARD_ACTION : 0.f;
 		buttonA = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
 		buttonB = sf::Keyboard::isKeyPressed(sf::Keyboard::Z);
 	}
@@ -125,12 +113,7 @@ void Personnage::loadSprites() {
 }
 
 void Personnage::move(float x, float y) {
-	if (x > 0) {
-		isFacingRight = true;
-	}
-	else if (x <0){
-		isFacingRight = false;
-	}
+	isFacingRight = x == 0 ? isFacingRight : x > 0;
 	body->SetLinearVelocity(b2Vec2(PLAYER_VELOCITY * x, PLAYER_VELOCITY * y));
 }
 

@@ -16,9 +16,16 @@
 #define HELTH_W_SIZE (W_WIDTH / 4.f)
 #define HELTH_SIZE (sf::Vector2f(HELTH_W_SIZE, W_HEIGHT / 18.f))
 
-// Constantes liées au jeu en lui meme
+// Constantes et macro liées au jeu en lui meme
 #define STICK_SENSIBILITY (20.f)
+#define KEYBOARD_ACTION (50.f)
+
+// Constantes et macros liées a Box2D
 #define PLAYER_VELOCITY (2.5f)
+#define PLAYER_POSITION_X(x) ((x == 0 ? 1 : 7) * WORLD_WIDTH / 8)
+#define PLAYER_POSITION_Y (WORLD_HEIGHT / 5)
+#define PLAYER_DENSITY (1.f)
+#define PLAYER_FRICTION (.3f)
 
 // Path pour trouver les assests 
 #define PATH_XML "..\\..\\data.xml"
