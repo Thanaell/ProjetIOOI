@@ -3,7 +3,9 @@
 
 // Ratios utiles
 #define RATIO_WINDOWS_B2D (8.f)
-#define RATIO_SCREEN (16.f/9.f)
+#define RATIO_SCREEN_X (16.f)
+#define RATIO_SCREEN_Y (9.f)
+#define RATIO_SCREEN (RATIO_SCREEN_X/RATIO_SCREEN_Y)
 
 //	Define portant sur la fenetre au lancement du jeu
 #define W_WIDTH (W_HEIGHT * RATIO_SCREEN)
@@ -36,9 +38,9 @@
 #define PLAYER_POSITION_Y (WORLD_HEIGHT / 5)
 #define PLAYER_DENSITY (1.f)
 #define PLAYER_FRICTION (.3f)
-#define PLAYER_SIZE_B2D_X (WORLD_WIDTH / 32)
-#define PLAYER_SIZE_B2D_Y (WORLD_WIDTH / 18)
-#define SPELL_SIZE_B2D (WORLD_HEIGHT / 64)
+#define PLAYER_SIZE_B2D_X (WORLD_WIDTH / (RATIO_SCREEN_X * 2.f))
+#define PLAYER_SIZE_B2D_Y (WORLD_WIDTH / (RATIO_SCREEN_Y * 2.f))
+#define SPELL_SIZE_B2D (WORLD_HEIGHT / (RATIO_SCREEN_X * 4.f))
 
 // Path pour trouver les assests 
 #define PATH_XML "..\\..\\data.xml"
