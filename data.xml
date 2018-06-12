@@ -14,6 +14,6 @@
       <Element label="Play" path="..\\..\\Assets\\button_play.jpg"/>
       <Element label="playing_background" path="..\\..\\Assets\\playing_background.jpg"/>
       <Element label="dammagePlayer" path="..\\..\\Assets\\dammage.png"/>
-      <Element label="interfacePlayer" path="..\\..\\Assets\\blank.png"/>
+      <Element label="interfacePlayer" path="..\\..\\Assets\\interface.png"/>
     </last>
 </loadElements>

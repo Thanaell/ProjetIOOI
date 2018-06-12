@@ -27,6 +27,10 @@
 #define SELECT_BUTTON_SIZE (sf::Vector2f(BUTTON_SIZE_X + 10.f, BUTTON_SIZE_Y + 6.f))
 #define SELECT_BUTTON_ORIGINE (sf::Vector2f((BUTTON_SIZE_X + 10.f) / 2, (BUTTON_SIZE_Y + 6.f) / 2))
 #define SELECT_BUTTON_COLOR (sf::Color::Color(0x9a9a10FF))
+#define INTERFACE_PLAYER_SIZE_X (420.f)
+#define INTERFACE_PLAYER_ORIGINE(i) (sf::Vector2f(i == 0 ? 0.f : INTERFACE_PLAYER_SIZE_X, 0.f))
+#define INTERFACE_PLAYER_SCALE (sf::Vector2f(W_WIDTH / 1280.f, W_HEIGHT / 720.f))
+#define INTERFACE_PLAYER_POSITION(i) (sf::Vector2f(i == 0 ? 0.f : W_WIDTH, 0.f))
 
 // Définition de la taille des assets dessinés
 #define HELTH_W_SIZE (W_WIDTH / 4.f)

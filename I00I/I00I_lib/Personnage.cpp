@@ -126,6 +126,13 @@ void Personnage::loadSprites() {
 	barreVie->setPosition(HEALTH_POSITION(player));
 	barreVie->setFillColor(HEALTH_COLOR);
 	sprites.push_back(std::unique_ptr<sf::RectangleShape>(barreVie));
+
+	sf::Sprite* interfacePlayer = new sf::Sprite(*sin.getTexture("interfacePlayer"));
+
+	interfacePlayer->setOrigin(INTERFACE_PLAYER_ORIGINE(player));
+	interfacePlayer->setScale(INTERFACE_PLAYER_SCALE);
+	interfacePlayer->setPosition(INTERFACE_PLAYER_POSITION(player));
+	sprites.push_back(std::unique_ptr<sf::Sprite>(interfacePlayer));
 }
 
 void Personnage::move(float x, float y) {
