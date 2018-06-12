@@ -55,6 +55,8 @@
 // Constantes caractéristiques des différents personnages
 #define HEALTH_PERSO_1 (100)
 #define HEALTH_PERSO_2 (130)
+#define SPEED_PERSO_1 (PLAYER_VELOCITY)
+#define SPEED_PERSO_2 (PLAYER_VELOCITY * .8f)
 #define DAMMAGE_SPRITE_DURATION (35)
 
 // Constantes caractéristiques des différents sorts
