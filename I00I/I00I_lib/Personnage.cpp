@@ -97,7 +97,7 @@ void Personnage::loadSprites() {
 	sf::Sprite* movingSprite = nullptr;
 	movingSprite = new sf::Sprite(*sin.getTexture(spriteName));
 
-	movingSprite->setOrigin(sf::Vector2f(200.f, 200.f));
+	movingSprite->setOrigin(PLAYER_SPRITE_ORIGINE);
 	movingSprite->setScale(SPRITE_SCALE);
 	if(!isFacingRight) movingSprite->scale(sf::Vector2f(-1.f, 1.f));
 	sprites.push_back(std::unique_ptr<sf::Sprite>(movingSprite));

@@ -45,7 +45,7 @@ void Spell::loadSprites() {
 		movingSprite = new sf::Sprite(*sin.getTexture("spell2"));
 		break;
 	}
-	movingSprite->setOrigin(sf::Vector2f(100.f, 100.f));
+	movingSprite->setOrigin(SPELL_SPRITE_ORIGINE);
 	movingSprite->setScale(SPRITE_SCALE);
 
 
@@ -81,12 +81,7 @@ Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float direc
 	//position du sort varie selon le sens du personnage
 	//si on ne bouge pas le joystick
 	if (directionX == 0 && directionY == 0) {
-		if (isCharacterFacingRight) {
-			bodyDef.position.Set(passedBody->GetPosition().x + 5, passedBody->GetPosition().y);
-		}
-		else {
-			bodyDef.position.Set(passedBody->GetPosition().x - 5, passedBody->GetPosition().y);
-		}
+		bodyDef.position.Set(passedBody->GetPosition().x + (isCharacterFacingRight ? 5 : -5), passedBody->GetPosition().y);
 	}
 	//si on indique une direction
 	else {
@@ -99,7 +94,7 @@ Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float direc
 	body = Game::getWorld()->CreateBody(&bodyDef);
 
 	b2CircleShape circle;
-	circle.m_radius = WORLD_HEIGHT/64;
+	circle.m_radius = SPELL_SIZE_B2D;
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &circle;
 
@@ -109,8 +104,7 @@ Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float direc
 
 	//cas où le joystick n'est presque pas incliné
 	if (abs(directionX) < 5 && abs(directionY) < 5) {
-		if (isCharacterFacingRight) body->SetLinearVelocity(b2Vec2(speed * COEF_SPELL_SPEED, 0));
-		else body->SetLinearVelocity(b2Vec2(-speed * COEF_SPELL_SPEED, 0));
+		body->SetLinearVelocity(b2Vec2((isCharacterFacingRight ? speed : -speed) * COEF_SPELL_SPEED, 0));
 	}
 	else {
 		float racine = sqrt(directionX * directionX + directionY * directionY);

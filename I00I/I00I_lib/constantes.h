@@ -9,8 +9,10 @@
 #define WORLD_WIDTH (160)
 #define WORLD_HEIGHT (90)
 
-
+// Constantes liées à SFML
 #define SPRITE_SCALE (sf::Vector2f(.2f, .2f))
+#define SPELL_SPRITE_ORIGINE (sf::Vector2f(100.f, 100.f))
+#define PLAYER_SPRITE_ORIGINE (sf::Vector2f(200.f, 200.f))
 
 // Définition de la taille des assets dessinés
 #define HELTH_W_SIZE (W_WIDTH / 4.f)
@@ -26,6 +28,7 @@
 #define PLAYER_POSITION_Y (WORLD_HEIGHT / 5)
 #define PLAYER_DENSITY (1.f)
 #define PLAYER_FRICTION (.3f)
+#define SPELL_SIZE_B2D (WORLD_HEIGHT / 64)
 
 // Path pour trouver les assests 
 #define PATH_XML "..\\..\\data.xml"
