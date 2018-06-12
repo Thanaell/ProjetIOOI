@@ -117,7 +117,7 @@ Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float direc
 }
 // Fonction appelée lors qu'un sort touche un personnage
 void Spell::affect(Personnage &character) {
-	character.receive(type);
+	character.receive(type, ((sf::Sprite*)sprites[0].get())->getPosition());
 }
 
 bool Spell::updateSprites() {

@@ -28,6 +28,8 @@ protected:
 	std::vector<SpellType> spellbook;
 	//entier permettant de savoir le moment où a été lancé le dernier sort
 	unsigned int lastInvocationDate;
+	// entier permettant de savoir le moment où a été recu le dernier sort
+	unsigned int lastDammage;
 	//chargement des sprites associées
 	void loadSprites();
 	// Récupère les évènements du joystick pour bouger le personnage
@@ -43,7 +45,7 @@ protected:
 
 public:
 	// Méthode appellé lorsqu'un sort touche un personnage et qui met a jour les points de vie (et potentiellement la position) du personnage
-	void receive(SpellType sort);
+	void receive(SpellType sort, sf::Vector2f spellPosition);
 	// Getter de health 
 	float getHealth();
 	// Récupère les infos du Joystick et agit en fonction

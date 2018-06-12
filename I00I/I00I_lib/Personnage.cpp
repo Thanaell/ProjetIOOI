@@ -6,7 +6,7 @@
 #include "Perso2.h"
 
 Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
-	player(init), type(myType), lastInvocationDate(clock()), spriteName(spriteName) {
+	player(init), type(myType), lastInvocationDate(clock()), lastDammage(0), spriteName(spriteName) {
 	isFacingRight = init == 0;
 
 	//initialisation du body
@@ -27,14 +27,24 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	loadSprites();
 }
 
-void Personnage::receive(SpellType sort) {
+void Personnage::receive(SpellType sort, sf::Vector2f spellPosition) {
 	switch (sort) {
-	case SORT1:
+	case SORT1: health -= POWER_SORT_1; break;
+	case SORT2: health -= POWER_SORT_2; break;
+	case SORT3: health -= POWER_SORT_3; break;
 	default:
 		health -= 10;
 		break;
 	}
 	((sf::RectangleShape*)sprites[2].get())->setScale(sf::Vector2f(health / maxHealth > 0.f ? health / maxHealth : 0, 1.f));
+	lastDammage = clock();
+	auto spritePosition = ((sf::Sprite*)sprites[0].get())->getPosition();
+	((sf::Sprite*)sprites[1].get())->setPosition(spritePosition);
+	((sf::Sprite*)sprites[1].get())->setColor(sf::Color::White);
+	if (spritePosition.x - spellPosition.x < 0 && ((sf::Sprite*)sprites[1].get())->getScale().x < 0
+		|| spritePosition.x - spellPosition.x > 0 && ((sf::Sprite*)sprites[1].get())->getScale().x > 0) {
+		((sf::Sprite*)sprites[1].get())->scale(sf::Vector2f(-1.f, 1.f));
+	}
 }
 
 float Personnage::getHealth() {
@@ -42,6 +52,7 @@ float Personnage::getHealth() {
 }
 
 Spell * Personnage::Action() {
+	if (clock() - lastDammage > DAMMAGE_SPRITE_DURATION) ((sf::Sprite*)sprites[1].get())->setColor(sf::Color::Transparent);
 	float stickX = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::X)) > STICK_SENSIBILITY ?
 		sf::Joystick::getAxisPosition(player, sf::Joystick::X) : 0;
 	float stickY = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::Y)) > STICK_SENSIBILITY ?
@@ -94,8 +105,7 @@ Personnage* Personnage::createPersonnage(CharacterType myType, int init) {
 
 void Personnage::loadSprites() {
 	auto& sin = Loader::Instance();
-	sf::Sprite* movingSprite = nullptr;
-	movingSprite = new sf::Sprite(*sin.getTexture(spriteName));
+	sf::Sprite* movingSprite = new sf::Sprite(*sin.getTexture(spriteName));
 
 	movingSprite->setOrigin(PLAYER_SPRITE_ORIGINE);
 	movingSprite->setScale(SPRITE_SCALE);
@@ -103,7 +113,13 @@ void Personnage::loadSprites() {
 	sprites.push_back(std::unique_ptr<sf::Sprite>(movingSprite));
 
 	//	Sprite marquant que le personnage est affecté par un sort
-	sprites.push_back(std::unique_ptr<sf::Sprite>(new sf::Sprite()));
+	sf::Sprite* dammage = new sf::Sprite(*sin.getTexture("dammagePlayer"));
+
+	dammage->setOrigin(PLAYER_SPRITE_ORIGINE);
+	dammage->setScale(SPRITE_SCALE);
+	dammage->setColor(sf::Color::Transparent);
+	if (!isFacingRight) dammage->scale(sf::Vector2f(-1.f, 1.f));
+	sprites.push_back(std::unique_ptr<sf::Sprite>(dammage));
 
 	sf::RectangleShape* barreVie = new sf::RectangleShape(HELTH_SIZE);
 	barreVie->setOrigin(HEALTH_ORIGINE(player));

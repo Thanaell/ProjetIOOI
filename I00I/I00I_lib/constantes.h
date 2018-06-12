@@ -55,11 +55,15 @@
 // Constantes caractéristiques des différents personnages
 #define HEALTH_PERSO_1 (100)
 #define HEALTH_PERSO_2 (130)
+#define DAMMAGE_SPRITE_DURATION (35)
 
 // Constantes caractéristiques des différents sorts
 #define SPEED_SORT_1 (20.f)
 #define SPEED_SORT_2 (5.f)
 #define SPEED_SORT_3 (1.f)
+#define POWER_SORT_1 (10.f)
+#define POWER_SORT_2 (20.f)
+#define POWER_SORT_3 (45.f)
 
 //	Enumération des états du programme au cours de sa vie (voir le diagramme de machine a état)
 enum GAME_STATE {
