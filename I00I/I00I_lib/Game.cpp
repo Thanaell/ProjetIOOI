@@ -120,6 +120,9 @@ void Game::displayLoading() {
 		logo->setScale(.4f, .4f);
 		logo->setPosition(680.f, 580.f);
 		playingBackground.reset(new sf::Sprite(*sin.getTexture("playing_background")));
+		spriteGameOver.reset(new sf::Sprite(*sin.getTexture("gameover")));
+		spriteGameOver->setOrigin(GAMEOVER_ORIGINE);
+		spriteGameOver->setPosition(GAMEOVER_POSITION);
 		gameState = MENU;
 		break;
 	case WAIT_FAILED: break;
@@ -262,34 +265,38 @@ void Game::displayPlaying() {
 			else ++it;
 		}
 
-		//	Affichage
-		window.draw(*playingBackground.get());
 
-		for (auto& p : players) {
-			if (p->updateSprites())
-				p->draw(window);
-		}
-
-		for (auto it = activeSpells.begin(); it != activeSpells.end();)
-		{
-			if (it->get()->updateSprites()) {
-				it->get()->draw(window);
-				++it;
-			}
-			else {
-				it = activeSpells.erase(it);
-			}
-		}
-		
 		//check for gameover
 		for (auto& p : players) {
 			if (p->getHealth() <= 0) {
-				isPlayng = false;
+				isPlaying = false;
 				std::cout << "le personnage "<< p->getNumber() <<" est mort" ;
 			}
 		}
-	} else {
-		if(sf::Joystick::isButtonPressed(player, 0) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	}
+	//	Affichage
+	window.draw(*playingBackground.get());
+
+	for (auto& p : players) {
+		if (p->updateSprites())
+			p->draw(window);
+	}
+
+	for (auto it = activeSpells.begin(); it != activeSpells.end();)
+	{
+		if (it->get()->updateSprites()) {
+			it->get()->draw(window);
+			++it;
+		}
+		else {
+			it = activeSpells.erase(it);
+		}
+	}
+	
+	
+	if(!isPlaying) {
+		window.draw(*spriteGameOver.get());
+		if(sf::Joystick::isButtonPressed(0, 0) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 			gameOver();
 	}
 	

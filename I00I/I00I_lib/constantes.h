@@ -31,6 +31,8 @@
 #define INTERFACE_PLAYER_ORIGINE(i) (sf::Vector2f(i == 0 ? 0.f : INTERFACE_PLAYER_SIZE_X, 0.f))
 #define INTERFACE_PLAYER_SCALE (sf::Vector2f(W_WIDTH / 1280.f, W_HEIGHT / 720.f))
 #define INTERFACE_PLAYER_POSITION(i) (sf::Vector2f(i == 0 ? 0.f : W_WIDTH, 0.f))
+#define GAMEOVER_ORIGINE (sf::Vector2f(W_WIDTH / 2, W_HEIGHT / 2))
+#define GAMEOVER_POSITION (sf::Vector2f(W_WIDTH / 2, W_HEIGHT / 2))
 
 // Définition de la taille des assets dessinés
 #define HELTH_W_SIZE (W_WIDTH / 4.f)
