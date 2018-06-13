@@ -14,17 +14,17 @@ void Game::CreateGame() {
 }
 
 Game::Game() :
-	countFrame(0),
+	countFrame(0), isPlaying(false),
 	window(sf::VideoMode(W_WIDTH, W_HEIGHT), W_TITLE),
 	gameState(LOADING), timeStep(1.0f / 60.0f), velocityIterations(6), positionIterations(2),
 	overBackground(sf::RectangleShape(sf::Vector2f(W_WIDTH, W_HEIGHT)))
 {
-//	Création des éléments de base du jeu
+//	Crï¿½ation des ï¿½lï¿½ments de base du jeu
 
-	// Création du mutex pour le chargement des données
+	// Crï¿½ation du mutex pour le chargement des donnï¿½es
 	loadMutex = NULL;
 
-	// Création du thread de chargement
+	// Crï¿½ation du thread de chargement
 	DWORD threadID;
 	loadThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) loading, this, 0, &threadID);
 	assert(loadThread != NULL);
@@ -74,13 +74,13 @@ void Game::displayLoading() {
 			switch (state) {
 			case WAIT_ABANDONED: break;
 			case WAIT_TIMEOUT: break;
-				//	une fois que le chargement des données est terminé
-				// On relache le thread et le mutex, et l'état du programme passe en "MENU"
+				//	une fois que le chargement des donnï¿½es est terminï¿½
+				// On relache le thread et le mutex, et l'ï¿½tat du programme passe en "MENU"
 			case WAIT_OBJECT_0:
 				CloseHandle(loadMutexBackground);
 				loadMutexBackground = NULL;
 #ifdef DEBUG_LOG
-				std::cout << "Le background a fini d'etre chargé : " << MS_SINCE_BEGIN << "ms" << std::endl;
+				std::cout << "Le background a fini d'etre chargï¿½ : " << MS_SINCE_BEGIN << "ms" << std::endl;
 #endif
 				background.reset(new sf::Sprite(*sin.getTexture("background")));
 				overBackground.setFillColor(sf::Color(0x000000A9));
@@ -95,7 +95,7 @@ void Game::displayLoading() {
 		window.draw(*logo.get());
 	}
 
-	//	Le mutex n'a pas encore été crée par le thread
+	//	Le mutex n'a pas encore ï¿½tï¿½ crï¿½e par le thread
 	if (loadMutex == NULL) {
 #ifdef DEBUG_LOG
 		std::cout << "le mutex n'existe pas" << std::endl;
@@ -106,15 +106,15 @@ void Game::displayLoading() {
 	switch (state) {
 	case WAIT_ABANDONED: break;
 	case WAIT_TIMEOUT: break;
-		//	une fois que le chargement des données est terminé
-		// On relache le thread et le mutex, et l'état du programme passe en "MENU"
+		//	une fois que le chargement des donnï¿½es est terminï¿½
+		// On relache le thread et le mutex, et l'ï¿½tat du programme passe en "MENU"
 	case WAIT_OBJECT_0:
 		CloseHandle(loadThread);
 		loadThread = NULL;
 		CloseHandle(loadMutex);
 		loadMutex = NULL;
 #ifdef DEBUG_LOG
-		std::cout << "Les données ont finies d'etre chargées et peuvent etre utilisée : " << MS_SINCE_BEGIN << "ms" << std::endl;
+		std::cout << "Les donnï¿½es ont finies d'etre chargï¿½es et peuvent etre utilisï¿½e : " << MS_SINCE_BEGIN << "ms" << std::endl;
 #endif
 		logo->setOrigin(640.f, 360.f);
 		logo->setScale(.4f, .4f);
@@ -126,7 +126,7 @@ void Game::displayLoading() {
 	default: break;
 	}
 	
-	// Gestion des évènements durant le chargement
+	// Gestion des ï¿½vï¿½nements durant le chargement
 	sf::Event event;
 	while (window.pollEvent(event)) {
 		switch (event.type)
@@ -154,14 +154,14 @@ void Game::displayLoading() {
 }
 
 void Game::displayMenu() {
-	// S'il le faut, on crée le menu
+	// S'il le faut, on crï¿½e le menu
 	if (menuElements.size() == 0) {
 		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(sf::Vector2f(.5f, .2f), "Play", true)));
 		menuElements.push_back(std::unique_ptr<MenuButton>(new MenuButton(sf::Vector2f(.5f, .4f), "Exit")));
 	}
 
 
-	// Gestion des évènements sur le menu
+	// Gestion des ï¿½vï¿½nements sur le menu
 	sf::Event event;
 	while (window.pollEvent(event)) {
 		switch (event.type)
@@ -220,7 +220,7 @@ void Game::displayMenu() {
 }
 
 void Game::displayPlaying() {
-	// Gestion des évènements durant le jeu
+	// Gestion des ï¿½vï¿½nements durant le jeu
 	sf::Event event;
 	while (window.pollEvent(event)) {
 		switch (event.type)
@@ -242,56 +242,61 @@ void Game::displayPlaying() {
 				break;
 		}
 	}
-	for (auto& player : players) {
-		Spell* newSpell = player->Action();
-		if (newSpell != nullptr) {
-			activeSpells.push_back(std::unique_ptr<Spell>(newSpell));
-		}
-	}
-	//	Calcul du monde
-    world->Step(timeStep, velocityIterations, positionIterations);
 
-	//	Gestion des collisions
-	for (auto it = activeSpells.begin(); it != activeSpells.end();)
-	{
-		if (it->get()->getIsContacting() == true) {
-			it = activeSpells.erase(it);
+	if(isPlaying) {
+		for (auto& player : players) {
+			Spell* newSpell = player->Action();
+			if (newSpell != nullptr) {
+				activeSpells.push_back(std::unique_ptr<Spell>(newSpell));
+			}
 		}
-		else ++it;
-	}
+		//	Calcul du monde
+		world->Step(timeStep, velocityIterations, positionIterations);
 
-	//	Affichage
-	window.draw(*playingBackground.get());
-
-	for (auto& p : players) {
-		if (p->updateSprites())
-			p->draw(window);
-	}
-
-	for (auto it = activeSpells.begin(); it != activeSpells.end();)
-	{
-		if (it->get()->updateSprites()) {
-			it->get()->draw(window);
-			++it;
+		//	Gestion des collisions
+		for (auto it = activeSpells.begin(); it != activeSpells.end();)
+		{
+			if (it->get()->getIsContacting() == true) {
+				it = activeSpells.erase(it);
+			}
+			else ++it;
 		}
-		else {
-			it = activeSpells.erase(it);
+
+		//	Affichage
+		window.draw(*playingBackground.get());
+
+		for (auto& p : players) {
+			if (p->updateSprites())
+				p->draw(window);
 		}
-	}
-	
-	//check for gameover
-	for (auto& p : players) {
-		if (p->getHealth() <= 0) {
-			std::cout << "le personnage "<< p->getNumber() <<" est mort" ;
+
+		for (auto it = activeSpells.begin(); it != activeSpells.end();)
+		{
+			if (it->get()->updateSprites()) {
+				it->get()->draw(window);
+				++it;
+			}
+			else {
+				it = activeSpells.erase(it);
+			}
+		}
+		
+		//check for gameover
+		for (auto& p : players) {
+			if (p->getHealth() <= 0) {
+				isPlayng = false;
+				std::cout << "le personnage "<< p->getNumber() <<" est mort" ;
+			}
+		}
+	} else {
+		if(sf::Joystick::isButtonPressed(player, 0) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 			gameOver();
-		}
 	}
-	
 	
 }
 
 void Game::displayUnLoading() {
-	// Gestion des évènements durant le déchargement
+	// Gestion des ï¿½vï¿½nements durant le dï¿½chargement
 	sf::Event event;
 	while (window.pollEvent(event)) {
 		switch (event.type)
@@ -306,6 +311,7 @@ void Game::displayUnLoading() {
 }
 
 void Game::createGame() {
+	isPlaying = true;
 	world.reset(new b2World(GRAVITY_WORLD));
 
 	//contact listener
@@ -316,7 +322,7 @@ void Game::createGame() {
 	b2Vec2 v3(WORLD_WIDTH, 0.0f);
 	b2Vec2 v4(WORLD_WIDTH, WORLD_HEIGHT);
 
-	//création des 4 murs	
+	//crï¿½ation des 4 murs	
 	//sol
 	b2BodyDef bodyDef1;
 	bodyDef1.type = b2_staticBody;
@@ -371,7 +377,7 @@ void Game::gameOver() {
 
 DWORD Game::loading(LPVOID params) {
 	Game* that = (Game*)params;
-	// Création du mutex pour le chargement des données
+	// Crï¿½ation du mutex pour le chargement des donnï¿½es
 	that->loadMutex = CreateMutexA(NULL, FALSE, NULL);
 	assert(that->loadMutex != NULL);
 	auto mutexValue = WaitForSingleObject(that->loadMutex, 1);
@@ -383,9 +389,9 @@ DWORD Game::loading(LPVOID params) {
 	auto& sin = Loader::Instance();
 
 	if (mutexValue == WAIT_OBJECT_0) {
-		//	Chargement des données
+		//	Chargement des donnï¿½es
 #ifdef DEBUG_LOG
-		std::cout << "On est en train de charger des données avec la fonction loading... : " << MS_SINCE_BEGIN << "ms" << std::endl;
+		std::cout << "On est en train de charger des donnï¿½es avec la fonction loading... : " << MS_SINCE_BEGIN << "ms" << std::endl;
 #endif
 		if (mutexValuebg == WAIT_OBJECT_0) {
 			sin.loadFirst();

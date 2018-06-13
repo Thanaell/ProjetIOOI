@@ -16,25 +16,25 @@
 class Game {
 	// Fenetre du programme
 	sf::RenderWindow window;
-	// Etat du programme (voir le diagramme de machine à état)
+	// Etat du programme (voir le diagramme de machine ï¿½ ï¿½tat)
 	GAME_STATE gameState;
 	// Mutex qui couble l'ensemble de la fonction de chargement
 	HANDLE loadMutex;
-	// Mutex permettant à la gameloop de savoir quand afficher l'arrière plan
+	// Mutex permettant ï¿½ la gameloop de savoir quand afficher l'arriï¿½re plan
 	HANDLE loadMutexBackground;
 	// Thread de chargement des assets, permettant de ne pas perturber la gameloop
 	HANDLE loadThread;
-	//	Pointeur sur le monde qui sera généré dans le jeu
+	//	Pointeur sur le monde qui sera gï¿½nï¿½rï¿½ dans le jeu
 	std::unique_ptr<b2World> world;
 	MyContactListener myContactListenerInstance;
 
 	///	Pour le menu
-	// Arrière plan a proprement parler
+	// Arriï¿½re plan a proprement parler
 	std::unique_ptr<sf::Sprite> background;
 	std::unique_ptr<sf::Sprite> playingBackground;
 	sf::RectangleShape overBackground;
 	std::unique_ptr<sf::Sprite> logo;
-	// Liste des éléments (bouton) du menu
+	// Liste des ï¿½lï¿½ments (bouton) du menu
 	std::vector<std::unique_ptr<MenuButton>> menuElements;
 
 	std::vector<std::unique_ptr<Personnage>> players;
@@ -46,38 +46,39 @@ class Game {
 	int positionIterations;
 
 	int countFrame;
+	bool isPlaying;
 
 	static Game* _instance;
 public:
-	// Constructeur et seul méthode publique
+	// Constructeur et seul mï¿½thode publique
 	static void CreateGame();
 private:
 	Game();
-	// Fonction de gameloop : boucle infinie qui appelle les méthodes de rafaichissement en fonction de l'état du jeu puis met a jour l'affichage
+	// Fonction de gameloop : boucle infinie qui appelle les mï¿½thodes de rafaichissement en fonction de l'ï¿½tat du jeu puis met a jour l'affichage
 	void gameLoop();
 
-	//Méthodes de rafraichissement de l'affichage en fonction de l'état du programme
-	// Chaque méthode est amenée à etre appelée en boucle, a chaque rafraichissement de l'affichage
-	// Jusqu'à ce que la classe change d'état
+	//Mï¿½thodes de rafraichissement de l'affichage en fonction de l'ï¿½tat du programme
+	// Chaque mï¿½thode est amenï¿½e ï¿½ etre appelï¿½e en boucle, a chaque rafraichissement de l'affichage
+	// Jusqu'ï¿½ ce que la classe change d'ï¿½tat
 
-	//	Fonction qui affiche quelque chose pendant le chargement des données/assets en mémmoire (ce chargement est fait sur un autre thread)
+	//	Fonction qui affiche quelque chose pendant le chargement des donnï¿½es/assets en mï¿½mmoire (ce chargement est fait sur un autre thread)
 	void displayLoading();
 
-	//	Fonction qui affiche et fait réagit le menu et les paramétrages de partie
+	//	Fonction qui affiche et fait rï¿½agit le menu et les paramï¿½trages de partie
 	void displayMenu();
 
-	//	Fonction qui gère la partie
+	//	Fonction qui gï¿½re la partie
 	void displayPlaying();
 
-	//	Fonction qui s'assure qu'on ne perd aucune données avant de quitter
+	//	Fonction qui s'assure qu'on ne perd aucune donnï¿½es avant de quitter
 	void displayUnLoading();
 
-	//	Fonction qui instancie les données nécessaires pour la partie
+	//	Fonction qui instancie les donnï¿½es nï¿½cessaires pour la partie
 	void createGame();
 
 	void gameOver();
 
-	//	Fonction exécutée sur un autre thread et qui charge en mémoire les données du jeux, lache le sémaphore quand les données sont chargées
+	//	Fonction exï¿½cutï¿½e sur un autre thread et qui charge en mï¿½moire les donnï¿½es du jeux, lache le sï¿½maphore quand les donnï¿½es sont chargï¿½es
 	static DWORD WINAPI loading(LPVOID);
 
 public:
