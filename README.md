@@ -13,7 +13,7 @@ Par ailleurs nous devions réaliser le projet en 2 semaines.
 
 ## Le résultat
 Au bout des deux semaines, nous sommes relativement fier de ce que nous avons accompli. Nous avons un jeu jouable, avec 2 personnages et 3 sorts différents. Le jeu est parfaitement fluide et se joue a la manette. </br>
-Voici quelques captures d'écrans : 
+Voici quelques captures d'écran : 
 </br> </br>
 ![Menu](./screenshots/menu.png)
 * Le menu du jeu
@@ -26,4 +26,16 @@ Voici quelques captures d'écrans :
 ![Game Over](./screenshots/gameover.png)
 * Le game over
 
+</br> </br>
 
+## La réalisation 
+
+</br> </br>
+![Diagramme de classes simplifiés](./screenshots/diagramme_simpl.jpg)
+* Le jeu en pleine partie 
+
+</br> </br>
+![Diagramme de classes](./screenshots/diagramme.jpg)
+* Le game over
+
+</br> </br>
