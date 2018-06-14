@@ -18,13 +18,20 @@ Voici quelques captures d'écran :
 ![Menu](./screenshots/menu.png)
 * Le menu du jeu
 
+Pour le moment les parties ne sont pas paramétrables, c'est un défaut que nous corrigerons par la suite. Cela étant le menu fonctionne aussi bien avec la souris qu'avec la manette.
+
 </br> </br>
 ![Playing](./screenshots/playing.png)
 * Le jeu en pleine partie 
 
+Le jeu est donc une sorte de Street Fighter sauf que les personnages sont des sorciers qui ne lancent que des sorts à distance. Pour le moment les personnages ne disposent que de 3 sorts ayant une puissance et une vitesse différentes. Les deux personnages aussi ont des caractéristiques différentes (points de vie et vitesse de déplacement). </br>
+S'il n'y a qu'un seul joystick de connecté, le second personnage est controlable au clavier. S'il n'y a aucun joystick, c'est le premier personnage qui devient controlable au clavier.
+
 </br> </br>
 ![Game Over](./screenshots/gameover.png)
 * Le game over
+
+L'affichage du Game Over est a revoir mais à l'avantage d'indiquer clairement que le jeu est terminé.
 
 </br> </br>
 
