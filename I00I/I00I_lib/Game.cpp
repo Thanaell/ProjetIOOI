@@ -210,7 +210,7 @@ void Game::displayMenu() {
 			break;
 		}
 	}
-	if (countFrame % 12 == 0 && abs(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y)) > 80) {
+	if (countFrame % 10 == 0 && abs(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y)) > 80) {
 		for (auto & b : menuElements) b->changeSelection();
 	}
 

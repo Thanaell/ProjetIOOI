@@ -31,11 +31,11 @@ Voici quelques captures d'écran :
 ## La réalisation 
 
 </br> </br>
-![Diagramme de classes simplifiés](./screenshots/diagramme_simpl.jpg)
+![Diagramme de classes simplifiés](./screenshots/IOOIsimple.jpg)
 * Le jeu en pleine partie 
 
 </br> </br>
-![Diagramme de classes](./screenshots/diagramme.jpg)
+![Diagramme de classes](./screenshots/IOOIdetailled.jpg)
 * Le game over
 
 </br> </br>

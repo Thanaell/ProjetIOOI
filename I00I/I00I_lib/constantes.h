@@ -1,7 +1,8 @@
 #pragma once
+// Constante indépendante fixant la hauteur de la fenetre 
 #define W_HEIGHT (720)
 
-// Ratios utiles
+// Ratios utiles permettant de définir comment Box2d et SFML interagissent entre eux
 #define RATIO_WINDOWS_B2D (8.f)
 #define RATIO_SCREEN_X (16.f)
 #define RATIO_SCREEN_Y (9.f)
@@ -66,6 +67,7 @@
 #define DAMMAGE_SPRITE_DURATION (35)
 
 // Constantes caractéristiques des différents sorts
+#define COEF_SPELL_SPEED (19.f)
 #define SPEED_SORT_1 (20.f)
 #define SPEED_SORT_2 (5.f)
 #define SPEED_SORT_3 (1.f)
@@ -90,5 +92,3 @@ enum GAME_STATE {
 
 #define MS_SINCE_BEGIN clock()
 
-
-#define COEF_SPELL_SPEED (19.f)
