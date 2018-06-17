@@ -1,79 +1,82 @@
 #pragma once
+#include <string>
+#include <SFML/Graphics.hpp>
+
 // Constante indépendante fixant la hauteur de la fenetre 
-#define W_HEIGHT (720)
+static const float W_HEIGHT(720);
 
 // Ratios utiles permettant de définir comment Box2d et SFML interagissent entre eux
-#define RATIO_WINDOWS_B2D (8.f)
-#define RATIO_SCREEN_X (16.f)
-#define RATIO_SCREEN_Y (9.f)
-#define RATIO_SCREEN (RATIO_SCREEN_X/RATIO_SCREEN_Y)
+static const float RATIO_WINDOWS_B2D(8.f);
+static const float RATIO_SCREEN_X(16.f);
+static const float RATIO_SCREEN_Y(9.f);
+static const float RATIO_SCREEN(RATIO_SCREEN_X / RATIO_SCREEN_Y);
 
 //	Define portant sur la fenetre au lancement du jeu
-#define W_WIDTH (W_HEIGHT * RATIO_SCREEN)
-#define W_TITLE "Hello World!"
+static const float W_WIDTH(W_HEIGHT * RATIO_SCREEN);
+static const std::string W_TITLE("Hello World!");
 
 // Define portant sur la taille du monde box2D
-#define WORLD_WIDTH (W_WIDTH / RATIO_WINDOWS_B2D)
-#define WORLD_HEIGHT (W_HEIGHT / RATIO_WINDOWS_B2D)
+static const float WORLD_WIDTH(W_WIDTH / RATIO_WINDOWS_B2D);
+static const float WORLD_HEIGHT(W_HEIGHT / RATIO_WINDOWS_B2D);
 
 
 // Constantes liées à SFML
-#define SPRITE_SCALE (sf::Vector2f(.2f, .2f))
-#define SPELL_SPRITE_ORIGINE (sf::Vector2f(100.f, 100.f))
-#define PLAYER_SPRITE_ORIGINE (sf::Vector2f(200.f, 200.f))
-#define BUTTON_SIZE_X (320.f)
-#define BUTTON_SIZE_Y (108.f)
-#define BUTTON_ORIGINE (sf::Vector2f(BUTTON_SIZE_X / 2, BUTTON_SIZE_Y / 2))
-#define BUTTON_POSITION(p) (sf::Vector2f(p.x * W_WIDTH, p.y * W_HEIGHT))
-#define SELECT_BUTTON_SIZE (sf::Vector2f(BUTTON_SIZE_X + 10.f, BUTTON_SIZE_Y + 6.f))
-#define SELECT_BUTTON_ORIGINE (sf::Vector2f((BUTTON_SIZE_X + 10.f) / 2, (BUTTON_SIZE_Y + 6.f) / 2))
-#define SELECT_BUTTON_COLOR (sf::Color::Color(0x9a9a10FF))
-#define INTERFACE_PLAYER_SIZE_X (420.f)
-#define INTERFACE_PLAYER_ORIGINE(i) (sf::Vector2f(i == 0 ? 0.f : INTERFACE_PLAYER_SIZE_X, 0.f))
-#define INTERFACE_PLAYER_SCALE (sf::Vector2f(W_WIDTH / 1280.f, W_HEIGHT / 720.f))
-#define INTERFACE_PLAYER_POSITION(i) (sf::Vector2f(i == 0 ? 0.f : W_WIDTH, 0.f))
-#define GAMEOVER_ORIGINE (sf::Vector2f(W_WIDTH / 2, W_HEIGHT / 2))
-#define GAMEOVER_POSITION (sf::Vector2f(W_WIDTH / 2, W_HEIGHT / 2))
+static const sf::Vector2f SPRITE_SCALE(.2f, .2f);
+static const sf::Vector2f SPELL_SPRITE_ORIGINE(100.f, 100.f);
+static const sf::Vector2f PLAYER_SPRITE_ORIGINE(200.f, 200.f);
+static const float BUTTON_SIZE_X(320.f);
+static const float BUTTON_SIZE_Y(108.f);
+static const sf::Vector2f BUTTON_ORIGINE(BUTTON_SIZE_X / 2, BUTTON_SIZE_Y / 2);
+static const sf::Vector2f BUTTON_POSITION(sf::Vector2f p) { return sf::Vector2f(p.x * W_WIDTH, p.y * W_HEIGHT); }
+static const sf::Vector2f SELECT_BUTTON_SIZE(BUTTON_SIZE_X + 10.f, BUTTON_SIZE_Y + 6.f);
+static const sf::Vector2f SELECT_BUTTON_ORIGINE ((BUTTON_SIZE_X + 10.f) / 2, (BUTTON_SIZE_Y + 6.f) / 2);
+static const sf::Color SELECT_BUTTON_COLOR(0x9a9a10FF);
+static const float INTERFACE_PLAYER_SIZE_X(420.f);
+static const sf::Vector2f INTERFACE_PLAYER_ORIGINE(int i) { return sf::Vector2f(i == 0 ? 0.f : INTERFACE_PLAYER_SIZE_X, 0.f); }
+static const sf::Vector2f INTERFACE_PLAYER_SCALE(W_WIDTH / 1280.f, W_HEIGHT / 720.f);
+static const sf::Vector2f INTERFACE_PLAYER_POSITION(int i) { return sf::Vector2f(i == 0 ? 0.f : W_WIDTH, 0.f); }
+static const sf::Vector2f GAMEOVER_ORIGINE(W_WIDTH / 2, W_HEIGHT / 2);
+static const sf::Vector2f GAMEOVER_POSITION(W_WIDTH / 2, W_HEIGHT / 2);
 
 // Définition de la taille des assets dessinés
-#define HELTH_W_SIZE (W_WIDTH / 4.f)
-#define HELTH_SIZE (sf::Vector2f(HELTH_W_SIZE, W_HEIGHT / 18.f))
-#define HEALTH_ORIGINE(x) (sf::Vector2f(x == 0 ? 0.f: HELTH_W_SIZE, 0.f))
-#define HEALTH_POSITION(x) (sf::Vector2f(x == 0 ? 50.f : W_WIDTH - 50.f, 50.f))
-#define HEALTH_COLOR (sf::Color::Color(0xe040109a))
+static const float HELTH_W_SIZE(W_WIDTH / 4.f);
+static const sf::Vector2f HELTH_SIZE(HELTH_W_SIZE, W_HEIGHT / 18.f);
+static const sf::Vector2f HEALTH_ORIGINE(int x) { return sf::Vector2f(x == 0 ? 0.f : HELTH_W_SIZE, 0.f); }
+static const sf::Vector2f HEALTH_POSITION(int x) { return sf::Vector2f(x == 0 ? 50.f : W_WIDTH - 50.f, 50.f); }
+static const sf::Color HEALTH_COLOR(0xe040109a);
 
 // Constantes et macro liées au jeu en lui meme
-#define STICK_SENSIBILITY (20.f)
-#define KEYBOARD_ACTION (50.f)
+static const float STICK_SENSIBILITY(20.f);
+static const float KEYBOARD_ACTION(50.f);
 
 // Constantes et macros liées a Box2D
-#define PLAYER_VELOCITY (2.5f)
-#define PLAYER_POSITION_X(x) ((x == 0 ? 1 : 7) * WORLD_WIDTH / 8)
-#define PLAYER_POSITION_Y (WORLD_HEIGHT / 5)
-#define PLAYER_DENSITY (1.f)
-#define PLAYER_FRICTION (.3f)
-#define PLAYER_SIZE_B2D_X (WORLD_WIDTH / (RATIO_SCREEN_X * 2.f))
-#define PLAYER_SIZE_B2D_Y (WORLD_WIDTH / (RATIO_SCREEN_Y * 2.f))
-#define SPELL_SIZE_B2D (WORLD_HEIGHT / (RATIO_SCREEN_X * 4.f))
+static const float PLAYER_VELOCITY(2.5f);
+static const float PLAYER_POSITION_X(int x) { return (x == 0 ? 1 : 7) * WORLD_WIDTH / 8; }
+static const float PLAYER_POSITION_Y(WORLD_HEIGHT / 5);
+static const float PLAYER_DENSITY(1.f);
+static const float PLAYER_FRICTION(.3f);
+static const float PLAYER_SIZE_B2D_X(WORLD_WIDTH / (RATIO_SCREEN_X * 2.f));
+static const float PLAYER_SIZE_B2D_Y(WORLD_WIDTH / (RATIO_SCREEN_Y * 2.f));
+static const float SPELL_SIZE_B2D(WORLD_HEIGHT / (RATIO_SCREEN_X * 4.f));
 
 // Path pour trouver les assests 
-#define PATH_XML "..\\..\\data.xml"
+static const char* PATH_XML = "..\\..\\data.xml";
 
 // Constantes caractéristiques des différents personnages
-#define HEALTH_PERSO_1 (100)
-#define HEALTH_PERSO_2 (130)
-#define SPEED_PERSO_1 (PLAYER_VELOCITY)
-#define SPEED_PERSO_2 (PLAYER_VELOCITY * .8f)
-#define DAMMAGE_SPRITE_DURATION (35)
+static const float HEALTH_PERSO_1(100);
+static const float HEALTH_PERSO_2(130);
+static const float SPEED_PERSO_1(PLAYER_VELOCITY);
+static const float SPEED_PERSO_2(PLAYER_VELOCITY * .8f);
+static const float DAMMAGE_SPRITE_DURATION(35);
 
 // Constantes caractéristiques des différents sorts
-#define COEF_SPELL_SPEED (19.f)
-#define SPEED_SORT_1 (20.f)
-#define SPEED_SORT_2 (5.f)
-#define SPEED_SORT_3 (1.f)
-#define POWER_SORT_1 (10.f)
-#define POWER_SORT_2 (20.f)
-#define POWER_SORT_3 (45.f)
+static const float COEF_SPELL_SPEED(19.f);
+static const float SPEED_SORT_1(20.f);
+static const float SPEED_SORT_2(5.f);
+static const float SPEED_SORT_3(1.f);
+static const float POWER_SORT_1(10.f);
+static const float POWER_SORT_2(20.f);
+static const float POWER_SORT_3(45.f);
 
 //	Enumération des états du programme au cours de sa vie (voir le diagramme de machine a état)
 enum GAME_STATE {
@@ -84,11 +87,11 @@ enum GAME_STATE {
 };
 
 //	Constantes liées au jeu lui meme
-#define GRAVITY_WORLD (b2Vec2(0.f, -100.f))
+static const b2Vec2 GRAVITY_WORLD(0.f, -100.f);
 
-#define FRAME_DURATION (1000/60)
+static const float FRAME_DURATION(1000 / 60);
 
-#define INVOCATION_RECOVERYTIME (400)
+static const float INVOCATION_RECOVERYTIME(400);
 
 #define MS_SINCE_BEGIN clock()
 
