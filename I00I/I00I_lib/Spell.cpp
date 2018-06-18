@@ -8,20 +8,23 @@
 
 
 
-//méthode appelée en cas de contact avec un personnage
+// méthode appelée en cas de contact avec un personnage
 void Spell::startContact(Personnage * persoToHit) {
 	std::cout << "appel de startContact" << std::endl;
-	affect(*persoToHit);
-	isContacting = true;
+	isContacting = affect(*persoToHit);
+	if (!isContacting) {
+		auto velocity = body->GetLinearVelocity();
+		body->SetLinearVelocity(b2Vec2(velocity.x * -1, velocity.y * -1));
+	}
 }
 
-//getter de isContacting
+// getter de isContacting
 bool Spell::getIsContacting()
 {
 	return isContacting;
 }
 
-//getter de playerWhoCast
+// getter de playerWhoCast
 int Spell::getCaster()
 {
 	return playerWhoCast;
@@ -97,6 +100,7 @@ Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float direc
 	circle.m_radius = SPELL_SIZE_B2D;
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &circle;
+	
 
 	body->CreateFixture(&fixtureDef);
 	body->SetUserData(this);
@@ -116,8 +120,8 @@ Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float direc
 	loadSprites();
 }
 // Fonction appelée lors qu'un sort touche un personnage
-void Spell::affect(Personnage &character) {
-	character.receive(type, ((sf::Sprite*)sprites[0].get())->getPosition());
+bool Spell::affect(Personnage &character) {
+	return character.receive(type, ((sf::Sprite*)sprites[0].get())->getPosition());
 }
 
 bool Spell::updateSprites() {

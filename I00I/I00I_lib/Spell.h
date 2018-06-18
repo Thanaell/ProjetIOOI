@@ -29,7 +29,7 @@ public:
 	// Constructeur du sort
 	Spell(SpellType myType, b2Body *body, float directionX, float directionY, bool isCharacterFacingRight, int caster, float vitesse);
 	// Fonction appelé lors qu'un sort touche un personnage
-	void affect(Personnage &character);
+	bool affect(Personnage &character);
 	// retourne false si le sprite n'est plus dans la zone de jeu
 	bool updateSprites() override;
 	//retourne un type (pour les collisions)

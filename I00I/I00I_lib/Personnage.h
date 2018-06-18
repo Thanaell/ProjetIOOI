@@ -34,8 +34,13 @@ protected:
 	void loadSprites();
 	// Récupère les évènements du joystick pour bouger le personnage
 	void move(float x, float y);
+
+	int protectionDuration;
+	bool isProtected;
+
 	// Récupère les évenements du joystick pour incanter (ou pas) un sort
 	Spell* invoque(float x, float y, bool A, bool B);
+
 
 	std::string spriteName;
 
@@ -45,7 +50,8 @@ protected:
 
 public:
 	// Méthode appellé lorsqu'un sort touche un personnage et qui met a jour les points de vie (et potentiellement la position) du personnage
-	void receive(SpellType sort, sf::Vector2f spellPosition);
+	//	Retourne false si le sort n'a pas affecté le personnage
+	bool receive(SpellType sort, sf::Vector2f spellPosition);
 	// Getter de health 
 	float getHealth();
 	// Récupère les infos du Joystick et agit en fonction

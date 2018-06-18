@@ -9,6 +9,7 @@ bool PlayingElement::updateMovingSprite(sf::Sprite* sprite) {
 		return false;
 	}
 	sprite->setPosition(position);
+
 	if ((!isFacingRight && sprite->getScale().x > 0)
 		|| (isFacingRight && sprite->getScale().x < 0)) {
 		sprite->scale(sf::Vector2f(-1.f, 1.f));

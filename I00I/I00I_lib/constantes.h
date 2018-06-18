@@ -18,6 +18,8 @@ static const std::string W_TITLE("Hello World!");
 // Define portant sur la taille du monde box2D
 static const float WORLD_WIDTH(W_WIDTH / RATIO_WINDOWS_B2D);
 static const float WORLD_HEIGHT(W_HEIGHT / RATIO_WINDOWS_B2D);
+static const b2Vec2 GRAVITY_WORLD(0.f, -10.f);
+
 
 
 // Constantes liées à SFML
@@ -51,6 +53,7 @@ static const float KEYBOARD_ACTION(50.f);
 
 // Constantes et macros liées a Box2D
 static const float PLAYER_VELOCITY(2.5f);
+static const float PLAYER_INERTIE(5.5f);
 static const float PLAYER_POSITION_X(int x) { return (x == 0 ? 1 : 7) * WORLD_WIDTH / 8; }
 static const float PLAYER_POSITION_Y(WORLD_HEIGHT / 5);
 static const float PLAYER_DENSITY(1.f);
@@ -68,6 +71,7 @@ static const float HEALTH_PERSO_2(130);
 static const float SPEED_PERSO_1(PLAYER_VELOCITY);
 static const float SPEED_PERSO_2(PLAYER_VELOCITY * .8f);
 static const float DAMMAGE_SPRITE_DURATION(35);
+static const int PROTECTION_DURATION(750);
 
 // Constantes caractéristiques des différents sorts
 static const float COEF_SPELL_SPEED(19.f);
@@ -86,8 +90,6 @@ enum GAME_STATE {
 	QUITTING
 };
 
-//	Constantes liées au jeu lui meme
-static const b2Vec2 GRAVITY_WORLD(0.f, -100.f);
 
 static const float FRAME_DURATION(1000 / 60);
 

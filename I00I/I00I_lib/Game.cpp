@@ -176,9 +176,6 @@ void Game::displayMenu() {
 				createGame();
 				//	On lance le jeu
 				gameState = PLAYING;
-#ifdef DEBUG_LOG
-				std::cout << "Passage en mode jeu" << std::endl;
-#endif
 			}
 			else if (menuElements[1]->isIn(sf::Vector2u(event.mouseButton.x, event.mouseButton.y), window.getSize())) {
 				window.close();
@@ -193,9 +190,6 @@ void Game::displayMenu() {
 						createGame();
 						//	On lance le jeu
 						gameState = PLAYING;
-#ifdef DEBUG_LOG
-						std::cout << "Passage en mode jeu" << std::endl;
-#endif
 					}
 					else if (menuElements[1]->getState()) {
 						window.close();
@@ -203,6 +197,20 @@ void Game::displayMenu() {
 				}
 			}
 			break;
+
+		case sf::Event::KeyPressed:
+			if (event.key.code == sf::Keyboard::Enter) {
+				if (menuElements[0]->getState()) {
+					menuElements.clear();
+					//	Ici il faut constuire le monde avant de jouer
+					createGame();
+					//	On lance le jeu
+					gameState = PLAYING;
+				}
+				else if (menuElements[1]->getState()) {
+					window.close();
+				}
+			}
 		case sf::Event::Closed:
 			window.close();
 			break;

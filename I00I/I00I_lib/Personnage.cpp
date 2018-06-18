@@ -6,7 +6,13 @@
 #include "Perso2.h"
 
 Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
-	player(init), type(myType), lastInvocationDate(clock()), lastDammage(0), spriteName(spriteName) {
+	player(init),
+	type(myType),
+	lastInvocationDate(clock()),
+	lastDammage(0),
+	spriteName(spriteName),
+	isProtected(false)
+{
 	isFacingRight = init == 0;
 
 	//initialisation du body
@@ -27,7 +33,8 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	loadSprites();
 }
 
-void Personnage::receive(SpellType sort, sf::Vector2f spellPosition) {
+bool Personnage::receive(SpellType sort, sf::Vector2f spellPosition) {
+	if (isProtected) return false;
 	switch (sort) {
 	case SORT1: health -= POWER_SORT_1; break;
 	case SORT2: health -= POWER_SORT_2; break;
@@ -36,7 +43,7 @@ void Personnage::receive(SpellType sort, sf::Vector2f spellPosition) {
 		health -= 10;
 		break;
 	}
-	((sf::RectangleShape*)sprites[2].get())->setScale(sf::Vector2f(health / maxHealth > 0.f ? health / maxHealth : 0, 1.f));
+	((sf::RectangleShape*)sprites[3].get())->setScale(sf::Vector2f(health / maxHealth > 0.f ? health / maxHealth : 0, 1.f));
 	lastDammage = clock();
 	auto spritePosition = ((sf::Sprite*)sprites[0].get())->getPosition();
 	((sf::Sprite*)sprites[1].get())->setPosition(spritePosition);
@@ -45,6 +52,7 @@ void Personnage::receive(SpellType sort, sf::Vector2f spellPosition) {
 		|| spritePosition.x - spellPosition.x > 0 && ((sf::Sprite*)sprites[1].get())->getScale().x > 0) {
 		((sf::Sprite*)sprites[1].get())->scale(sf::Vector2f(-1.f, 1.f));
 	}
+	return true;
 }
 
 float Personnage::getHealth() {
@@ -59,6 +67,24 @@ Spell * Personnage::Action() {
 		-sf::Joystick::getAxisPosition(player, sf::Joystick::Y) : 0;
 	bool buttonA = sf::Joystick::isButtonPressed(player, 0);
 	bool buttonB = sf::Joystick::isButtonPressed(player, 1);
+
+	// gestion du bouclier
+	if (sf::Joystick::isButtonPressed(player, 4)) {
+		if (protectionDuration > 0) {
+			isProtected = true;
+			protectionDuration = std::max(protectionDuration - 1, 0);
+			//((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Color(0xFFFFFF00 + 255 * (protectionDuration / PROTECTION_DURATION * 3 / 4 + 1 / 4)));
+			((sf::Sprite*)sprites[2].get())->setColor(sf::Color::White);
+		}
+		else {
+			isProtected = false;
+			((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);
+		}
+	} else {
+		isProtected = false;
+		protectionDuration = std::min(protectionDuration + 1, PROTECTION_DURATION);
+		((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);
+	}
 
 	//	S'il n'y a pas de manette connectée
 	if ((player == 0 && !sf::Joystick::isConnected(0))
@@ -76,6 +102,7 @@ Spell * Personnage::Action() {
 }
 
 bool Personnage::updateSprites() {
+	if (isProtected) updateMovingSprite((sf::Sprite*)sprites[2].get());
 	return updateMovingSprite((sf::Sprite*)sprites[0].get());
 }
 
@@ -114,12 +141,19 @@ void Personnage::loadSprites() {
 
 	//	Sprite marquant que le personnage est affecté par un sort
 	sf::Sprite* dammage = new sf::Sprite(*sin.getTexture("dammagePlayer"));
-
 	dammage->setOrigin(PLAYER_SPRITE_ORIGINE);
 	dammage->setScale(SPRITE_SCALE);
 	dammage->setColor(sf::Color::Transparent);
 	if (!isFacingRight) dammage->scale(sf::Vector2f(-1.f, 1.f));
 	sprites.push_back(std::unique_ptr<sf::Sprite>(dammage));
+
+	//	Sprite marquant que le personnage est affecté par un sort
+	sf::Sprite* shield = new sf::Sprite(*sin.getTexture("shieldPlayer"));
+	shield->setOrigin(PLAYER_SPRITE_ORIGINE);
+	shield->setScale(SPRITE_SCALE);
+	shield->setColor(sf::Color::Transparent);
+	if (!isFacingRight) shield->scale(sf::Vector2f(-1.f, 1.f));
+	sprites.push_back(std::unique_ptr<sf::Sprite>(shield));
 
 	sf::RectangleShape* barreVie = new sf::RectangleShape(HELTH_SIZE);
 	barreVie->setOrigin(HEALTH_ORIGINE(player));
@@ -128,7 +162,6 @@ void Personnage::loadSprites() {
 	sprites.push_back(std::unique_ptr<sf::RectangleShape>(barreVie));
 
 	sf::Sprite* interfacePlayer = new sf::Sprite(*sin.getTexture("interfacePlayer"));
-
 	interfacePlayer->setOrigin(INTERFACE_PLAYER_ORIGINE(player));
 	interfacePlayer->setScale(INTERFACE_PLAYER_SCALE);
 	interfacePlayer->setPosition(INTERFACE_PLAYER_POSITION(player));
@@ -137,8 +170,9 @@ void Personnage::loadSprites() {
 
 void Personnage::move(float x, float y) {
 	isFacingRight = x == 0 ? isFacingRight : x > 0;
-	body->SetLinearVelocity(b2Vec2(PLAYER_VELOCITY * x, PLAYER_VELOCITY * y));
+	body->ApplyLinearImpulseToCenter(b2Vec2(PLAYER_INERTIE * x, PLAYER_INERTIE * y), true);
 }
+
 
 Spell * Personnage::invoque(float x, float y, bool A, bool B) {
 	unsigned int now = clock();
