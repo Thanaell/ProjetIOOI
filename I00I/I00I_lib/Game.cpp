@@ -211,6 +211,7 @@ void Game::displayMenu() {
 					window.close();
 				}
 			}
+			break;
 		case sf::Event::Closed:
 			window.close();
 			break;
