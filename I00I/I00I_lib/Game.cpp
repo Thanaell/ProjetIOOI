@@ -33,23 +33,26 @@ Game::Game() :
 void Game::gameLoop() {
 	//	Date du dernier affichage
 	auto last = std::chrono::system_clock::now();
+	bool frameDelayed = false;
 
 	//	Boucle de d'affichage de la fenetre
 	while (window.isOpen()) {
-		window.clear();
-		switch (gameState) {
-		case LOADING:
-			displayLoading();
-			break;
-		case MENU:
-			displayMenu();
-			break;
-		case PLAYING:
-			displayPlaying();
-			break;
-		case QUITTING:
-			displayPlaying();
-			break;
+		if (!frameDelayed) {
+			window.clear();
+			switch (gameState) {
+			case LOADING:
+				displayLoading();
+				break;
+			case MENU:
+				displayMenu();
+				break;
+			case PLAYING:
+				displayPlaying();
+				break;
+			case QUITTING:
+				displayPlaying();
+				break;
+			}
 		}
 		window.display();
 		auto endFrame = std::chrono::system_clock::now();
@@ -58,6 +61,7 @@ void Game::gameLoop() {
 
 		//	on attend qu'il se soit bien passer le temps qu'il faut entre 2 frames
 		_int64 durationFrame = std::chrono::duration_cast<std::chrono::milliseconds>(endFrame - last).count();
+		frameDelayed = FRAME_DURATION - durationFrame < 0;
 		DWORD timeToWait = FRAME_DURATION - durationFrame > 0 ? FRAME_DURATION - durationFrame : 0;
 		Sleep(timeToWait);
 
