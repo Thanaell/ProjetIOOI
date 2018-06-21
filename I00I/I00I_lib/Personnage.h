@@ -38,7 +38,8 @@ protected:
 
 	// Récupère les évenements du joystick pour incanter (ou pas) un sort
 	Spell* invoque(float x, float y, bool A, bool B);
-
+	// Gère l'utilisation du bouclier
+	void shieldManagement();
 
 	std::string spriteName;
 

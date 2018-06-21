@@ -11,7 +11,8 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	lastInvocationDate(clock()),
 	lastDammage(0),
 	spriteName(spriteName),
-	isProtected(false)
+	isProtected(false),
+	protectionDuration(PROTECTION_DURATION)
 {
 	isFacingRight = init == 0;
 
@@ -62,11 +63,13 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 		((sf::RectangleShape*)sprites[3].get())->setScale(sf::Vector2f(health / maxHealth > 0.f ? health / maxHealth : 0, 1.f));
 		lastDammage = clock();
 		auto spritePosition = ((sf::Sprite*)sprites[0].get())->getPosition();
-		((sf::Sprite*)sprites[1].get())->setPosition(spritePosition);
-		((sf::Sprite*)sprites[1].get())->setColor(sf::Color::White);
-		if (spritePosition.x - spellPosition.x < 0 && ((sf::Sprite*)sprites[1].get())->getScale().x < 0
-			|| spritePosition.x - spellPosition.x > 0 && ((sf::Sprite*)sprites[1].get())->getScale().x > 0) {
-			((sf::Sprite*)sprites[1].get())->scale(sf::Vector2f(-1.f, 1.f));
+
+		sf::Sprite* spriteDegat = ((sf::Sprite*)sprites[1].get());
+		spriteDegat->setPosition(spritePosition);
+		spriteDegat->setColor(sf::Color::White);
+		if (spritePosition.x - spellPosition.x < 0 && spriteDegat->getScale().x < 0
+		 || spritePosition.x - spellPosition.x > 0 && spriteDegat->getScale().x > 0) {
+			spriteDegat->scale(sf::Vector2f(-1.f, 1.f));
 		}
 	}
 	return result;
@@ -85,23 +88,6 @@ Spell * Personnage::Action() {
 	bool buttonA = sf::Joystick::isButtonPressed(player, 0);
 	bool buttonB = sf::Joystick::isButtonPressed(player, 1);
 
-	// gestion du bouclier
-	if (sf::Joystick::isButtonPressed(player, 4)) {
-		if (protectionDuration > 0) {
-			isProtected = true;
-			protectionDuration = std::max(protectionDuration - 1, 0);
-			//((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Color(0xFFFFFF00 + 255 * (protectionDuration / PROTECTION_DURATION * 3 / 4 + 1 / 4)));
-			((sf::Sprite*)sprites[2].get())->setColor(sf::Color::White);
-		}
-		else {
-			isProtected = false;
-			((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);
-		}
-	} else {
-		isProtected = false;
-		protectionDuration = std::min(protectionDuration + 1, PROTECTION_DURATION);
-		((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);
-	}
 
 	//	S'il n'y a pas de manette connectée
 	if ((player == 0 && !sf::Joystick::isConnected(0))
@@ -112,6 +98,11 @@ Spell * Personnage::Action() {
 			     sf::Keyboard::isKeyPressed(sf::Keyboard::Down) ? -KEYBOARD_ACTION : 0.f;
 		buttonA = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
 		buttonB = sf::Keyboard::isKeyPressed(sf::Keyboard::Z);
+	}
+
+	// gestion du bouclier si on ne lance pas un sort durant cette frame
+	if (!buttonA && !buttonB) {
+		shieldManagement();
 	}
 
 	if (!buttonA && !buttonB) { move(stickX, stickY); return nullptr; }
@@ -196,4 +187,25 @@ Spell * Personnage::invoque(float x, float y, bool A, bool B) {
 		if (A && B) return Spell::createSpell(spellbook[2], body, x, y, isFacingRight, player);
 	}
 	return nullptr;
+}
+
+void Personnage::shieldManagement() {
+	if (sf::Joystick::isButtonPressed(player, 4)) {
+		if (protectionDuration > 0) {
+			isProtected = true;
+			protectionDuration = std::max(protectionDuration - 1, 0);
+			float alphaRatio = protectionDuration * 1000.f / PROTECTION_DURATION;
+			alphaRatio /= 1000.f;
+			((sf::Sprite*)sprites[2].get())->setColor(sf::Color(255, 255, 255, 255 * alphaRatio));
+		}
+		else {
+			isProtected = false;
+			((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);
+		}
+	}
+	else {
+		isProtected = false;
+		protectionDuration = std::min(protectionDuration + 1, PROTECTION_DURATION);
+		((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);
+	}
 }

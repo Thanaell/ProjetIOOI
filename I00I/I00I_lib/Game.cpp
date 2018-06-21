@@ -386,7 +386,6 @@ DWORD Game::loading(LPVOID params) {
 			ReleaseMutex(that->loadMutexBackground);
 		}
 		sin.loadLast();
-		//Sleep(5000);
 		//	Relache du mutex
 		ReleaseMutex(that->loadMutex);
 	}

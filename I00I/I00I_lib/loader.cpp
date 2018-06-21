@@ -16,16 +16,20 @@ Loader::Loader() {
 void Loader::loadFirst() {
 	pugi::xml_node first = doc.document_element().child("first");
 	for (auto& child : first.children()) {
-		assets.insert(std::make_pair((std::string)child.attribute("label").as_string(), new sf::Texture()));
-		assets[child.attribute("label").as_string()]->loadFromFile((std::string)child.attribute("path").as_string());
+		std::string textureName = (std::string)child.attribute("label").as_string();
+		assets.insert(std::make_pair(textureName, new sf::Texture()));
+		assets[textureName]->loadFromFile((std::string)child.attribute("path").as_string());
+		assets[textureName]->setSmooth(true);
 	}
 }
 
 void Loader::loadLast() {
 	pugi::xml_node first = doc.document_element().child("last");
 	for (auto& child : first.children()) {
-		assets.insert(std::make_pair((std::string)child.attribute("label").as_string(), new sf::Texture()));
-		assets[child.attribute("label").as_string()]->loadFromFile((std::string)child.attribute("path").as_string());
+		std::string textureName = (std::string)child.attribute("label").as_string();
+		assets.insert(std::make_pair(textureName, new sf::Texture()));
+		assets[textureName]->loadFromFile((std::string)child.attribute("path").as_string());
+		assets[textureName]->setSmooth(true);
 	}
 }
 
