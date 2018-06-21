@@ -10,8 +10,6 @@ class Spell : public PlayingElement {
 protected:
 	//entier indiquant qui a lancé le sort
 	int playerWhoCast;
-	//Booléen indiquant si le sort a touché un personnage
-	bool isDestroying;
 	// Nom du sort
 	std::string name;
 	// Type du sort
@@ -31,8 +29,6 @@ public:
 	bool updateSprites() override;
 	//gestion de la collision avec un personnage
 	void startContact(GameObject *objectToHit) override;
-	//getter de IsContacting (true si le sort a touché un personnage autre que son anceur)
-	bool getIsDestroying();
 	//getter de playerWhoCast (entier du perso qui a lancé le sort)
 	int getCaster();
 };

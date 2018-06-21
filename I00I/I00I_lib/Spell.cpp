@@ -12,7 +12,7 @@
 void Spell::startContact(GameObject *objectToHit) {
 	std::cout << "appel de startContact" << std::endl;
 	receiveResult result = objectToHit->receive(type, ((sf::Sprite*)sprites[0].get())->getPosition(), playerWhoCast);
-	isDestroying = result.destroyBullet;
+	toDestroy = result.destroyBullet;
 
 	if (result.returnBullet) {
 		auto velocity = body->GetLinearVelocity();
@@ -20,14 +20,9 @@ void Spell::startContact(GameObject *objectToHit) {
 	}
 }
 
-// getter de isContacting
-bool Spell::getIsDestroying() {
-	return isDestroying;
-}
 
 // getter de playerWhoCast
-int Spell::getCaster()
-{
+int Spell::getCaster() {
 	return playerWhoCast;
 }
 
@@ -56,8 +51,7 @@ void Spell::loadSprites() {
 	sprites.push_back(std::unique_ptr<sf::Sprite>(movingSprite));
 }
 
-Spell * Spell::createSpell(SpellType myType, b2Body * body, float directionX, float directionY, bool isCharacterFacingRight, int caster)
-{
+Spell * Spell::createSpell(SpellType myType, b2Body * body, float directionX, float directionY, bool isCharacterFacingRight, int caster) {
 	Spell* retour = nullptr;
 	switch (myType)
 	{
@@ -79,8 +73,8 @@ Spell * Spell::createSpell(SpellType myType, b2Body * body, float directionX, fl
 
 // Constructeur du sort
 Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float directionY, bool isCharacterFacingRight, int caster, float vitesse) :
+	PlayingElement(),
 	type(myType),
-	isDestroying(false),
 	playerWhoCast(caster),
 	speed(vitesse) {
 	b2BodyDef bodyDef;

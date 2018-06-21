@@ -37,7 +37,7 @@ protected:
 	bool isProtected;
 
 	// Récupère les évenements du joystick pour incanter (ou pas) un sort
-	Spell* invoque(float x, float y, bool A, bool B);
+	PlayingElement* invoque(float x, float y, bool A, bool B);
 	// Gère l'utilisation du bouclier
 	void shieldManagement();
 
@@ -52,11 +52,11 @@ public:
 	//	Retourne false si le sort n'a pas affecté le personnage
 	receiveResult receive(SpellType sort, sf::Vector2f spellPosition, int caster) override;
 	// Getter de health 
-	float getHealth();
+	float getHealth() override;
 	// Récupère les infos du Joystick et agit en fonction
-	Spell* Action();
+	PlayingElement* action() override;
 	//mise à jour des sprites
 	bool updateSprites() override;
 	//getter de player (numéro du joueur)
-	int getNumber();
+	int getNumber() override;
 };

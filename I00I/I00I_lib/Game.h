@@ -39,8 +39,8 @@ class Game {
 	std::vector<std::unique_ptr<MenuButton>> menuElements;
 
 	std::vector<std::unique_ptr<Wall>> walls;
-	std::vector<std::unique_ptr<Personnage>> players;
-	std::vector<std::unique_ptr<Spell>> activeSpells;
+	std::vector<std::unique_ptr<PlayingElement>> gameElements;
+	std::vector<PlayingElement*> buffer;
 
 	//valeurs pour le rafraichissement
 	float timeStep;

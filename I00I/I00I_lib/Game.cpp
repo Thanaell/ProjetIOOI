@@ -260,49 +260,49 @@ void Game::displayPlaying() {
 	}
 
 	if(isPlaying) {
-		for (auto& player : players) {
-			Spell* newSpell = player->Action();
-			if (newSpell != nullptr) {
-				activeSpells.push_back(std::unique_ptr<Spell>(newSpell));
+		for (auto& e : gameElements) {
+			PlayingElement* newElement = e->action();
+			if (newElement != nullptr) {
+				buffer.push_back(newElement);
 			}
 		}
+		for (auto ne : buffer) {
+			gameElements.push_back(std::unique_ptr<PlayingElement>(ne));
+		}
+
+		buffer.clear();
+
 		//	Calcul du monde
 		world->Step(timeStep, velocityIterations, positionIterations);
 
-		//	Gestion des collisions
-		for (auto it = activeSpells.begin(); it != activeSpells.end();)
+		//	Gestion des collisions et du gameover
+		for (auto it = gameElements.begin(); it != gameElements.end();)
 		{
-			if (it->get()->getIsDestroying() == true) {
-				it = activeSpells.erase(it);
+			if (it->get()->isToDestroy() == true) {
+				it = gameElements.erase(it);
 			}
-			else ++it;
-		}
-
-
-		//check for gameover
-		for (auto& p : players) {
-			if (p->getHealth() <= 0) {
-				isPlaying = false;
-				std::cout << "le personnage "<< p->getNumber() <<" est mort" ;
+			else {
+				if(it->get()->getHealth() <= 0) {
+					isPlaying = false;
+					std::cout << "le personnage " << it->get()->getNumber() << " est mort";
+					break;
+				}
+				++it;
 			}
 		}
 	}
+
 	//	Affichage
 	window.draw(*playingBackground.get());
 
-	for (auto& p : players) {
-		if (p->updateSprites())
-			p->draw(window);
-	}
 
-	for (auto it = activeSpells.begin(); it != activeSpells.end();)
-	{
+	for (auto it = gameElements.begin(); it != gameElements.end();) {
 		if (it->get()->updateSprites()) {
 			it->get()->draw(window);
 			++it;
 		}
 		else {
-			it = activeSpells.erase(it);
+			it = gameElements.erase(it);
 		}
 	}
 	
@@ -356,14 +356,13 @@ void Game::createGame() {
 	walls.push_back(std::unique_ptr<Wall>(new Wall(v1, v2)));
 	
 	//Personnages
-	players.push_back(std::unique_ptr<Personnage>(Personnage::createPersonnage(TYPE2, 0)));
-	players.push_back(std::unique_ptr<Personnage>(Personnage::createPersonnage(TYPE1, 1)));
+	gameElements.push_back(std::unique_ptr<Personnage>(Personnage::createPersonnage(TYPE2, 0)));
+	gameElements.push_back(std::unique_ptr<Personnage>(Personnage::createPersonnage(TYPE1, 1)));
 }
 
 void Game::gameOver() {
-	players.clear();
+	gameElements.clear();
 	walls.clear();
-	activeSpells.clear();
 	world.reset(nullptr);
 	gameState = MENU;
 }

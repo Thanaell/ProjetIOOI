@@ -17,3 +17,21 @@ bool PlayingElement::updateMovingSprite(sf::Sprite* sprite) {
 	return true;
 }
 
+PlayingElement::PlayingElement() : toDestroy(false) {}
+
+PlayingElement * PlayingElement::action() {
+	return nullptr;
+}
+
+float PlayingElement::getHealth() {
+	return 1000.f;
+}
+
+int PlayingElement::getNumber() {
+	return 0;
+}
+
+bool PlayingElement::isToDestroy() {
+	return toDestroy;
+}
+

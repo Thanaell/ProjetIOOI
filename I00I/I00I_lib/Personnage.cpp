@@ -6,6 +6,7 @@
 #include "Perso2.h"
 
 Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
+	PlayingElement(),
 	player(init),
 	type(myType),
 	lastInvocationDate(clock()),
@@ -79,7 +80,9 @@ float Personnage::getHealth() {
 	return health;
 }
 
-Spell * Personnage::Action() {
+PlayingElement * Personnage::action() {
+	PlayingElement* result = nullptr;
+
 	if (clock() - lastDammage > DAMMAGE_SPRITE_DURATION) ((sf::Sprite*)sprites[1].get())->setColor(sf::Color::Transparent);
 	float stickX = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::X)) > STICK_SENSIBILITY ?
 		sf::Joystick::getAxisPosition(player, sf::Joystick::X) : 0;
@@ -105,8 +108,9 @@ Spell * Personnage::Action() {
 		shieldManagement();
 	}
 
-	if (!buttonA && !buttonB) { move(stickX, stickY); return nullptr; }
-	return invoque(stickX, stickY, buttonA, buttonB);
+	if (!buttonA && !buttonB) { move(stickX, stickY); return result; }
+	result = invoque(stickX, stickY, buttonA, buttonB);
+	return result;
 }
 
 bool Personnage::updateSprites() {
@@ -177,16 +181,17 @@ void Personnage::move(float x, float y) {
 }
 
 
-Spell * Personnage::invoque(float x, float y, bool A, bool B) {
+PlayingElement * Personnage::invoque(float x, float y, bool A, bool B) {
 	unsigned int now = clock();
+	PlayingElement* result = nullptr;
 
 	if (now - lastInvocationDate > INVOCATION_RECOVERYTIME) {
 		lastInvocationDate = clock();
-		if (A && !B) return Spell::createSpell(spellbook[0], body, x, y, isFacingRight, player);
-		if (!A && B) return Spell::createSpell(spellbook[1], body, x, y, isFacingRight, player);
-		if (A && B) return Spell::createSpell(spellbook[2], body, x, y, isFacingRight, player);
+		if (A && !B) result = Spell::createSpell(spellbook[0], body, x, y, isFacingRight, player);
+		if (!A && B) result = Spell::createSpell(spellbook[1], body, x, y, isFacingRight, player);
+		if (A && B)  result = Spell::createSpell(spellbook[2], body, x, y, isFacingRight, player);
 	}
-	return nullptr;
+	return result;
 }
 
 void Personnage::shieldManagement() {
