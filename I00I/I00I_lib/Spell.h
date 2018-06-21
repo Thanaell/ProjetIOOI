@@ -1,7 +1,6 @@
 #pragma once
 #include "stdafx.h"
 #include "PlayingElement.h"
-#include "SpellType.h"
 
 class Personnage;
 

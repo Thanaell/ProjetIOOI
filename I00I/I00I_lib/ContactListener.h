@@ -1,6 +1,5 @@
 #include "stdafx.h"
-#include "Personnage.h"
-#include "Spell.h"
+#include "GameObject.h"
 
 //classe gérant les collision. Une instance du contactlistener est utilisée par le world
 class MyContactListener : public b2ContactListener {
