@@ -7,7 +7,7 @@
 #include "Personnage.h"
 #include "Spell.h"
 #include "ContactListener.h"
-
+#include "Wall.h"
 
 /*
  * Classe Game :
@@ -38,6 +38,7 @@ class Game {
 	// Liste des �l�ments (bouton) du menu
 	std::vector<std::unique_ptr<MenuButton>> menuElements;
 
+	std::vector<std::unique_ptr<Wall>> walls;
 	std::vector<std::unique_ptr<Personnage>> players;
 	std::vector<std::unique_ptr<Spell>> activeSpells;
 

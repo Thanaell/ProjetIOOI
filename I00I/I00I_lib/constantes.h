@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <SFML/Graphics.hpp>
+#include "SpellType.h"
+#include "CharacterType.h"
 
 // Constante indépendante fixant la hauteur de la fenetre 
 static const float W_HEIGHT(720);
@@ -74,13 +76,14 @@ static const float DAMMAGE_SPRITE_DURATION(35);
 static const int PROTECTION_DURATION(750);
 
 // Constantes caractéristiques des différents sorts
-static const float COEF_SPELL_SPEED(19.f);
+static const float COEF_SPELL_SPEED(190.f);
 static const float SPEED_SORT_1(20.f);
 static const float SPEED_SORT_2(5.f);
 static const float SPEED_SORT_3(1.f);
 static const float POWER_SORT_1(10.f);
 static const float POWER_SORT_2(20.f);
 static const float POWER_SORT_3(45.f);
+static const bool CAN_AFFECT_OWNER(false);
 
 //	Enumération des états du programme au cours de sa vie (voir le diagramme de machine a état)
 enum GAME_STATE {
@@ -97,3 +100,9 @@ static const float INVOCATION_RECOVERYTIME(400);
 
 #define MS_SINCE_BEGIN clock()
 
+//	Structure qui contient le résultat de l'appel de la méthode receive
+struct receiveResult {
+	bool affectTarget;
+	bool destroyBullet;
+	bool returnBullet;
+};

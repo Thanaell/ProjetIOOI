@@ -12,7 +12,7 @@ protected:
 	//entier indiquant qui a lancé le sort
 	int playerWhoCast;
 	//Booléen indiquant si le sort a touché un personnage
-	bool isContacting;
+	bool isDestroying;
 	// Nom du sort
 	std::string name;
 	// Type du sort
@@ -28,16 +28,12 @@ public:
 	static Spell* createSpell(SpellType myType, b2Body *body, float directionX, float directionY, bool isCharacterFacingRight, int caster);
 	// Constructeur du sort
 	Spell(SpellType myType, b2Body *body, float directionX, float directionY, bool isCharacterFacingRight, int caster, float vitesse);
-	// Fonction appelé lors qu'un sort touche un personnage
-	bool affect(Personnage &character);
 	// retourne false si le sprite n'est plus dans la zone de jeu
 	bool updateSprites() override;
-	//retourne un type (pour les collisions)
-	std::string getType() override;
 	//gestion de la collision avec un personnage
-	void startContact(Personnage *persoToHit);
+	void startContact(GameObject *objectToHit) override;
 	//getter de IsContacting (true si le sort a touché un personnage autre que son anceur)
-	bool getIsContacting();
+	bool getIsDestroying();
 	//getter de playerWhoCast (entier du perso qui a lancé le sort)
 	int getCaster();
 };

@@ -156,6 +156,7 @@
     <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Element.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="Perso1.h" />
     <ClInclude Include="Perso2.h" />
@@ -169,11 +170,13 @@
     <ClInclude Include="SpellType.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Element.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="Perso1.cpp" />
     <ClCompile Include="Perso2.cpp" />
@@ -190,6 +193,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

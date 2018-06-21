@@ -9,19 +9,20 @@
 
 
 // méthode appelée en cas de contact avec un personnage
-void Spell::startContact(Personnage * persoToHit) {
+void Spell::startContact(GameObject *objectToHit) {
 	std::cout << "appel de startContact" << std::endl;
-	isContacting = affect(*persoToHit);
-	if (!isContacting) {
+	receiveResult result = objectToHit->receive(type, ((sf::Sprite*)sprites[0].get())->getPosition(), playerWhoCast);
+	isDestroying = result.destroyBullet;
+
+	if (result.returnBullet) {
 		auto velocity = body->GetLinearVelocity();
 		body->SetLinearVelocity(b2Vec2(velocity.x * -1, velocity.y * -1));
 	}
 }
 
 // getter de isContacting
-bool Spell::getIsContacting()
-{
-	return isContacting;
+bool Spell::getIsDestroying() {
+	return isDestroying;
 }
 
 // getter de playerWhoCast
@@ -78,7 +79,10 @@ Spell * Spell::createSpell(SpellType myType, b2Body * body, float directionX, fl
 
 // Constructeur du sort
 Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float directionY, bool isCharacterFacingRight, int caster, float vitesse) :
-	type(myType), isContacting(false), playerWhoCast(caster), speed(vitesse) {
+	type(myType),
+	isDestroying(false),
+	playerWhoCast(caster),
+	speed(vitesse) {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
 	//position du sort varie selon le sens du personnage
@@ -119,17 +123,7 @@ Spell::Spell(SpellType myType, b2Body *passedBody, float directionX, float direc
 	
 	loadSprites();
 }
-// Fonction appelée lors qu'un sort touche un personnage
-bool Spell::affect(Personnage &character) {
-	return character.receive(type, ((sf::Sprite*)sprites[0].get())->getPosition());
-}
 
 bool Spell::updateSprites() {
 	return updateMovingSprite((sf::Sprite*)sprites[0].get());
-}
-
-//indique qu'un spell est de type "spell" (pour la gestion des collisions)
-std::string Spell::getType()
-{
-	return "spell";
 }

@@ -17,11 +17,3 @@ bool PlayingElement::updateMovingSprite(sf::Sprite* sprite) {
 	return true;
 }
 
-b2Body* PlayingElement::getBody() {
-	return body;
-}
-
-PlayingElement::~PlayingElement() {
-	Game::getWorld()->DestroyBody(body);
-}
-

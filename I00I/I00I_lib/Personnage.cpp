@@ -33,26 +33,43 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	loadSprites();
 }
 
-bool Personnage::receive(SpellType sort, sf::Vector2f spellPosition) {
-	if (isProtected) return false;
-	switch (sort) {
-	case SORT1: health -= POWER_SORT_1; break;
-	case SORT2: health -= POWER_SORT_2; break;
-	case SORT3: health -= POWER_SORT_3; break;
-	default:
-		health -= 10;
-		break;
+receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, int caster) {
+	receiveResult result;
+	if (isProtected) {
+		result.affectTarget = false;
+		result.destroyBullet = false;
+		result.returnBullet = true;
 	}
-	((sf::RectangleShape*)sprites[3].get())->setScale(sf::Vector2f(health / maxHealth > 0.f ? health / maxHealth : 0, 1.f));
-	lastDammage = clock();
-	auto spritePosition = ((sf::Sprite*)sprites[0].get())->getPosition();
-	((sf::Sprite*)sprites[1].get())->setPosition(spritePosition);
-	((sf::Sprite*)sprites[1].get())->setColor(sf::Color::White);
-	if (spritePosition.x - spellPosition.x < 0 && ((sf::Sprite*)sprites[1].get())->getScale().x < 0
-		|| spritePosition.x - spellPosition.x > 0 && ((sf::Sprite*)sprites[1].get())->getScale().x > 0) {
-		((sf::Sprite*)sprites[1].get())->scale(sf::Vector2f(-1.f, 1.f));
+	else if (caster == player && !CAN_AFFECT_OWNER) {
+		result.affectTarget = false;
+		result.destroyBullet = false;
+		result.returnBullet = false;
 	}
-	return true;
+	else {
+		result.affectTarget = true;
+		result.destroyBullet = true;
+		result.returnBullet = false;
+
+
+		switch (sort) {
+		case SORT1: health -= POWER_SORT_1; break;
+		case SORT2: health -= POWER_SORT_2; break;
+		case SORT3: health -= POWER_SORT_3; break;
+		default:
+			health -= 10;
+			break;
+		}
+		((sf::RectangleShape*)sprites[3].get())->setScale(sf::Vector2f(health / maxHealth > 0.f ? health / maxHealth : 0, 1.f));
+		lastDammage = clock();
+		auto spritePosition = ((sf::Sprite*)sprites[0].get())->getPosition();
+		((sf::Sprite*)sprites[1].get())->setPosition(spritePosition);
+		((sf::Sprite*)sprites[1].get())->setColor(sf::Color::White);
+		if (spritePosition.x - spellPosition.x < 0 && ((sf::Sprite*)sprites[1].get())->getScale().x < 0
+			|| spritePosition.x - spellPosition.x > 0 && ((sf::Sprite*)sprites[1].get())->getScale().x > 0) {
+			((sf::Sprite*)sprites[1].get())->scale(sf::Vector2f(-1.f, 1.f));
+		}
+	}
+	return result;
 }
 
 float Personnage::getHealth() {
@@ -104,11 +121,6 @@ Spell * Personnage::Action() {
 bool Personnage::updateSprites() {
 	if (isProtected) updateMovingSprite((sf::Sprite*)sprites[2].get());
 	return updateMovingSprite((sf::Sprite*)sprites[0].get());
-}
-
-std::string Personnage::getType()
-{
-	return "personnage";
 }
 
 int Personnage::getNumber()

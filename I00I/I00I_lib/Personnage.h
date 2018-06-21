@@ -51,15 +51,13 @@ protected:
 public:
 	// Méthode appellé lorsqu'un sort touche un personnage et qui met a jour les points de vie (et potentiellement la position) du personnage
 	//	Retourne false si le sort n'a pas affecté le personnage
-	bool receive(SpellType sort, sf::Vector2f spellPosition);
+	receiveResult receive(SpellType sort, sf::Vector2f spellPosition, int caster) override;
 	// Getter de health 
 	float getHealth();
 	// Récupère les infos du Joystick et agit en fonction
 	Spell* Action();
 	//mise à jour des sprites
 	bool updateSprites() override;
-	//retourne un type (pour les collisions)
-	std::string getType() override;
 	//getter de player (numéro du joueur)
 	int getNumber();
 };
