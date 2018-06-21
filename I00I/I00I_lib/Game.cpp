@@ -199,7 +199,7 @@ void Game::displayMenu() {
 			break;
 
 		case sf::Event::KeyPressed:
-			if (event.key.code == sf::Keyboard::Enter) {
+			if (event.key.code == sf::Keyboard::Return) {
 				if (menuElements[0]->getState()) {
 					menuElements.clear();
 					//	Ici il faut constuire le monde avant de jouer
