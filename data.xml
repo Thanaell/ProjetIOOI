@@ -18,4 +18,8 @@
       <Element label="interfacePlayer" path="..\\..\\Assets\\interface.png"/>
       <Element label="gameover" path="..\\..\\Assets\\gameover.png"/>
     </last>
+    <music>
+    </music>
+    <sounds>
+    </sounds>
 </loadElements>
