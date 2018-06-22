@@ -33,13 +33,16 @@ protected:
 	// Récupère les évènements du joystick pour bouger le personnage
 	void move(float x, float y);
 
+	// Number of frame before the end of the protection
 	int protectionDuration;
+	// Indicate is the player is protected against attack
 	bool isProtected;
 
 	// Récupère les évenements du joystick pour incanter (ou pas) un sort
 	PlayingElement* invoque(float x, float y, bool A, bool B);
-	// Gère l'utilisation du bouclier
-	void shieldManagement();
+
+	// Methode managing player shield
+	void shieldManagement(bool isCasting);
 
 	std::string spriteName;
 

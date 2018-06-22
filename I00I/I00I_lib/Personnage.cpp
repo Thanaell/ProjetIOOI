@@ -104,9 +104,7 @@ PlayingElement * Personnage::action() {
 	}
 
 	// gestion du bouclier si on ne lance pas un sort durant cette frame
-	if (!buttonA && !buttonB) {
-		shieldManagement();
-	}
+	shieldManagement(!buttonA && !buttonB);
 
 	if (!buttonA && !buttonB) { move(stickX, stickY); return result; }
 	result = invoque(stickX, stickY, buttonA, buttonB);
@@ -191,24 +189,26 @@ PlayingElement * Personnage::invoque(float x, float y, bool A, bool B) {
 		if (!A && B) result = Spell::createSpell(spellbook[1], body, x, y, isFacingRight, player);
 		if (A && B)  result = Spell::createSpell(spellbook[2], body, x, y, isFacingRight, player);
 	}
+	
 	return result;
 }
 
-void Personnage::shieldManagement() {
-	if (sf::Joystick::isButtonPressed(player, 4)) {
-		if (protectionDuration > 0) {
+void Personnage::shieldManagement(bool isCasting) {
+	if (sf::Joystick::isButtonPressed(player, 4) 
+	|| (((!sf::Joystick::isConnected(0) && player == 0)
+	|| (!sf::Joystick::isConnected(1) && player == 1 && sf::Joystick::isConnected(0)))
+	&& sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))) {
+		if (protectionDuration > 0 && !isCasting) {
 			isProtected = true;
 			protectionDuration = std::max(protectionDuration - 1, 0);
 			float alphaRatio = protectionDuration * 1000.f / PROTECTION_DURATION;
 			alphaRatio /= 1000.f;
 			((sf::Sprite*)sprites[2].get())->setColor(sf::Color(255, 255, 255, 255 * alphaRatio));
-		}
-		else {
+		} else {
 			isProtected = false;
 			((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);
 		}
-	}
-	else {
+	} else {
 		isProtected = false;
 		protectionDuration = std::min(protectionDuration + 1, PROTECTION_DURATION);
 		((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);

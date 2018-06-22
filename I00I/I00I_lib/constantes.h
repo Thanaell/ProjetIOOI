@@ -74,7 +74,7 @@ static const float HEALTH_PERSO_2(130);
 static const float SPEED_PERSO_1(PLAYER_VELOCITY);
 static const float SPEED_PERSO_2(PLAYER_VELOCITY * .8f);
 static const float DAMMAGE_SPRITE_DURATION(35);
-static const int PROTECTION_DURATION(750);
+static const int PROTECTION_DURATION(70);	// indiqué en nombre de frames de protection
 
 // Constantes caractéristiques des différents sorts
 static const float COEF_SPELL_SPEED(190.f);

@@ -42,6 +42,7 @@ L'affichage du Game Over est a revoir mais à l'avantage d'indiquer clairement q
 * Le jeu en pleine partie 
 
 </br> </br>
+![Diagramme de classes](./I00I/I00I_lib/ClassDiagram.cd)
 ![Diagramme de classes](./screenshots/IOOIdetailled.jpg)
 * Le game over
 
