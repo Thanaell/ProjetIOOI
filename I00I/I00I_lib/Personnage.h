@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "PlayingElement.h"
+#include "Gauge.h"
 
 class Spell;
 
@@ -18,10 +19,10 @@ protected:
 	CharacterType type;
 	// Numéro du joueur
 	int player;
-	//Vie maximale
-	float maxHealth;
-	// Point de vie
-	float health;
+
+	Gauge health;
+
+
 	// Liste des sort que ce personnage peut lancer
 	std::vector<SpellType> spellbook;
 	//entier permettant de savoir le moment où a été lancé le dernier sort
@@ -33,8 +34,8 @@ protected:
 	// Récupère les évènements du joystick pour bouger le personnage
 	void move(float x, float y);
 
-	// Number of frame before the end of the protection
-	int protectionDuration;
+	
+	Gauge shieldGauge;
 	// Indicate is the player is protected against attack
 	bool isProtected;
 

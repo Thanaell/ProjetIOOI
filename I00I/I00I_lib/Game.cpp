@@ -28,6 +28,9 @@ Game::Game() :
 	DWORD threadID;
 	loadThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) loading, this, 0, &threadID);
 	assert(loadThread != NULL);
+
+	// Ajouté a visée de test dans le but de changer la gestion des threads
+	Sleep(100);
 }
 
 void Game::gameLoop() {
@@ -276,8 +279,7 @@ void Game::displayPlaying() {
 		world->Step(timeStep, velocityIterations, positionIterations);
 
 		//	Gestion des collisions et du gameover
-		for (auto it = gameElements.begin(); it != gameElements.end();)
-		{
+		for (auto it = gameElements.begin(); it != gameElements.end();) {
 			if (it->get()->isToDestroy() == true) {
 				it = gameElements.erase(it);
 			}
@@ -285,7 +287,6 @@ void Game::displayPlaying() {
 				if(it->get()->getHealth() <= 0) {
 					isPlaying = false;
 					std::cout << "le personnage " << it->get()->getNumber() << " est mort";
-					break;
 				}
 				++it;
 			}

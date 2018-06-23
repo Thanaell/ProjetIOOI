@@ -15,6 +15,7 @@ void Spell::startContact(GameObject *objectToHit) {
 	toDestroy = result.destroyBullet;
 
 	if (result.returnBullet) {
+		playerWhoCast = -1;
 		auto velocity = body->GetLinearVelocity();
 		body->SetLinearVelocity(b2Vec2(velocity.x * -1, velocity.y * -1));
 	}

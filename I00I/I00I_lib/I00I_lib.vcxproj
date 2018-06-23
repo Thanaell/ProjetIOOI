@@ -178,6 +178,7 @@
     <ClCompile Include="Element.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Gauge.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="Perso1.cpp" />
     <ClCompile Include="Perso2.cpp" />

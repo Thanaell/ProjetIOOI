@@ -13,7 +13,8 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	lastDammage(0),
 	spriteName(spriteName),
 	isProtected(false),
-	protectionDuration(PROTECTION_DURATION)
+	health(HEALTH_COLOR, HEALTH_POSITION(init), HELTH_SIZE, init == 0 ? TOPLEFT : TOPRIGHT),
+	shieldGauge(sf::Color::Blue, sf::Vector2f(init == 0 ? 50.f : 1280.f - 50.f, 95.f), sf::Vector2f(320.f, 15.f), init == 0 ? TOPLEFT : TOPRIGHT, PROTECTION_DURATION, PROTECTION_DURATION, true)
 {
 	isFacingRight = init == 0;
 
@@ -54,14 +55,13 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 
 
 		switch (sort) {
-		case SORT1: health -= POWER_SORT_1; break;
-		case SORT2: health -= POWER_SORT_2; break;
-		case SORT3: health -= POWER_SORT_3; break;
+		case SORT1: health.remove(POWER_SORT_1); break;
+		case SORT2: health.remove(POWER_SORT_2); break;
+		case SORT3: health.remove(POWER_SORT_3); break;
 		default:
-			health -= 10;
+			health.remove(10);
 			break;
 		}
-		((sf::RectangleShape*)sprites[3].get())->setScale(sf::Vector2f(health / maxHealth > 0.f ? health / maxHealth : 0, 1.f));
 		lastDammage = clock();
 		auto spritePosition = ((sf::Sprite*)sprites[0].get())->getPosition();
 
@@ -77,7 +77,7 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 }
 
 float Personnage::getHealth() {
-	return health;
+	return health.getValue();
 }
 
 PlayingElement * Personnage::action() {
@@ -104,7 +104,7 @@ PlayingElement * Personnage::action() {
 	}
 
 	// gestion du bouclier si on ne lance pas un sort durant cette frame
-	shieldManagement(!buttonA && !buttonB);
+	shieldManagement(buttonA || buttonB);
 
 	if (!buttonA && !buttonB) { move(stickX, stickY); return result; }
 	result = invoque(stickX, stickY, buttonA, buttonB);
@@ -116,8 +116,7 @@ bool Personnage::updateSprites() {
 	return updateMovingSprite((sf::Sprite*)sprites[0].get());
 }
 
-int Personnage::getNumber()
-{
+int Personnage::getNumber() {
 	return player;
 }
 
@@ -138,7 +137,6 @@ Personnage* Personnage::createPersonnage(CharacterType myType, int init) {
 void Personnage::loadSprites() {
 	auto& sin = Loader::Instance();
 	sf::Sprite* movingSprite = new sf::Sprite(*sin.getTexture(spriteName));
-
 	movingSprite->setOrigin(PLAYER_SPRITE_ORIGINE);
 	movingSprite->setScale(SPRITE_SCALE);
 	if(!isFacingRight) movingSprite->scale(sf::Vector2f(-1.f, 1.f));
@@ -160,17 +158,8 @@ void Personnage::loadSprites() {
 	if (!isFacingRight) shield->scale(sf::Vector2f(-1.f, 1.f));
 	sprites.push_back(std::unique_ptr<sf::Sprite>(shield));
 
-	sf::RectangleShape* barreVie = new sf::RectangleShape(HELTH_SIZE);
-	barreVie->setOrigin(HEALTH_ORIGINE(player));
-	barreVie->setPosition(HEALTH_POSITION(player));
-	barreVie->setFillColor(HEALTH_COLOR);
-	sprites.push_back(std::unique_ptr<sf::RectangleShape>(barreVie));
-
-	sf::Sprite* interfacePlayer = new sf::Sprite(*sin.getTexture("interfacePlayer"));
-	interfacePlayer->setOrigin(INTERFACE_PLAYER_ORIGINE(player));
-	interfacePlayer->setScale(INTERFACE_PLAYER_SCALE);
-	interfacePlayer->setPosition(INTERFACE_PLAYER_POSITION(player));
-	sprites.push_back(std::unique_ptr<sf::Sprite>(interfacePlayer));
+	for (auto& s : health.getSprite()) sprites.push_back(std::unique_ptr<sf::Drawable>(s));
+	for (auto& s : shieldGauge.getSprite()) sprites.push_back(std::unique_ptr<sf::Drawable>(s));
 }
 
 void Personnage::move(float x, float y) {
@@ -198,19 +187,17 @@ void Personnage::shieldManagement(bool isCasting) {
 	|| (((!sf::Joystick::isConnected(0) && player == 0)
 	|| (!sf::Joystick::isConnected(1) && player == 1 && sf::Joystick::isConnected(0)))
 	&& sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))) {
-		if (protectionDuration > 0 && !isCasting) {
+		if (!shieldGauge.isEmpty() && !isCasting) {
 			isProtected = true;
-			protectionDuration = std::max(protectionDuration - 1, 0);
-			float alphaRatio = protectionDuration * 1000.f / PROTECTION_DURATION;
-			alphaRatio /= 1000.f;
-			((sf::Sprite*)sprites[2].get())->setColor(sf::Color(255, 255, 255, 255 * alphaRatio));
+			shieldGauge.remove(2);
+			((sf::Sprite*)sprites[2].get())->setColor(sf::Color(255, 255, 255, 255 * shieldGauge.getRatio()));
 		} else {
 			isProtected = false;
 			((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);
 		}
 	} else {
 		isProtected = false;
-		protectionDuration = std::min(protectionDuration + 1, PROTECTION_DURATION);
+		shieldGauge.add(1);
 		((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);
 	}
 }
