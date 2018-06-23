@@ -157,6 +157,7 @@
     <ClInclude Include="Element.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Gauge.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="Perso1.h" />
     <ClInclude Include="Perso2.h" />
