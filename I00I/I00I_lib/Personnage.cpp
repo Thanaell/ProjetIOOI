@@ -13,8 +13,11 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	lastDammage(0),
 	spriteName(spriteName),
 	isProtected(false),
+	isAbsorbing(false),
+	frameAbsorbingLeft(ABSORPTION_DURATION),
 	health(HEALTH_COLOR, HEALTH_POSITION(init), HELTH_SIZE, init == 0 ? TOPLEFT : TOPRIGHT),
-	shieldGauge(SHIELD_GAUGE_COLOR, SHIELD_GAUGE_POSITION(init), SHIELD_GAUGE_SIZE, init == 0 ? TOPLEFT : TOPRIGHT, PROTECTION_DURATION, PROTECTION_DURATION, false)
+	shieldGauge(SHIELD_GAUGE_COLOR, SHIELD_GAUGE_POSITION(init), SHIELD_GAUGE_SIZE, init == 0 ? TOPLEFT : TOPRIGHT, PROTECTION_DURATION, PROTECTION_DURATION, false),
+	absorbingGauge(ABSORBING_GAUGE_COLOR, ABSORBING_GAUGE_POSITION(init), ABSORBING_GAUGE_SIZE, init == 0 ? TOPLEFT : TOPRIGHT, ABSORPTION_NEEDED)
 {
 	isFacingRight = init == 0;
 
@@ -42,6 +45,18 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 		result.affectTarget = false;
 		result.destroyBullet = false;
 		result.returnBullet = true;
+	}
+	else if (isAbsorbing && sort != SORT3) {
+		result.affectTarget = false;
+		result.destroyBullet = true;
+		result.returnBullet = true;
+		switch (sort) {
+		case SORT1: absorbingGauge.add(POWER_SORT_1); break;
+		case SORT2: absorbingGauge.add(POWER_SORT_2); break;
+		default:
+			absorbingGauge.add(10);
+			break;
+		}
 	}
 	else if (caster == player && !CAN_AFFECT_OWNER) {
 		result.affectTarget = false;
@@ -113,6 +128,7 @@ PlayingElement * Personnage::action() {
 
 bool Personnage::updateSprites() {
 	if (isProtected) updateMovingSprite((sf::Sprite*)sprites[2].get());
+	if (isAbsorbing) updateMovingSprite((sf::Sprite*)sprites[3].get());
 	return updateMovingSprite((sf::Sprite*)sprites[0].get());
 }
 
@@ -158,8 +174,17 @@ void Personnage::loadSprites() {
 	if (!isFacingRight) shield->scale(sf::Vector2f(-1.f, 1.f));
 	sprites.push_back(std::unique_ptr<sf::Sprite>(shield));
 
+	//	Sprite marquant que le personnage est affecté par un sort
+	sf::Sprite* absorbingShield = new sf::Sprite(*sin.getTexture("absorbingShield"));
+	absorbingShield->setOrigin(PLAYER_SPRITE_ORIGINE);
+	absorbingShield->setScale(SPRITE_SCALE);
+	absorbingShield->setColor(sf::Color::Transparent);
+	if (!isFacingRight) absorbingShield->scale(sf::Vector2f(-1.f, 1.f));
+	sprites.push_back(std::unique_ptr<sf::Sprite>(absorbingShield));
+
 	for (auto& s : health.getSprite()) sprites.push_back(std::unique_ptr<sf::Drawable>(s));
 	for (auto& s : shieldGauge.getSprite()) sprites.push_back(std::unique_ptr<sf::Drawable>(s));
+	for (auto& s : absorbingGauge.getSprite()) sprites.push_back(std::unique_ptr<sf::Drawable>(s));
 }
 
 void Personnage::move(float x, float y) {
@@ -176,28 +201,59 @@ PlayingElement * Personnage::invoque(float x, float y, bool A, bool B) {
 		lastInvocationDate = clock();
 		if (A && !B) result = Spell::createSpell(spellbook[0], body, x, y, isFacingRight, player);
 		if (!A && B) result = Spell::createSpell(spellbook[1], body, x, y, isFacingRight, player);
-		if (A && B)  result = Spell::createSpell(spellbook[2], body, x, y, isFacingRight, player);
+		if (A && B && absorbingGauge.isFull()) {
+			result = Spell::createSpell(spellbook[2], body, x, y, isFacingRight, player);
+			absorbingGauge.setValue(0.f);
+		}
 	}
 	
 	return result;
 }
 
 void Personnage::shieldManagement(bool isCasting) {
+	sf::Sprite* shield = (sf::Sprite*)sprites[2].get();
+	sf::Sprite* absorbingShield = (sf::Sprite*)sprites[3].get();
+
+
 	if (sf::Joystick::isButtonPressed(player, 4) 
 	|| (((!sf::Joystick::isConnected(0) && player == 0)
 	|| (!sf::Joystick::isConnected(1) && player == 1 && sf::Joystick::isConnected(0)))
 	&& sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))) {
+		isAbsorbing = false;
+		absorbingShield->setColor(sf::Color::Transparent);
+
 		if (!shieldGauge.isEmpty() && !isCasting) {
 			isProtected = true;
 			shieldGauge.remove(2);
-			((sf::Sprite*)sprites[2].get())->setColor(sf::Color(255, 255, 255, 255 * shieldGauge.getRatio()));
+			shield->setColor(sf::Color(255, 255, 255, 255 * shieldGauge.getRatio()));
 		} else {
 			isProtected = false;
-			((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);
+			shield->setColor(sf::Color::Transparent);
 		}
 	} else {
 		isProtected = false;
 		shieldGauge.add(1);
-		((sf::Sprite*)sprites[2].get())->setColor(sf::Color::Transparent);
+		shield->setColor(sf::Color::Transparent);
+
+
+		if (sf::Joystick::isButtonPressed(player, 5)
+			|| (((!sf::Joystick::isConnected(0) && player == 0)
+				|| (!sf::Joystick::isConnected(1) && player == 1 && sf::Joystick::isConnected(0)))
+				&& sf::Keyboard::isKeyPressed(sf::Keyboard::E))) {
+			if (frameAbsorbingLeft > 0 && !isCasting) {
+				isAbsorbing = true;
+				frameAbsorbingLeft = std::max(frameAbsorbingLeft - 2, 0);
+				absorbingShield->setColor(sf::Color(255, 255, 255, 255));
+			}
+			else {
+				isAbsorbing = false;
+				absorbingShield->setColor(sf::Color::Transparent);
+			}
+		}
+		else {
+			isAbsorbing = false;
+			frameAbsorbingLeft = std::min(frameAbsorbingLeft + 1, ABSORPTION_DURATION);
+			absorbingShield->setColor(sf::Color::Transparent);
+		}
 	}
 }

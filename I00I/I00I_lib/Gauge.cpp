@@ -21,6 +21,9 @@ Gauge::Gauge(sf::Color color, sf::Vector2f position, sf::Vector2f size, ORIGINE 
 	interfacePlayer->setPosition(position);
 	interfacePlayer->setColor(sf::Color(255, 255, 255, 195));
 	sprites.push_back(interfacePlayer);
+
+
+	updateSprites();
 }
 
 void Gauge::add(float added) { 

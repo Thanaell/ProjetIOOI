@@ -39,6 +39,11 @@ protected:
 	// Indicate is the player is protected against attack
 	bool isProtected;
 
+	Gauge absorbingGauge;
+	// Indicate is the player is protected against attack
+	bool isAbsorbing;
+	int frameAbsorbingLeft;
+
 	// Récupère les évenements du joystick pour incanter (ou pas) un sort
 	PlayingElement* invoque(float x, float y, bool A, bool B);
 

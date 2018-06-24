@@ -17,7 +17,7 @@ class Gauge{
 
 public:
 	// Construit une nouvelle jauge
-	Gauge(sf::Color color, sf::Vector2f position, sf::Vector2f size, ORIGINE origine = TOPLEFT, float maxValue = 0, float startValue = 0.f , bool horizontal = true);
+	Gauge(sf::Color color, sf::Vector2f position, sf::Vector2f size, ORIGINE origine = TOPLEFT, float maxValue = 0.f, float startValue = 0.f , bool horizontal = true);
 	void add(float added);
 	void remove(float removed);
 	void setValue(float newValue);

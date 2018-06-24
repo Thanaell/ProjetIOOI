@@ -47,10 +47,13 @@ static const sf::Vector2f GAMEOVER_POSITION(W_WIDTH / 2, W_HEIGHT / 2);
 static const float HELTH_W_SIZE(W_WIDTH / 4.f);
 static const sf::Vector2f HELTH_SIZE(HELTH_W_SIZE, W_HEIGHT / 18.f);
 static const sf::Vector2f HEALTH_POSITION(int x) { return sf::Vector2f(x == 0 ? 50.f : W_WIDTH - 50.f, 50.f); }
+static const sf::Color HEALTH_COLOR(0xe040109a);
 static const sf::Vector2f SHIELD_GAUGE_SIZE(W_HEIGHT / 2, 15.f);
 static const sf::Vector2f SHIELD_GAUGE_POSITION(int x) { return sf::Vector2f(x == 0 ? 2.f : W_WIDTH - 2.f, W_HEIGHT - 2.f); }
-static const sf::Color HEALTH_COLOR(0xe040109a);
 static const sf::Color SHIELD_GAUGE_COLOR(0x1850c39a);
+static const sf::Vector2f ABSORBING_GAUGE_SIZE(HELTH_W_SIZE, W_HEIGHT / 36.f);
+static const sf::Vector2f ABSORBING_GAUGE_POSITION(int x) { return sf::Vector2f(x == 0 ? 50.f : W_WIDTH - 50.f, 95.f); }
+static const sf::Color ABSORBING_GAUGE_COLOR(0xe0a0359a);
 
 // Constantes et macro liées au jeu en lui meme
 static const float STICK_SENSIBILITY(20.f);
@@ -77,6 +80,8 @@ static const float SPEED_PERSO_1(PLAYER_VELOCITY);
 static const float SPEED_PERSO_2(PLAYER_VELOCITY * .8f);
 static const float DAMMAGE_SPRITE_DURATION(35);
 static const int PROTECTION_DURATION(150);	// indiqué en nombre de frames de protection
+static const int ABSORPTION_DURATION(20);	// indiqué en nombre de frames d'absorption
+static const int ABSORPTION_NEEDED(100);	// indiqué en nombre de frames de protection
 
 // Constantes caractéristiques des différents sorts
 static const float COEF_SPELL_SPEED(190.f);
