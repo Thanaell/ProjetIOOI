@@ -6,7 +6,7 @@
 class Element {
 protected:
 	// Liste des sprites d'un élément
-	std::vector<std::unique_ptr<sf::Drawable>> sprites;
+	std::vector<std::shared_ptr<sf::Drawable>> sprites;
 	/// un élément peut avoir plusieurs sprite :
 	/// par exemple un personnage a son sprite en jeu, mais aussi sa barre de vie dans un coin
 

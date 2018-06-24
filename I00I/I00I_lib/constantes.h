@@ -82,6 +82,7 @@ static const float DAMMAGE_SPRITE_DURATION(4);
 static const int PROTECTION_DURATION(150);	// indiqué en nombre de frames de protection
 static const int ABSORPTION_DURATION(20);	// indiqué en nombre de frames d'absorption
 static const int ABSORPTION_NEEDED(100);	// indiqué en nombre de frames de protection
+static const int DAMMAGE_RECOVERY(8);
 
 // Constantes caractéristiques des différents sorts
 static const float COEF_SPELL_SPEED(190.f);

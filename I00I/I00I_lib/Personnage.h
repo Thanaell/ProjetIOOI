@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "PlayingElement.h"
 #include "Gauge.h"
+#include "Cooldown.h"
 
 class Spell;
 
@@ -20,7 +21,7 @@ protected:
 	// Numéro du joueur
 	int player;
 
-	Gauge health;
+	Cooldown<Gauge> health;
 
 
 	// Liste des sort que ce personnage peut lancer
@@ -31,7 +32,7 @@ protected:
 	// entier permettant de savoir le moment où a été recu le dernier sort
 	unsigned int lastDammage;
 	// entier permettant de savoir le moment où a été recu le dernier sort
-	unsigned int lastDammageFeedback;
+	Cooldown<sf::Sprite> lastDammageFeedback;
 
 	//chargement des sprites associées
 	void loadSprites();

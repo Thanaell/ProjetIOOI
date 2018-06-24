@@ -11,12 +11,12 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	type(myType),
 	lastInvocationDate(clock()),
 	lastDammage(0),
-	lastDammageFeedback(0),
+	lastDammageFeedback(DAMMAGE_SPRITE_DURATION),
 	spriteName(spriteName),
 	isProtected(false),
 	isAbsorbing(false),
 	frameAbsorbingLeft(ABSORPTION_DURATION),
-	health(HEALTH_COLOR, HEALTH_POSITION(init), HELTH_SIZE, init == 0 ? TOPLEFT : TOPRIGHT),
+	health(DAMMAGE_RECOVERY, new Gauge(HEALTH_COLOR, HEALTH_POSITION(init), HELTH_SIZE, init == 0 ? TOPLEFT : TOPRIGHT)),
 	shieldGauge(SHIELD_GAUGE_COLOR, SHIELD_GAUGE_POSITION(init), SHIELD_GAUGE_SIZE, init == 0 ? TOPLEFT : TOPRIGHT, PROTECTION_DURATION, PROTECTION_DURATION, false),
 	absorbingGauge(ABSORBING_GAUGE_COLOR, ABSORBING_GAUGE_POSITION(init), ABSORBING_GAUGE_SIZE, init == 0 ? TOPLEFT : TOPRIGHT, ABSORPTION_NEEDED)
 {
@@ -46,15 +46,14 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 
 receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, int caster) {
 	receiveResult result;
-	sf::Sprite* spriteDegat = ((sf::Sprite*)sprites[1].get());
+
 	auto spritePosition = ((sf::Sprite*)sprites[0].get())->getPosition();
 
 	if (isProtected) {
 		result.affectTarget = false;
 		result.destroyBullet = false;
 		result.returnBullet = true;
-	}
-	else if (isAbsorbing && sort != SORT3) {
+	} else if (isAbsorbing && sort != SORT3) {
 		result.affectTarget = false;
 		result.destroyBullet = true;
 		result.returnBullet = true;
@@ -65,56 +64,63 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 			absorbingGauge.add(10);
 			break;
 		}
-		lastDammageFeedback = Game::getFrameNumber();
-		spriteDegat->setPosition(spritePosition);
-		spriteDegat->setColor(sf::Color::White);
-		if (spritePosition.x - spellPosition.x < 0 && spriteDegat->getScale().x < 0
-			|| spritePosition.x - spellPosition.x > 0 && spriteDegat->getScale().x > 0) {
-			spriteDegat->scale(sf::Vector2f(-1.f, 1.f));
+
+		lastDammageFeedback.start();
+
+		lastDammageFeedback.getObject()->setPosition(spritePosition);
+		lastDammageFeedback.getObject()->setColor(sf::Color::White);
+		if (spritePosition.x - spellPosition.x < 0 && lastDammageFeedback.getObject()->getScale().x < 0
+			|| spritePosition.x - spellPosition.x > 0 && lastDammageFeedback.getObject()->getScale().x > 0) {
+			lastDammageFeedback.getObject()->scale(sf::Vector2f(-1.f, 1.f));
 		}
-	}
-	else if (caster == player && !CAN_AFFECT_OWNER) {
+	} else if (caster == player && !CAN_AFFECT_OWNER) {
 		result.affectTarget = false;
 		result.destroyBullet = false;
 		result.returnBullet = false;
-	}
-	else {
+	} else if(health.isDone()) {
 		result.affectTarget = true;
 		result.destroyBullet = true;
 		result.returnBullet = false;
 
 
 		switch (sort) {
-		case SORT1: health.remove(POWER_SORT_1); break;
-		case SORT2: health.remove(POWER_SORT_2); break;
-		case SORT3: health.remove(POWER_SORT_3); break;
+		case SORT1: health.getObject()->remove(POWER_SORT_1); break;
+		case SORT2: health.getObject()->remove(POWER_SORT_2); break;
+		case SORT3: health.getObject()->remove(POWER_SORT_3); break;
 		default:
-			health.remove(10);
+			health.getObject()->remove(10);
 			break;
 		}
 
-		lastDammageFeedback = Game::getFrameNumber();
-		lastDammage = Game::getFrameNumber();
-		spriteDegat->setPosition(spritePosition);
-		spriteDegat->setColor(sf::Color::White);
-		if (spritePosition.x - spellPosition.x < 0 && spriteDegat->getScale().x < 0
-		 || spritePosition.x - spellPosition.x > 0 && spriteDegat->getScale().x > 0) {
-			spriteDegat->scale(sf::Vector2f(-1.f, 1.f));
+
+		lastDammageFeedback.start();
+
+		lastDammageFeedback.getObject()->setPosition(spritePosition);
+		lastDammageFeedback.getObject()->setColor(sf::Color::White);
+		if (spritePosition.x - spellPosition.x < 0 && lastDammageFeedback.getObject()->getScale().x < 0
+			|| spritePosition.x - spellPosition.x > 0 && lastDammageFeedback.getObject()->getScale().x > 0) {
+			lastDammageFeedback.getObject()->scale(sf::Vector2f(-1.f, 1.f));
 		}
 
-		if (health.isEmpty()) sounds[0]->play();
+		if (health.getObject()->isEmpty()) sounds[0]->play();
+	} else {
+		result.affectTarget = false;
+		result.destroyBullet = false;
+		result.returnBullet = false;
 	}
 	return result;
 }
 
 float Personnage::getHealth() {
-	return health.getValue();
+	return health.getObject()->getValue();
 }
 
 PlayingElement * Personnage::action() {
 	PlayingElement* result = nullptr;
 
-	if (Game::getFrameNumber() - lastDammageFeedback > DAMMAGE_SPRITE_DURATION) ((sf::Sprite*)sprites[1].get())->setColor(sf::Color::Transparent);
+	lastDammageFeedback.update();
+
+	if (lastDammageFeedback.isDone()) lastDammageFeedback.getObject()->setColor(sf::Color::Transparent);
 	float stickX = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::X)) > STICK_SENSIBILITY ?
 		sf::Joystick::getAxisPosition(player, sf::Joystick::X) : 0;
 	float stickY = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::Y)) > STICK_SENSIBILITY ?
@@ -180,7 +186,8 @@ void Personnage::loadSprites() {
 	dammage->setScale(SPRITE_SCALE);
 	dammage->setColor(sf::Color::Transparent);
 	if (!isFacingRight) dammage->scale(sf::Vector2f(-1.f, 1.f));
-	sprites.push_back(std::unique_ptr<sf::Sprite>(dammage));
+	sprites.push_back(std::shared_ptr<sf::Sprite>(dammage));
+	lastDammageFeedback.setObject(dammage);
 
 	//	Sprite marquant que le personnage est affecté par un sort
 	sf::Sprite* shield = new sf::Sprite(*sin.getTexture("shieldPlayer"));
@@ -198,9 +205,9 @@ void Personnage::loadSprites() {
 	if (!isFacingRight) absorbingShield->scale(sf::Vector2f(-1.f, 1.f));
 	sprites.push_back(std::unique_ptr<sf::Sprite>(absorbingShield));
 
-	for (auto& s : health.getSprite()) sprites.push_back(std::unique_ptr<sf::Drawable>(s));
-	for (auto& s : shieldGauge.getSprite()) sprites.push_back(std::unique_ptr<sf::Drawable>(s));
-	for (auto& s : absorbingGauge.getSprite()) sprites.push_back(std::unique_ptr<sf::Drawable>(s));
+	for (auto& s : health.getObject()->getSprites()) sprites.push_back(std::shared_ptr<sf::Drawable>(s));
+	for (auto& s : shieldGauge.getSprites()) sprites.push_back(std::shared_ptr<sf::Drawable>(s));
+	for (auto& s : absorbingGauge.getSprites()) sprites.push_back(std::shared_ptr<sf::Drawable>(s));
 }
 
 void Personnage::move(float x, float y) {

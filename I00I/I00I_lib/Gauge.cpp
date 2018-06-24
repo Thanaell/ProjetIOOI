@@ -12,7 +12,7 @@ Gauge::Gauge(sf::Color color, sf::Vector2f position, sf::Vector2f size, ORIGINE 
 	barreVie->setRotation(calculateRotation(origine));
 	barreVie->setPosition(position);
 	barreVie->setFillColor(color);
-	sprites.push_back(barreVie);
+	sprites.push_back(std::shared_ptr<sf::RectangleShape>(barreVie));
 
 	sf::Sprite* interfacePlayer = new sf::Sprite(*sin.getTexture("interfacePlayer"));
 	interfacePlayer->setOrigin(calculateOrigine(origine, INTERFACE_PLAYER_SIZE_X, INTERFACE_PLAYER_SIZE_Y));
@@ -20,7 +20,7 @@ Gauge::Gauge(sf::Color color, sf::Vector2f position, sf::Vector2f size, ORIGINE 
 	interfacePlayer->setScale(calculateScale(size));
 	interfacePlayer->setPosition(position);
 	interfacePlayer->setColor(sf::Color(255, 255, 255, 195));
-	sprites.push_back(interfacePlayer);
+	sprites.push_back(std::shared_ptr<sf::Sprite>(interfacePlayer));
 
 
 	updateSprites();
@@ -57,11 +57,12 @@ float Gauge::getRatio() {
 	return value / maxValue;
 }
 
-const std::vector<sf::Drawable*>& Gauge::getSprite() { return sprites; }
+const std::vector<std::shared_ptr<sf::Drawable>>& Gauge::getSprites() { return sprites; }
 
 
 void Gauge::updateSprites() {
-	((sf::RectangleShape*)sprites[0])->setScale(sf::Vector2f(value / maxValue > 0.f ? value / maxValue : 0, 1.f));
+	sf::RectangleShape* temp = (sf::RectangleShape*)sprites[0].get();
+	temp->setScale(sf::Vector2f(value / maxValue > 0.f ? value / maxValue : 0, 1.f));
 }
 
 sf::Vector2f Gauge::calculateOrigine(ORIGINE origine, float sizeX, float sizeY) {

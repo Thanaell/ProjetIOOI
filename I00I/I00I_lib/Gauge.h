@@ -8,7 +8,7 @@
 class Gauge{
 	float value;
 	float maxValue;
-	std::vector<sf::Drawable*> sprites;
+	std::vector<std::shared_ptr<sf::Drawable>> sprites;
 	bool horizontal;
 	void updateSprites();
 	sf::Vector2f calculateOrigine(ORIGINE origine, float sizeX, float sizeY);
@@ -26,5 +26,5 @@ public:
 	bool isEmpty();
 	float getValue();
 	float getRatio();
-	const std::vector<sf::Drawable*> & getSprite();
+	const std::vector<std::shared_ptr<sf::Drawable>> & getSprites();
 };
