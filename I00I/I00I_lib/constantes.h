@@ -40,18 +40,17 @@ static const sf::Vector2f SELECT_BUTTON_ORIGINE ((BUTTON_SIZE_X + 10.f) / 2, (BU
 static const sf::Color SELECT_BUTTON_COLOR(0x9a9a10FF);
 static const float INTERFACE_PLAYER_SIZE_X(326.f);
 static const float INTERFACE_PLAYER_SIZE_Y(46.f);
-static const sf::Vector2f INTERFACE_PLAYER_ORIGINE(int i) { return sf::Vector2f(i == 0 ? 0.f : INTERFACE_PLAYER_SIZE_X, 0.f); }
-static const sf::Vector2f INTERFACE_PLAYER_SCALE(W_WIDTH / 1280.f, W_HEIGHT / 720.f);
-static const sf::Vector2f INTERFACE_PLAYER_POSITION(int i) { return sf::Vector2f(i == 0 ? 0.f : W_WIDTH, 0.f); }
 static const sf::Vector2f GAMEOVER_ORIGINE(W_WIDTH / 2, W_HEIGHT / 2);
 static const sf::Vector2f GAMEOVER_POSITION(W_WIDTH / 2, W_HEIGHT / 2);
 
 // Définition de la taille des assets dessinés
 static const float HELTH_W_SIZE(W_WIDTH / 4.f);
 static const sf::Vector2f HELTH_SIZE(HELTH_W_SIZE, W_HEIGHT / 18.f);
-static const sf::Vector2f HEALTH_ORIGINE(int x) { return sf::Vector2f(x == 0 ? 0.f : HELTH_W_SIZE, 0.f); }
 static const sf::Vector2f HEALTH_POSITION(int x) { return sf::Vector2f(x == 0 ? 50.f : W_WIDTH - 50.f, 50.f); }
+static const sf::Vector2f SHIELD_GAUGE_SIZE(W_HEIGHT / 2, 15.f);
+static const sf::Vector2f SHIELD_GAUGE_POSITION(int x) { return sf::Vector2f(x == 0 ? 2.f : W_WIDTH - 2.f, W_HEIGHT - 2.f); }
 static const sf::Color HEALTH_COLOR(0xe040109a);
+static const sf::Color SHIELD_GAUGE_COLOR(0x1850c39a);
 
 // Constantes et macro liées au jeu en lui meme
 static const float STICK_SENSIBILITY(20.f);

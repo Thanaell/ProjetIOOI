@@ -14,7 +14,7 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	spriteName(spriteName),
 	isProtected(false),
 	health(HEALTH_COLOR, HEALTH_POSITION(init), HELTH_SIZE, init == 0 ? TOPLEFT : TOPRIGHT),
-	shieldGauge(sf::Color::Blue, sf::Vector2f(init == 0 ? 50.f : 1280.f - 50.f, 95.f), sf::Vector2f(320.f, 15.f), init == 0 ? TOPLEFT : TOPRIGHT, PROTECTION_DURATION, PROTECTION_DURATION, true)
+	shieldGauge(SHIELD_GAUGE_COLOR, SHIELD_GAUGE_POSITION(init), SHIELD_GAUGE_SIZE, init == 0 ? TOPLEFT : TOPRIGHT, PROTECTION_DURATION, PROTECTION_DURATION, false)
 {
 	isFacingRight = init == 0;
 

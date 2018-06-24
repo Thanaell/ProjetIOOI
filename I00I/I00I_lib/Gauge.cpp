@@ -9,14 +9,17 @@ Gauge::Gauge(sf::Color color, sf::Vector2f position, sf::Vector2f size, ORIGINE 
 
 	sf::RectangleShape* barreVie = new sf::RectangleShape(size);
 	barreVie->setOrigin(calculateOrigine(origine, size.x, size.y));
+	barreVie->setRotation(calculateRotation(origine));
 	barreVie->setPosition(position);
 	barreVie->setFillColor(color);
 	sprites.push_back(barreVie);
 
 	sf::Sprite* interfacePlayer = new sf::Sprite(*sin.getTexture("interfacePlayer"));
 	interfacePlayer->setOrigin(calculateOrigine(origine, INTERFACE_PLAYER_SIZE_X, INTERFACE_PLAYER_SIZE_Y));
+	interfacePlayer->setRotation(calculateRotation(origine));
 	interfacePlayer->setScale(calculateScale(size));
 	interfacePlayer->setPosition(position);
+	interfacePlayer->setColor(sf::Color(255, 255, 255, 195));
 	sprites.push_back(interfacePlayer);
 }
 
@@ -71,6 +74,18 @@ sf::Vector2f Gauge::calculateOrigine(ORIGINE origine, float sizeX, float sizeY) 
 
 sf::Vector2f Gauge::calculateScale(sf::Vector2f size) {
 	return sf::Vector2f(size.x / INTERFACE_PLAYER_SIZE_X, size.y / INTERFACE_PLAYER_SIZE_Y);
+}
+
+float Gauge::calculateRotation(ORIGINE origine) {
+	if(horizontal) return 0.0f;
+	switch (origine) {
+	case TOPLEFT: return -90.f;
+	case TOPRIGHT: return 90.f;
+	case BOTTOMLEFT: return 90.f;
+	case BOTTOMRIGHT: return -90.f;
+	case CENTER: return -90.f;
+	default: return 0.f;
+	}
 }
 
 
