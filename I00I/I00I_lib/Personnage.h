@@ -27,8 +27,12 @@ protected:
 	std::vector<SpellType> spellbook;
 	//entier permettant de savoir le moment où a été lancé le dernier sort
 	unsigned int lastInvocationDate;
+
 	// entier permettant de savoir le moment où a été recu le dernier sort
 	unsigned int lastDammage;
+	// entier permettant de savoir le moment où a été recu le dernier sort
+	unsigned int lastDammageFeedback;
+
 	//chargement des sprites associées
 	void loadSprites();
 	// Récupère les évènements du joystick pour bouger le personnage

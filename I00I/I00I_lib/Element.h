@@ -11,7 +11,7 @@ protected:
 	/// par exemple un personnage a son sprite en jeu, mais aussi sa barre de vie dans un coin
 
 	// Liste des sounds que joue l'élément
-	std::vector<std::unique_ptr<sf::Sound>> sound;
+	std::vector<std::unique_ptr<sf::Sound>> sounds;
 
 public: 
 	// Fonction qui affiche a l'écran l'ensemble des sprite de la classe

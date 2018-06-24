@@ -60,7 +60,7 @@ void Game::gameLoop() {
 		window.display();
 		auto endFrame = std::chrono::system_clock::now();
 
-		countFrame = (countFrame + 1) % 60;
+		countFrame++;
 
 		//	on attend qu'il se soit bien passer le temps qu'il faut entre 2 frames
 		_int64 durationFrame = std::chrono::duration_cast<std::chrono::milliseconds>(endFrame - last).count();
@@ -399,5 +399,9 @@ DWORD Game::loading(LPVOID params) {
 
 b2World * Game::getWorld() {
 	return _instance->world.get();
+}
+
+int Game::getFrameNumber() {
+	return _instance->countFrame;
 }
 

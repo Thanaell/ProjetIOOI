@@ -11,6 +11,7 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	type(myType),
 	lastInvocationDate(clock()),
 	lastDammage(0),
+	lastDammageFeedback(0),
 	spriteName(spriteName),
 	isProtected(false),
 	isAbsorbing(false),
@@ -36,11 +37,18 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	body->CreateFixture(&fixtureDef);
 	body->SetUserData(this);
 
+
+	auto& sin = Loader::Instance();
+	sounds.push_back(std::unique_ptr<sf::Sound>(new sf::Sound(*sin.getSound("death"))));
+
 	loadSprites();
 }
 
 receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, int caster) {
 	receiveResult result;
+	sf::Sprite* spriteDegat = ((sf::Sprite*)sprites[1].get());
+	auto spritePosition = ((sf::Sprite*)sprites[0].get())->getPosition();
+
 	if (isProtected) {
 		result.affectTarget = false;
 		result.destroyBullet = false;
@@ -56,6 +64,13 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 		default:
 			absorbingGauge.add(10);
 			break;
+		}
+		lastDammageFeedback = Game::getFrameNumber();
+		spriteDegat->setPosition(spritePosition);
+		spriteDegat->setColor(sf::Color::White);
+		if (spritePosition.x - spellPosition.x < 0 && spriteDegat->getScale().x < 0
+			|| spritePosition.x - spellPosition.x > 0 && spriteDegat->getScale().x > 0) {
+			spriteDegat->scale(sf::Vector2f(-1.f, 1.f));
 		}
 	}
 	else if (caster == player && !CAN_AFFECT_OWNER) {
@@ -77,16 +92,17 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 			health.remove(10);
 			break;
 		}
-		lastDammage = clock();
-		auto spritePosition = ((sf::Sprite*)sprites[0].get())->getPosition();
 
-		sf::Sprite* spriteDegat = ((sf::Sprite*)sprites[1].get());
+		lastDammageFeedback = Game::getFrameNumber();
+		lastDammage = Game::getFrameNumber();
 		spriteDegat->setPosition(spritePosition);
 		spriteDegat->setColor(sf::Color::White);
 		if (spritePosition.x - spellPosition.x < 0 && spriteDegat->getScale().x < 0
 		 || spritePosition.x - spellPosition.x > 0 && spriteDegat->getScale().x > 0) {
 			spriteDegat->scale(sf::Vector2f(-1.f, 1.f));
 		}
+
+		if (health.isEmpty()) sounds[0]->play();
 	}
 	return result;
 }
@@ -98,7 +114,7 @@ float Personnage::getHealth() {
 PlayingElement * Personnage::action() {
 	PlayingElement* result = nullptr;
 
-	if (clock() - lastDammage > DAMMAGE_SPRITE_DURATION) ((sf::Sprite*)sprites[1].get())->setColor(sf::Color::Transparent);
+	if (Game::getFrameNumber() - lastDammageFeedback > DAMMAGE_SPRITE_DURATION) ((sf::Sprite*)sprites[1].get())->setColor(sf::Color::Transparent);
 	float stickX = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::X)) > STICK_SENSIBILITY ?
 		sf::Joystick::getAxisPosition(player, sf::Joystick::X) : 0;
 	float stickY = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::Y)) > STICK_SENSIBILITY ?
@@ -243,7 +259,7 @@ void Personnage::shieldManagement(bool isCasting) {
 			if (frameAbsorbingLeft > 0 && !isCasting) {
 				isAbsorbing = true;
 				frameAbsorbingLeft = std::max(frameAbsorbingLeft - 2, 0);
-				absorbingShield->setColor(sf::Color(255, 255, 255, 255));
+				absorbingShield->setColor(sf::Color(255, 255, 255, 128));
 			}
 			else {
 				isAbsorbing = false;

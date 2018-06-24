@@ -78,7 +78,7 @@ static const float HEALTH_PERSO_1(100);
 static const float HEALTH_PERSO_2(130);
 static const float SPEED_PERSO_1(PLAYER_VELOCITY);
 static const float SPEED_PERSO_2(PLAYER_VELOCITY * .8f);
-static const float DAMMAGE_SPRITE_DURATION(35);
+static const float DAMMAGE_SPRITE_DURATION(4);
 static const int PROTECTION_DURATION(150);	// indiqué en nombre de frames de protection
 static const int ABSORPTION_DURATION(20);	// indiqué en nombre de frames d'absorption
 static const int ABSORPTION_NEEDED(100);	// indiqué en nombre de frames de protection

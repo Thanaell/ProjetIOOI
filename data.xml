@@ -15,12 +15,13 @@
       <Element label="playing_background" path="..\\..\\Assets\\playing_background.jpg"/>
       <Element label="dammagePlayer" path="..\\..\\Assets\\dammage.png"/>
       <Element label="shieldPlayer" path="..\\..\\Assets\\shield.png"/>
-      <Element label="absorbingShield" path="..\\..\\Assets\\shield.png"/>
+      <Element label="absorbingShield" path="..\\..\\Assets\\shieldAbs.png"/>
       <Element label="interfacePlayer" path="..\\..\\Assets\\interface.png"/>
       <Element label="gameover" path="..\\..\\Assets\\gameover.png"/>
     </last>
     <music>
     </music>
     <sounds>
+      <Element label="death" path="..\\..\\Sounds\\death.wav"/>
     </sounds>
 </loadElements>
