@@ -94,6 +94,7 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 
 
 		lastDammageFeedback.start();
+		health.start();
 
 		lastDammageFeedback.getObject()->setPosition(spritePosition);
 		lastDammageFeedback.getObject()->setColor(sf::Color::White);
@@ -119,6 +120,7 @@ PlayingElement * Personnage::action() {
 	PlayingElement* result = nullptr;
 
 	lastDammageFeedback.update();
+	health.update();
 
 	if (lastDammageFeedback.isDone()) lastDammageFeedback.getObject()->setColor(sf::Color::Transparent);
 	float stickX = abs(sf::Joystick::getAxisPosition(player, sf::Joystick::X)) > STICK_SENSIBILITY ?
