@@ -60,8 +60,8 @@ static const float STICK_SENSIBILITY(20.f);
 static const float KEYBOARD_ACTION(50.f);
 
 // Constantes et macros liées a Box2D
-static const float PLAYER_VELOCITY(2.5f);
-static const float PLAYER_INERTIE(5.5f);
+static const float PLAYER_VELOCITY(75.f);
+static const float PLAYER_INERTIE(7.5f);
 static const float PLAYER_POSITION_X(int x) { return (x == 0 ? 1 : 7) * WORLD_WIDTH / 8; }
 static const float PLAYER_POSITION_Y(WORLD_HEIGHT / 5);
 static const float PLAYER_DENSITY(1.f);

@@ -28,6 +28,8 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 
 	bodyDef.position.Set(PLAYER_POSITION_X(init), PLAYER_POSITION_Y);
 	body = Game::getWorld()->CreateBody(&bodyDef);
+	body->SetFixedRotation(true);
+
 	b2PolygonShape shape;
 	shape.SetAsBox(PLAYER_SIZE_B2D_X, PLAYER_SIZE_B2D_Y);
 	b2FixtureDef fixtureDef;
@@ -214,7 +216,14 @@ void Personnage::loadSprites() {
 
 void Personnage::move(float x, float y) {
 	isFacingRight = x == 0 ? isFacingRight : x > 0;
-	body->ApplyLinearImpulseToCenter(b2Vec2(PLAYER_INERTIE * x, PLAYER_INERTIE * y), true);
+	auto speed = body->GetLinearVelocity();
+
+	float wantedVelocityX = vitesse * (x > 0 ? 1 : -1);
+	float wantedVelocityY = vitesse * (y > 0 ? 1 : -1);
+
+	float speedRatioX = speed.x / wantedVelocityX;
+	float speedRatioY = speed.y / wantedVelocityY;
+	body->ApplyLinearImpulseToCenter(b2Vec2(PLAYER_INERTIE * x * (1.f - speedRatioX), PLAYER_INERTIE * y * (1.f - speedRatioY)), true);
 }
 
 

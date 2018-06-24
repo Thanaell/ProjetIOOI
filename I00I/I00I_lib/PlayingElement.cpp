@@ -14,6 +14,8 @@ bool PlayingElement::updateMovingSprite(sf::Sprite* sprite) {
 		|| (isFacingRight && sprite->getScale().x < 0)) {
 		sprite->scale(sf::Vector2f(-1.f, 1.f));
 	}
+
+	sprite->setRotation(body->GetAngle());
 	return true;
 }
 
