@@ -27,4 +27,7 @@ public:
 	float getValue();
 	float getRatio();
 	const std::vector<std::shared_ptr<sf::Drawable>> & getSprites();
+
+	void operator+=(float added);
+	void operator-=(float removed);
 };

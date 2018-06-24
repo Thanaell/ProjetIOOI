@@ -58,8 +58,8 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 		result.destroyBullet = true;
 		result.returnBullet = true;
 		switch (sort) {
-		case SORT1: absorbingGauge.add(POWER_SORT_1); break;
-		case SORT2: absorbingGauge.add(POWER_SORT_2); break;
+		case SORT1: absorbingGauge += POWER_SORT_1; break;
+		case SORT2: absorbingGauge += POWER_SORT_2; break;
 		default:
 			absorbingGauge.add(10);
 			break;
@@ -249,7 +249,7 @@ void Personnage::shieldManagement(bool isCasting) {
 
 		if (!shieldGauge.isEmpty() && !isCasting) {
 			isProtected = true;
-			shieldGauge.remove(2);
+			shieldGauge -= 2.f;
 			shield->setColor(sf::Color(255, 255, 255, 255 * shieldGauge.getRatio()));
 		} else {
 			isProtected = false;
@@ -257,7 +257,7 @@ void Personnage::shieldManagement(bool isCasting) {
 		}
 	} else {
 		isProtected = false;
-		shieldGauge.add(1);
+		shieldGauge += 1.f;
 		shield->setColor(sf::Color::Transparent);
 
 

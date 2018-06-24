@@ -92,4 +92,5 @@ float Gauge::calculateRotation(ORIGINE origine) {
 	}
 }
 
-
+void Gauge::operator+=(float added) { add(added); }
+void Gauge::operator-=(float removed) { remove(removed); }
