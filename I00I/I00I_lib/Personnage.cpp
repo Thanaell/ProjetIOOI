@@ -55,13 +55,14 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 		result.affectTarget = false;
 		result.destroyBullet = false;
 		result.returnBullet = true;
-	} else if (isAbsorbing && sort != SORT3) {
+	} else if (isAbsorbing) {
 		result.affectTarget = false;
 		result.destroyBullet = true;
 		result.returnBullet = true;
 		switch (sort) {
 		case SORT1: absorbingGauge += POWER_SORT_1; break;
 		case SORT2: absorbingGauge += POWER_SORT_2; break;
+		case SORT3: absorbingGauge.refill(); break;
 		default:
 			absorbingGauge.add(10);
 			break;
@@ -121,6 +122,7 @@ float Personnage::getHealth() {
 PlayingElement * Personnage::action() {
 	PlayingElement* result = nullptr;
 
+	for (auto& s : spellbook) s.update();
 	lastDammageFeedback.update();
 	health.update();
 
@@ -214,6 +216,8 @@ void Personnage::loadSprites() {
 	for (auto& s : absorbingGauge.getSprites()) sprites.push_back(std::shared_ptr<sf::Drawable>(s));
 }
 
+
+// Fonction a réécrire pour la rendre plus belle
 void Personnage::move(float x, float y) {
 	isFacingRight = x == 0 ? isFacingRight : x > 0;
 	auto speed = body->GetLinearVelocity();
@@ -233,10 +237,16 @@ PlayingElement * Personnage::invoque(float x, float y, bool A, bool B) {
 
 	if (now - lastInvocationDate > INVOCATION_RECOVERYTIME) {
 		lastInvocationDate = clock();
-		if (A && !B) result = Spell::createSpell(spellbook[0], body, x, y, isFacingRight, player);
-		if (!A && B) result = Spell::createSpell(spellbook[1], body, x, y, isFacingRight, player);
+		if (A && !B && spellbook[0].isDone()) {
+			result = Spell::createSpell(*spellbook[0].getObject(), body, x, y, isFacingRight, player);
+			spellbook[0].start();
+		}
+		if (!A && B && spellbook[1].isDone()) {
+			result = Spell::createSpell(*spellbook[1].getObject(), body, x, y, isFacingRight, player);
+			spellbook[1].start();
+		}
 		if (A && B && absorbingGauge.isFull()) {
-			result = Spell::createSpell(spellbook[2], body, x, y, isFacingRight, player);
+			result = Spell::createSpell(*spellbook[2].getObject(), body, x, y, isFacingRight, player);
 			absorbingGauge.setValue(0.f);
 		}
 	}

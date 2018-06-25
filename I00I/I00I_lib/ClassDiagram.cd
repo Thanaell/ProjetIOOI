@@ -17,7 +17,7 @@
   <Class Name="Game">
     <Position X="12.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAmUAAAAAEAABAQCAADABUACAiAAAEMQIBgEAACJMA=</HashCode>
+      <HashCode>AAAmUAAAAAEAABAQCAADABUACAiAAAEMQIBgkAACJMA=</HashCode>
       <FileName>Game.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -45,8 +45,8 @@
     <Position X="1.75" Y="7" Width="1.5" />
     <InheritanceLine Type="Personnage" FixedFromPoint="true">
       <Path>
-        <Point X="3.75" Y="8.688" />
-        <Point X="3.51" Y="8.688" />
+        <Point X="3.75" Y="8.621" />
+        <Point X="3.51" Y="8.621" />
         <Point X="3.51" Y="7.616" />
         <Point X="3.25" Y="7.616" />
       </Path>
@@ -60,8 +60,8 @@
     <Position X="1.75" Y="9.75" Width="1.5" />
     <InheritanceLine Type="Personnage" FixedFromPoint="true">
       <Path>
-        <Point X="3.75" Y="9.5" />
-        <Point X="3.51" Y="9.5" />
+        <Point X="3.75" Y="9.408" />
+        <Point X="3.51" Y="9.408" />
         <Point X="3.51" Y="10.366" />
         <Point X="3.25" Y="10.366" />
       </Path>
@@ -82,7 +82,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAARBAAKEIAJAACABAgAAACAiAEFAAQBIAAAEAAAAAg=</HashCode>
+      <HashCode>AAARBAICkIAJAACABAAAAACQjAEFAAQBKACAEAAAAAg=</HashCode>
       <FileName>Personnage.h</FileName>
     </TypeIdentifier>
   </Class>

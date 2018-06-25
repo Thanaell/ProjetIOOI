@@ -60,6 +60,7 @@ float Gauge::getRatio() {
 const std::vector<std::shared_ptr<sf::Drawable>>& Gauge::getSprites() { return sprites; }
 
 
+
 void Gauge::updateSprites() {
 	sf::RectangleShape* temp = (sf::RectangleShape*)sprites[0].get();
 	temp->setScale(sf::Vector2f(value / maxValue > 0.f ? value / maxValue : 0, 1.f));
@@ -94,3 +95,6 @@ float Gauge::calculateRotation(ORIGINE origine) {
 
 void Gauge::operator+=(float added) { add(added); }
 void Gauge::operator-=(float removed) { remove(removed); }
+
+
+void Gauge::refill() { value = maxValue; updateSprites(); }

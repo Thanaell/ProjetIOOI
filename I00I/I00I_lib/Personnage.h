@@ -25,7 +25,7 @@ protected:
 
 
 	// Liste des sort que ce personnage peut lancer
-	std::vector<SpellType> spellbook;
+	std::vector<Cooldown<SpellType>> spellbook;
 	//entier permettant de savoir le moment où a été lancé le dernier sort
 	unsigned int lastInvocationDate;
 

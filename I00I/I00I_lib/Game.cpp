@@ -30,7 +30,7 @@ Game::Game() :
 	assert(loadThread != NULL);
 
 	// Ajouté a visée de test dans le but de changer la gestion des threads
-	Sleep(100);
+	Sleep(200);
 }
 
 void Game::gameLoop() {
