@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Game.h"
 #include "GameObject.h"
+#include "Spell.h"
 
 b2Body * GameObject::getBody() {
 	return body;
@@ -9,7 +10,7 @@ b2Body * GameObject::getBody() {
 void GameObject::startContact() {}
 
 
-receiveResult GameObject::receive(SpellType sort, sf::Vector2f spellPosition, int caster) {
+receiveResult GameObject::receive(Spell * sort, sf::Vector2f spellPosition, int caster) {
 	receiveResult result;
 	result.affectTarget = false;
 	result.destroyBullet = false;

@@ -64,7 +64,7 @@ protected:
 public:
 	// Méthode appellé lorsqu'un sort touche un personnage et qui met a jour les points de vie (et potentiellement la position) du personnage
 	//	Retourne false si le sort n'a pas affecté le personnage
-	receiveResult receive(SpellType sort, sf::Vector2f spellPosition, int caster) override;
+	receiveResult receive(Spell * sort, sf::Vector2f spellPosition, int caster) override;
 	// Getter de health 
 	float getHealth() override;
 	// Récupère les infos du Joystick et agit en fonction

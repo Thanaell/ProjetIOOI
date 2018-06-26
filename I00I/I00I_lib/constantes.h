@@ -85,9 +85,9 @@ static const int ABSORPTION_NEEDED(100);	// indiqué en nombre de frames de prot
 static const int DAMMAGE_RECOVERY(8);
 
 // Constantes caractéristiques des différents sorts
-static const float COEF_SPELL_SPEED(190.f);
+static const float COEF_SPELL_SPEED(50.f);
 static const float SPEED_SORT_1(20.f);
-static const float SPEED_SORT_2(5.f);
+static const float SPEED_SORT_2(60.f);
 static const float SPEED_SORT_3(1.f);
 static const float POWER_SORT_1(10.f);
 static const float POWER_SORT_2(20.f);

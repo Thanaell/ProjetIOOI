@@ -46,7 +46,7 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 	loadSprites();
 }
 
-receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, int caster) {
+receiveResult Personnage::receive(Spell * sort, sf::Vector2f spellPosition, int caster) {
 	receiveResult result;
 
 	auto spritePosition = ((sf::Sprite*)sprites[0].get())->getPosition();
@@ -55,18 +55,17 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 		result.affectTarget = false;
 		result.destroyBullet = false;
 		result.returnBullet = true;
+	} else if (caster == player && !CAN_AFFECT_OWNER) {
+		result.affectTarget = false;
+		result.destroyBullet = false;
+		result.returnBullet = false;
 	} else if (isAbsorbing) {
 		result.affectTarget = false;
 		result.destroyBullet = true;
 		result.returnBullet = true;
-		switch (sort) {
-		case SORT1: absorbingGauge += POWER_SORT_1; break;
-		case SORT2: absorbingGauge += POWER_SORT_2; break;
-		case SORT3: absorbingGauge.refill(); break;
-		default:
-			absorbingGauge.add(10);
-			break;
-		}
+
+		absorbingGauge += sort->getPower();
+		if (sort->getType() == SORT3) absorbingGauge.refill();
 
 		lastDammageFeedback.start();
 
@@ -76,27 +75,14 @@ receiveResult Personnage::receive(SpellType sort, sf::Vector2f spellPosition, in
 			|| spritePosition.x - spellPosition.x > 0 && lastDammageFeedback.getObject()->getScale().x > 0) {
 			lastDammageFeedback.getObject()->scale(sf::Vector2f(-1.f, 1.f));
 		}
-	} else if (caster == player && !CAN_AFFECT_OWNER) {
-		result.affectTarget = false;
-		result.destroyBullet = false;
-		result.returnBullet = false;
 	} else if(health.isDone()) {
 		result.affectTarget = true;
 		result.destroyBullet = true;
 		result.returnBullet = false;
 
-
-		switch (sort) {
-		case SORT1: health.getObject()->remove(POWER_SORT_1); break;
-		case SORT2: health.getObject()->remove(POWER_SORT_2); break;
-		case SORT3: health.getObject()->remove(POWER_SORT_3); break;
-		default:
-			health.getObject()->remove(10);
-			break;
-		}
-
-
 		lastDammageFeedback.start();
+		health.getObject()->remove(sort->getPower());
+
 		health.start();
 
 		lastDammageFeedback.getObject()->setPosition(spritePosition);
