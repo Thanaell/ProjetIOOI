@@ -401,6 +401,14 @@ b2World * Game::getWorld() {
 	return _instance->world.get();
 }
 
+b2Vec2 Game::getWorldSize() {
+	if(_instance->walls.size() < 4)	return b2Vec2();
+	return b2Vec2(
+		std::abs(_instance->walls[0]->getPosition().x - _instance->walls[1]->getPosition().x - _instance->walls[2]->getPosition().x - _instance->walls[3]->getPosition().x),
+		std::abs(_instance->walls[0]->getPosition().y - _instance->walls[1]->getPosition().y - _instance->walls[2]->getPosition().y - _instance->walls[3]->getPosition().y)
+	);
+}
+
 int Game::getFrameNumber() {
 	return _instance->countFrame;
 }

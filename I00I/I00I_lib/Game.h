@@ -85,5 +85,6 @@ private:
 
 public:
 	static b2World* getWorld();
+	static b2Vec2 getWorldSize();
 	static int getFrameNumber();
 };

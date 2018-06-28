@@ -19,6 +19,31 @@ bool PlayingElement::updateMovingSprite(sf::Sprite* sprite) {
 	return true;
 }
 
+//	à implémenter
+void PlayingElement::updateSizeSprite(sf::Sprite * sprite) {
+	b2Vec2* bodySize;
+	auto shape = body->GetFixtureList();
+	switch (shape->GetType()) {
+	case b2Shape::Type::e_circle:
+		float radius = ((b2CircleShape*)shape->GetShape())->m_radius;
+		bodySize = new b2Vec2(2 * radius, 2 * radius);
+		break;
+	case b2Shape::Type::e_edge: break;
+	case b2Shape::Type::e_polygon:
+		bodySize = new b2Vec2(((b2PolygonShape*)shape->GetShape())->GetVertex(0).Length,
+							  ((b2PolygonShape*)shape->GetShape())->GetVertex(1).Length);
+		break;
+	case b2Shape::Type::e_chain: break;
+	case b2Shape::Type::e_typeCount: break;
+	}
+
+	sf::Vector2f ratioSizeWorld(bodySize->x / Game::getWorldSize().x, bodySize->y / Game::getWorldSize().y);
+	sf::Vector2f sizeSprite(ratioSizeWorld.x * W_WIDTH, ratioSizeWorld.y * W_HEIGHT);
+
+	auto textureSize = sprite->getTexture()->getSize();
+	sprite->setScale((isFacingRight ? 1 : -1) * sizeSprite.x / textureSize.x, sizeSprite.y / textureSize.y);
+}
+
 PlayingElement::PlayingElement() : toDestroy(false) {}
 
 PlayingElement * PlayingElement::action() {

@@ -13,6 +13,7 @@ protected:
 	//Booléen indiquant le sens du personnage
 	bool isFacingRight;
 	bool updateMovingSprite(sf::Sprite* sprite);
+	void updateSizeSprite(sf::Sprite* sprite);
 
 public:
 	PlayingElement();
