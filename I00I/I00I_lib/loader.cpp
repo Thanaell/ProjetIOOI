@@ -12,6 +12,9 @@ Loader::Loader() {
 		std::cout << "PugiXML n'arrive pas a ouvrir le fichier" << std::endl;
 		std::cout << "Parse error: " << result.description() << ", character pos= " << result.offset;
 	}
+	else {
+		std::cout << result.description() << std::endl;
+	}
 }
 
 void Loader::loadFirst() {
@@ -21,6 +24,7 @@ void Loader::loadFirst() {
 		assets.insert(std::make_pair(textureName, new sf::Texture()));
 		assets[textureName]->loadFromFile((std::string)child.attribute("path").as_string());
 		assets[textureName]->setSmooth(true);
+		std::cout << textureName << " a ete charge." << std::endl;
 	}
 }
 
@@ -31,13 +35,15 @@ void Loader::loadLast() {
 		assets.insert(std::make_pair(textureName, new sf::Texture()));
 		assets[textureName]->loadFromFile((std::string)child.attribute("path").as_string());
 		assets[textureName]->setSmooth(true);
+		std::cout << textureName << " a ete charge." << std::endl;
 	}
 
 	pugi::xml_node soundsList = doc.document_element().child("sounds");
 	for (auto& child : soundsList.children()) {
-		std::string textureName = (std::string)child.attribute("label").as_string();
-		sounds.insert(std::make_pair(textureName, new sf::SoundBuffer()));
-		sounds[textureName]->loadFromFile((std::string)child.attribute("path").as_string());
+		std::string soundName = (std::string)child.attribute("label").as_string();
+		sounds.insert(std::make_pair(soundName, new sf::SoundBuffer()));
+		sounds[soundName]->loadFromFile((std::string)child.attribute("path").as_string());
+		std::cout << soundName << " a ete charge." << std::endl;
 	}
 }
 
