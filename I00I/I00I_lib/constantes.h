@@ -60,14 +60,14 @@ static const float STICK_SENSIBILITY(20.f);
 static const float KEYBOARD_ACTION(50.f);
 
 // Constantes et macros liées a Box2D
-static const float PLAYER_VELOCITY(75.f);
+static const float PLAYER_VELOCITY(75720/8.f);
 static const float PLAYER_INERTIE(7.5f);
 static const float PLAYER_POSITION_X(int x) { return (x == 0 ? 1 : 7) * WORLD_WIDTH / 8; }
 static const float PLAYER_POSITION_Y(WORLD_HEIGHT / 5);
 static const float PLAYER_DENSITY(1.f);
 static const float PLAYER_FRICTION(.3f);
-static const float PLAYER_SIZE_B2D_X(WORLD_WIDTH / (RATIO_SCREEN_X * 2.f));
-static const float PLAYER_SIZE_B2D_Y(WORLD_WIDTH / (RATIO_SCREEN_Y * 2.f));
+static const float PLAYER_SIZE_B2D_X(5.f);
+static const float PLAYER_SIZE_B2D_Y(5.f);
 static const float SPELL_SIZE_B2D(WORLD_HEIGHT / (RATIO_SCREEN_X * 4.f));
 
 // Path pour trouver les assests 

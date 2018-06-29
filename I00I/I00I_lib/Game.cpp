@@ -403,10 +403,11 @@ b2World * Game::getWorld() {
 
 b2Vec2 Game::getWorldSize() {
 	if(_instance->walls.size() < 4)	return b2Vec2();
-	return b2Vec2(
+	b2Vec2 result(
 		std::abs(_instance->walls[0]->getPosition().x - _instance->walls[1]->getPosition().x - _instance->walls[2]->getPosition().x - _instance->walls[3]->getPosition().x),
 		std::abs(_instance->walls[0]->getPosition().y - _instance->walls[1]->getPosition().y - _instance->walls[2]->getPosition().y - _instance->walls[3]->getPosition().y)
 	);
+	return result;
 }
 
 int Game::getFrameNumber() {

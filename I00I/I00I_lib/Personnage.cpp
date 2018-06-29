@@ -32,6 +32,8 @@ Personnage::Personnage(CharacterType myType, int init, std::string spriteName) :
 
 	b2PolygonShape shape;
 	shape.SetAsBox(PLAYER_SIZE_B2D_X, PLAYER_SIZE_B2D_Y);
+
+
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &shape;
 	fixtureDef.density = PLAYER_DENSITY;
