@@ -71,8 +71,8 @@ receiveResult Personnage::receive(Spell * sort, sf::Vector2f spellPosition, int 
 
 		lastDammageFeedback.start();
 
-		lastDammageFeedback.getObject()->setPosition(spritePosition);
 		lastDammageFeedback.getObject()->setColor(sf::Color::White);
+		updateMovingSprite(lastDammageFeedback.getObject());
 		if (spritePosition.x - spellPosition.x < 0 && lastDammageFeedback.getObject()->getScale().x < 0
 			|| spritePosition.x - spellPosition.x > 0 && lastDammageFeedback.getObject()->getScale().x > 0) {
 			lastDammageFeedback.getObject()->scale(sf::Vector2f(-1.f, 1.f));
@@ -87,8 +87,8 @@ receiveResult Personnage::receive(Spell * sort, sf::Vector2f spellPosition, int 
 
 		health.start();
 
-		lastDammageFeedback.getObject()->setPosition(spritePosition);
 		lastDammageFeedback.getObject()->setColor(sf::Color::White);
+		updateMovingSprite(lastDammageFeedback.getObject());
 		if (spritePosition.x - spellPosition.x < 0 && lastDammageFeedback.getObject()->getScale().x < 0
 			|| spritePosition.x - spellPosition.x > 0 && lastDammageFeedback.getObject()->getScale().x > 0) {
 			lastDammageFeedback.getObject()->scale(sf::Vector2f(-1.f, 1.f));
@@ -168,35 +168,23 @@ Personnage* Personnage::createPersonnage(CharacterType myType, int init) {
 
 void Personnage::loadSprites() {
 	auto& sin = Loader::Instance();
-	sf::Sprite* movingSprite = new sf::Sprite(*sin.getTexture(spriteName));
-	movingSprite->setOrigin(PLAYER_SPRITE_ORIGINE);
-	movingSprite->setScale(SPRITE_SCALE);
-	if(!isFacingRight) movingSprite->scale(sf::Vector2f(-1.f, 1.f));
+	sf::Sprite* movingSprite = loadSprite(spriteName);
 	sprites.push_back(std::unique_ptr<sf::Sprite>(movingSprite));
 
 	//	Sprite marquant que le personnage est affecté par un sort
-	sf::Sprite* dammage = new sf::Sprite(*sin.getTexture("dammagePlayer"));
-	dammage->setOrigin(PLAYER_SPRITE_ORIGINE);
-	dammage->setScale(SPRITE_SCALE);
+	sf::Sprite* dammage = loadSprite("dammagePlayer");
 	dammage->setColor(sf::Color::Transparent);
-	if (!isFacingRight) dammage->scale(sf::Vector2f(-1.f, 1.f));
 	sprites.push_back(std::shared_ptr<sf::Sprite>(dammage));
 	lastDammageFeedback.setObject(dammage);
 
 	//	Sprite marquant que le personnage est affecté par un sort
-	sf::Sprite* shield = new sf::Sprite(*sin.getTexture("shieldPlayer"));
-	shield->setOrigin(PLAYER_SPRITE_ORIGINE);
-	shield->setScale(SPRITE_SCALE);
+	sf::Sprite* shield = loadSprite("shieldPlayer");
 	shield->setColor(sf::Color::Transparent);
-	if (!isFacingRight) shield->scale(sf::Vector2f(-1.f, 1.f));
 	sprites.push_back(std::unique_ptr<sf::Sprite>(shield));
 
 	//	Sprite marquant que le personnage est affecté par un sort
-	sf::Sprite* absorbingShield = new sf::Sprite(*sin.getTexture("absorbingShield"));
-	absorbingShield->setOrigin(PLAYER_SPRITE_ORIGINE);
-	absorbingShield->setScale(SPRITE_SCALE);
+	sf::Sprite* absorbingShield = loadSprite("absorbingShield");
 	absorbingShield->setColor(sf::Color::Transparent);
-	if (!isFacingRight) absorbingShield->scale(sf::Vector2f(-1.f, 1.f));
 	sprites.push_back(std::unique_ptr<sf::Sprite>(absorbingShield));
 
 	for (auto& s : health.getObject()->getSprites()) sprites.push_back(std::shared_ptr<sf::Drawable>(s));

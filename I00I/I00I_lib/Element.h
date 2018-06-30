@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "constantes.h"
+#include "Loader.h"
 
 // Classe parent de tous les éléments du jeu qui s'affichent a l'écran (personnages, boutons, sortilèges)
 class Element {
@@ -12,6 +13,8 @@ protected:
 
 	// Liste des sounds que joue l'élément
 	std::vector<std::unique_ptr<sf::Sound>> sounds;
+
+	sf::Sprite* loadSprite(std::string textureName);
 
 public: 
 	// Fonction qui affiche a l'écran l'ensemble des sprite de la classe
